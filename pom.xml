@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fh</groupId>
-	<artifactId>FaithAndHopeHarmony</artifactId>
+	<artifactId>HarmonySupplyChain</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>FaithAndHopeHarmony</name>
-	<description>FaithAndHopeHarmony</description>
+	<name>HarmonySupplyChain</name>
+	<description>HarmonySupplyChain</description>
 	<url/>
 	<licenses>
 		<license/>
