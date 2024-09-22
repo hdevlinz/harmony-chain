@@ -10,10 +10,10 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @EnableFeignClients
 @SpringBootApplication
-public class UserServiceApplication {
+public class IdentityServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(UserServiceApplication.class, args);
+        SpringApplication.run(IdentityServiceApplication.class, args);
     }
 
     @Bean
@@ -32,5 +32,4 @@ public class UserServiceApplication {
 
         return localValidatorFactoryBean;
     }
-
 }
