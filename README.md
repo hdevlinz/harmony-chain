@@ -23,18 +23,22 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo docker run hello-world
 ```
 
+## Install MySQL from Docker Hub
+
 ```bash
 docker pull mysql:8.0.39-debian
 ```
 
 ```bash
-docker run --name mysql -p 8080:8080 mysql:8.0.39-debian
+docker run --name mysql-8.0.39-debian -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:8.0.39-debian
+```
+
+## Install Mongodb from Docker Hub
+
+```bash
+docker pull bitnami/mongodb:7.0.11
 ```
 
 ```bash
-docker pull neo4j:latest
-```
-
-```bash
-docker run --publish=7474:7474 --publish=7687:7687 neo4j:latest
+docker run -d --name mongodb-7.0.11 -p 27017:27017 -e MONGODB_ROOT_USER=root -e MONGODB_ROOT_PASSWORD=root bitnami/mongodb:7.0.11
 ```

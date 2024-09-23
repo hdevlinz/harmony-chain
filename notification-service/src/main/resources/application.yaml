@@ -1,0 +1,34 @@
+# Server configuration
+server:
+   port: 8887
+   servlet:
+      context-path: /notification
+      encoding:
+         charset: UTF-8
+         enabled: true
+         force: true
+
+# Application configuration
+app:
+   services:
+      email:
+         url: https://api.brevo.com
+   mail-api-key: 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
+
+# Spring configuration
+spring:
+   application:
+      name: notification-service
+   data:
+      mongodb:
+         uri: ${MONGODB_URI:mongodb://root:root@localhost:27017/notification_service?authSource=admin}
+   kafka:
+      bootstrap-servers: localhost:9094
+      consumer:
+         group-id: group-notification
+         auto-offset-reset: earliest
+         key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+         value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+         properties:
+            spring.json.trusted.packages: "*"
+            spring.json.value.default.type: "com.tth.event.dto.NotificationEvent"

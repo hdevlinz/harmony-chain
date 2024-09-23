@@ -1,570 +1,570 @@
 {
-	"info": {
-		"_postman_id": "0da12b81-41f8-4621-96db-0e745d8c963b",
-		"name": "User Service",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "31334353"
-	},
-	"item": [
-		{
-			"name": "Customer",
-			"item": [
-				{
-					"name": "Customers List",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTHORIZATION}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/customers",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"customers"
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "firstname12",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Customer Details",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{AUTHORIZATION}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/customers/0c0d01d0-c336-4c8e-a32c-f050dc4f0068",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"customers",
-								"0c0d01d0-c336-4c8e-a32c-f050dc4f0068"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Shipper",
-			"item": [
-				{
-					"name": "Shippers List",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/shippers",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"shippers"
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": null,
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Shipper Details",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/shippers/411df575-e961-4a49-a15b-b29980452766",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"shippers",
-								"411df575-e961-4a49-a15b-b29980452766"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Supplier",
-			"item": [
-				{
-					"name": "Suppliers List",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/suppliers",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"suppliers"
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "supplier 2",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Supplier Details",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/suppliers/532c4ee0-1c9c-40bd-b278-9fff274ee4fe",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"suppliers",
-								"532c4ee0-1c9c-40bd-b278-9fff274ee4fe"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Get Token",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var data = pm.response.json()",
-							"if (data.result != null) {",
-							"    pm.environment.set(\"AUTHORIZATION\", data.result.token)",
-							"}"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"username\": \"adminscm\",\n    \"password\": \"adminscm\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BASE_URL}}/api/auth/token",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"token"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Refresh Token",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var data = pm.response.json()",
-							"if (data.result != null) {",
-							"    pm.environment.set(\"AUTHORIZATION\", data.result.token)",
-							"}"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{AUTHORIZATION}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"token\": \"{{AUTHORIZATION}}\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BASE_URL}}/api/auth/refresh",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"refresh"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Logout",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{AUTHORIZATION}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"token\": \"{{AUTHORIZATION}}\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BASE_URL}}/api/auth/logout",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"logout"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Introspect",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"token\": \"{{AUTHORIZATION}}\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BASE_URL}}/api/auth/introspect",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"introspect"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    // \"email\": \"customer5@gmail.com\",\n    // \"username\": \"customer5\",\n    // \"password\": \"customer5\",\n    // \"role\": \"ROLE_CUSTOMER\",\n    \"email\": \"shipper1@gmail.com\",\n    \"username\": \"shipper1\",\n    \"password\": \"shipper1\",\n    \"role\": \"ROLE_SHIPPER\",\n    // \"email\": \"supplier1@gmail.com\",\n    // \"username\": \"supplier1\",\n    // \"password\": \"supplier1\",\n    // \"role\": \"ROLE_SUPPLIER\",\n    \"customerFirstName\": \"test firstname customer\",\n    \"customerMiddleName\": \"test middlename customer\",\n    \"customerLastName\": \"test lastname customer\",\n    \"customerAddress\": \"test address customer\",\n    \"customerPhone\": \"0388227064\",\n    \"shipperName\": \"test name shipper\",\n    \"shipperContactInfo\": \"test contactinfo shipper\",\n    \"supplieName\": \"test name supplier\",\n    \"supplieAddress\": \"test address shipper\",\n    \"suppliePhone\": \"test phone shipper\",\n    \"supplieContactInfo\": \"test contactinfo shipper\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BASE_URL}}/api/users/register",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"users",
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Info",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{AUTHORIZATION}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BASE_URL}}/api/users/me",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"users",
-						"me"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update Info",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{AUTHORIZATION}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "email",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "username",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "oldPassword",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "newPassword",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "avatar",
-							"value": "",
-							"type": "file",
-							"disabled": true
-						},
-						{
-							"key": "customerFirstName",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "customerMiddleName",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "customerLastName",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "customerAddress",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "customerPhone",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "customerGender",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "customerDateOfBirth",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "shipperName",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "shipperContactInfo",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "supplierName",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "supplierAddress",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "supplierPhone",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						},
-						{
-							"key": "supplierContactInfo",
-							"value": "",
-							"type": "text",
-							"disabled": true
-						}
-					]
-				},
-				"url": {
-					"raw": "{{BASE_URL}}/api/users/me",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"users",
-						"me"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "0da12b81-41f8-4621-96db-0e745d8c963b",
+    "name": "User Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31334353"
+  },
+  "item": [
+    {
+      "name": "Customer",
+      "item": [
+        {
+          "name": "Customers List",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/customers",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "customers"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "firstname12",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Customer Details",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/customers/0c0d01d0-c336-4c8e-a32c-f050dc4f0068",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                "0c0d01d0-c336-4c8e-a32c-f050dc4f0068"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Shipper",
+      "item": [
+        {
+          "name": "Shippers List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/shippers",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "shippers"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": null,
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Shipper Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/shippers/411df575-e961-4a49-a15b-b29980452766",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "shippers",
+                "411df575-e961-4a49-a15b-b29980452766"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Supplier",
+      "item": [
+        {
+          "name": "Suppliers List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/suppliers",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "suppliers"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "supplier 2",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Supplier Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/suppliers/532c4ee0-1c9c-40bd-b278-9fff274ee4fe",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "suppliers",
+                "532c4ee0-1c9c-40bd-b278-9fff274ee4fe"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Get Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json()",
+              "if (data.result != null) {",
+              "    pm.environment.set(\"AUTHORIZATION\", data.result.token)",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"adminscm\",\n    \"password\": \"adminscm\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/auth/token",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Refresh Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json()",
+              "if (data.result != null) {",
+              "    pm.environment.set(\"AUTHORIZATION\", data.result.token)",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{AUTHORIZATION}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"token\": \"{{AUTHORIZATION}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/auth/refresh",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "refresh"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{AUTHORIZATION}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"token\": \"{{AUTHORIZATION}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/auth/logout",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Introspect",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"token\": \"{{AUTHORIZATION}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/auth/introspect",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "introspect"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    // \"email\": \"customer5@gmail.com\",\n    // \"username\": \"customer5\",\n    // \"password\": \"customer5\",\n    // \"role\": \"ROLE_CUSTOMER\",\n    \"email\": \"shipper1@gmail.com\",\n    \"username\": \"shipper1\",\n    \"password\": \"shipper1\",\n    \"role\": \"ROLE_SHIPPER\",\n    // \"email\": \"supplier1@gmail.com\",\n    // \"username\": \"supplier1\",\n    // \"password\": \"supplier1\",\n    // \"role\": \"ROLE_SUPPLIER\",\n    \"customerFirstName\": \"test firstname customer\",\n    \"customerMiddleName\": \"test middlename customer\",\n    \"customerLastName\": \"test lastname customer\",\n    \"customerAddress\": \"test address customer\",\n    \"customerPhone\": \"0388227064\",\n    \"shipperName\": \"test name shipper\",\n    \"shipperContactInfo\": \"test contactinfo shipper\",\n    \"supplieName\": \"test name supplier\",\n    \"supplieAddress\": \"test address shipper\",\n    \"suppliePhone\": \"test phone shipper\",\n    \"supplieContactInfo\": \"test contactinfo shipper\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/users/register",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Info",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{AUTHORIZATION}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/users/me",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "me"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Info",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{AUTHORIZATION}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "email",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "username",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "oldPassword",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "newPassword",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "avatar",
+              "value": "",
+              "type": "file",
+              "disabled": true
+            },
+            {
+              "key": "customerFirstName",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerMiddleName",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerLastName",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerAddress",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerPhone",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerGender",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerDateOfBirth",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "shipperName",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "shipperContactInfo",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "supplierName",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "supplierAddress",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "supplierPhone",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "supplierContactInfo",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/users/me",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "me"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

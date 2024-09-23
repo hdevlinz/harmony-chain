@@ -61,3 +61,7 @@ docker run --network harmony-network --name harmony-mysql -p 3306:3306 -e MYSQL_
 ```bash
 docker run --name <account>/harmony-identity-service:0.0.1 --network harmony-network -p 8080:8080 -e DBMS_URL=jdbc:mysql://harmony-mysql:3306/identity_service <account>/harmony-identity-service:0.0.1
 ```
+
+## API documentation
+
+[Swagger UI](http://localhost:8080/identity/swagger-ui/index.html)

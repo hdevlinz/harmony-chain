@@ -1,6 +1,7 @@
 package com.tth.api.gateway.configuration;
 
-import com.tth.api.gateway.repository.httpclient.IdentityClient;
+import com.tth.api.gateway.repository.IdentityClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -15,9 +16,19 @@ import java.util.List;
 @Configuration
 public class WebClientConfigs {
 
+    @Value("${app.services.indentity.url}")
+    private String identityServiceUrl;
+
     @Bean
     public WebClient webClient() {
-        return WebClient.builder().baseUrl("http://localhost:8080/identity").build();
+        return WebClient.builder().baseUrl(identityServiceUrl).build();
+    }
+
+    @Bean
+    public IdentityClient identityClient(WebClient webClient) {
+        HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builderFor(WebClientAdapter.create(webClient)).build();
+
+        return httpServiceProxyFactory.createClient(IdentityClient.class);
     }
 
     @Bean
@@ -32,13 +43,6 @@ public class WebClientConfigs {
         source.registerCorsConfiguration("/**", corsConfiguration);
 
         return new CorsWebFilter(source);
-    }
-
-    @Bean
-    public IdentityClient identityClient(WebClient webClient) {
-        HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builderFor(WebClientAdapter.create(webClient)).build();
-
-        return httpServiceProxyFactory.createClient(IdentityClient.class);
     }
 
 }

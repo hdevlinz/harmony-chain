@@ -1,4 +1,4 @@
-# This file contains the configuration for the identity service
+# Server configuration
 server:
    port: 8080
    servlet:
@@ -8,7 +8,13 @@ server:
          enabled: true
          force: true
 
-# Database configuration
+# Application configuration
+app:
+   services:
+      file:
+         url: http://localhost:8081/file
+
+# Spring configuration
 spring:
    application:
       name: identity-service
