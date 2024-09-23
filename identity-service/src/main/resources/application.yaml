@@ -1,3 +1,4 @@
+# This file contains the configuration for the identity service
 server:
    port: 8080
    servlet:
@@ -7,6 +8,7 @@ server:
          enabled: true
          force: true
 
+# Database configuration
 spring:
    application:
       name: identity-service
@@ -21,11 +23,13 @@ spring:
       hibernate:
          ddl-auto: update
 
+# JWT configuration
 jwt:
    signer-key: ${JWT_SIGNER_KEY:1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij}
    valid-duration: ${JWT_VALID_DURATION:3600} # in seconds
    refreshable-duration: ${JWT_REFRESHABLE_DURATION:86400} # in seconds
 
+# OAuth2 configuration
 outbound:
    identity:
       client-id: "<clientId>"
