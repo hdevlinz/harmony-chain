@@ -29,7 +29,7 @@ public class EmailService {
                 .htmlContent(request.getHtmlContent())
                 .sender(Sender.builder()
                         .email("hieptt.2003@gmail.com")
-                        .name("Tran Thanh Hiep")
+                        .name("Harmony SCMS")
                         .build())
                 .subject(request.getSubject())
                 .build();

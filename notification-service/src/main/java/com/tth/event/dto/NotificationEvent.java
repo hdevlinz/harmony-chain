@@ -15,16 +15,16 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class NotificationEvent {
 
-    Map<String, String> params;
+    private String chanel;
 
-    String subject;
+    private String recipient;
 
-    String body;
+    private String subject;
 
-    String chanel;
+    private String body;
 
-    String templateCode;
+    private String templateCode;
 
-    String recipient;
+    private Map<String, String> params;
 
 }

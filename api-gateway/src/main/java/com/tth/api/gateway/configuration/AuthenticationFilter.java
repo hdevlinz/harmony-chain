@@ -39,7 +39,8 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             "/identity/shippers",
             "/identity/shippers/.*",
             "/identity/suppliers",
-            "/identity/suppliers/.*"
+            "/identity/suppliers/.*",
+            "/notification/email/send"
     );
 
     private final ObjectMapper objectMapper;

@@ -42,3 +42,9 @@ docker pull bitnami/mongodb:7.0.11
 ```bash
 docker run -d --name mongodb-7.0.11 -p 27017:27017 -e MONGODB_ROOT_USER=root -e MONGODB_ROOT_PASSWORD=root bitnami/mongodb:7.0.11
 ```
+
+## Install Kafka from **docker-compose.yml** file
+
+```bash
+docker-compose up -d
+```

@@ -16,11 +16,14 @@ public class NotificationController {
 
     @KafkaListener(topics = "notification-delivery")
     public void listenNotificationDelivery(NotificationEvent notificationEvent) {
-        this.emailService.sendEmail(SendEmailRequest.builder()
-                .to(Recipient.builder().email(notificationEvent.getRecipient()).build())
+        Recipient recipient = Recipient.builder().email(notificationEvent.getRecipient()).build();
+        SendEmailRequest emailRequest = SendEmailRequest.builder()
+                .to(recipient)
                 .subject(notificationEvent.getSubject())
                 .htmlContent(notificationEvent.getBody())
-                .build());
+                .build();
+
+        this.emailService.sendEmail(emailRequest);
     }
 
 }

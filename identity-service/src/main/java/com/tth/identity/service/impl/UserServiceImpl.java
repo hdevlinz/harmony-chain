@@ -1,5 +1,6 @@
 package com.tth.identity.service.impl;
 
+import com.tth.event.dto.NotificationEvent;
 import com.tth.identity.dto.request.RegisterRequest;
 import com.tth.identity.dto.request.UpdateRequest;
 import com.tth.identity.dto.response.PageResponse;
@@ -27,6 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private final KafkaTemplate<String, Object> kafkaTemplate;
     private final PasswordEncoder passwordEncoder;
     private final FileClient fileClient;
     private final UserRepository userRepository;
@@ -99,6 +102,15 @@ public class UserServiceImpl implements UserService {
         } catch (DataIntegrityViolationException e) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
+
+        // Publish message to Kafka
+        NotificationEvent notificationEvent = NotificationEvent.builder()
+                .chanel("EMAIL")
+                .recipient(registerRequest.getEmail())
+                .subject("Welcome to Harmony SCMS")
+                .body(String.format("Chào mừng bạn đến với Harmony Supply Chain, %s!", registerRequest.getUsername()))
+                .build();
+        kafkaTemplate.send("notification-delivery", notificationEvent);
 
         return this.userMapper.toUserResponse(user);
     }
