@@ -12,7 +12,7 @@ server:
 app:
    services:
       file:
-         url: http://localhost:8081/file
+         url: http://localhost:8886/file
 
 # Spring configuration
 spring:

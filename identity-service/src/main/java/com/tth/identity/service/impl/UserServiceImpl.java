@@ -110,23 +110,23 @@ public class UserServiceImpl implements UserService {
                 .subject("Welcome to Harmony SCMS")
                 .body(String.format("Chào mừng bạn đến với Harmony Supply Chain, %s!", registerRequest.getUsername()))
                 .build();
-        kafkaTemplate.send("notification-delivery", notificationEvent);
+        this.kafkaTemplate.send("notification-delivery", notificationEvent);
 
         return this.userMapper.toUserResponse(user);
     }
 
     @Override
     public UserResponse getInfo() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = this.userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         return this.userMapper.toUserResponse(user);
     }
 
     @Override
     public UserResponse updateInfo(UpdateRequest updateRequest) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = this.userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         if (this.hasPasswordUpdateRequest(updateRequest)) {
             if (!this.passwordEncoder.matches(updateRequest.getOldPassword(), user.getPassword())) {
@@ -208,7 +208,7 @@ public class UserServiceImpl implements UserService {
                 List<MultipartFile> files = new ArrayList<>();
                 files.add((MultipartFile) value);
 
-                String avatarUrl = fileClient.uploadImages(files, "AVATAR").getFirst();
+                String avatarUrl = this.fileClient.uploadImages(files, "AVATAR").getFirst();
                 targetField.set(target, avatarUrl);
             } else {
                 Object convertedValue = Utils.convertValue(targetField.getType(), value.toString());

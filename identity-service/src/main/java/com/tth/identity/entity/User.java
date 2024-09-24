@@ -26,6 +26,9 @@ import java.time.LocalDateTime;
 })
 public class User extends BaseEntity implements Serializable {
 
+    @Transient
+    private MultipartFile file;
+
     @NotNull(message = "{user.email.notNull}")
     @NotBlank(message = "{user.email.notNull}")
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "{user.email.pattern}")
@@ -52,9 +55,6 @@ public class User extends BaseEntity implements Serializable {
 
     @Column(length = 300)
     private String avatar;
-
-    @Transient
-    private MultipartFile file;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
