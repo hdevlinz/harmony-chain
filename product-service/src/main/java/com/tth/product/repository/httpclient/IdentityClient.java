@@ -1,18 +1,19 @@
 package com.tth.product.repository.httpclient;
 
+import com.tth.product.dto.PageResponse;
+import com.tth.product.dto.response.supplier.SupplierResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.util.Map;
 
-@FeignClient(name = "file-client", url = "${app.services.file.url}")
+@FeignClient(name = "identity-client", url = "${app.services.identity.url}")
 public interface IdentityClient {
 
-    @PostMapping(value = "/internal/upload/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    List<String> uploadImages(@RequestPart("images") List<MultipartFile> files, @RequestParam("category") String category);
+    @GetMapping(value = "/suppliers")
+    PageResponse<SupplierResponse> listSuppliers(@RequestParam(required = false, defaultValue = "") Map<String, String> params,
+                                                 @RequestParam(required = false, defaultValue = "1") int page,
+                                                 @RequestParam(required = false, defaultValue = "10") int size);
 
 }

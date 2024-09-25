@@ -1,4 +1,4 @@
-package com.tth.identity.repository.specification;
+package com.tth.identity.service.specification;
 
 import com.tth.identity.entity.User;
 import com.tth.identity.enums.UserRole;
@@ -16,7 +16,7 @@ import java.util.Map;
 @Slf4j
 public class UserSpecification {
 
-    public static Specification<User> filterUsers(Map<String, String> params) {
+    public static Specification<User> filter(Map<String, String> params) {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(builder.equal(root.get("active"), true));

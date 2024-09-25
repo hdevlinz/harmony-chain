@@ -7,6 +7,7 @@ import com.tth.identity.entity.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public interface CustomerMapper {
     @Mapping(target = "phone", source = "customerPhone")
     Customer toCustomer(RegisterRequest registerRequest);
 
+    @Named("mapCustomerToResponse")
     CustomerResponse toCustomerResponse(Customer customer);
 
     List<CustomerResponse> toCustomerResponse(List<Customer> customers);

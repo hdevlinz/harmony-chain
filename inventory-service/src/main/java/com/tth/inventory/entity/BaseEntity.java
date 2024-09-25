@@ -1,4 +1,4 @@
-package com.tth.product.entity;
+package com.tth.inventory.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;

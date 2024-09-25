@@ -1,19 +1,18 @@
 package com.tth.product.service.specification;
 
-import com.tth.product.entity.Product;
+import com.tth.product.entity.Unit;
 import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class ProductSpecification {
+public class UnitSpecification {
 
-    public static Specification<Product> filterCustomers(Map<String, String> params) {
+    public static Specification<Unit> filter(Map<String, String> params) {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(builder.equal(root.get("active"), true));
@@ -21,13 +20,12 @@ public class ProductSpecification {
             if (params != null && !params.isEmpty()) {
                 String name = params.get("name");
                 if (name != null && !name.isEmpty()) {
-                    List<Predicate> namePredicates = new ArrayList<>();
+                    predicates.add(builder.like(root.get("name"), String.format("%%%s%%", name)));
+                }
 
-                    Arrays.asList("lastName", "middleName", "firstName").forEach(key -> {
-                        namePredicates.add(builder.like(root.get(key), String.format("%%%s%%", name)));
-                    });
-
-                    predicates.add(builder.or(namePredicates.toArray(Predicate[]::new)));
+                String abbreviation = params.get("abbreviation");
+                if (abbreviation != null && !abbreviation.isEmpty()) {
+                    predicates.add(builder.like(root.get("abbreviation"), String.format("%%%s%%", abbreviation)));
                 }
             }
 

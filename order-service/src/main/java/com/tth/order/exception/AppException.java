@@ -1,6 +1,6 @@
 package com.tth.order.exception;
 
-import com.tth.product.enums.ErrorCode;
+import com.tth.order.enums.ErrorCode;
 import lombok.Getter;
 
 @Getter

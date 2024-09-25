@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ProductDetailsResponse {
 
-    private Long id;
+    private String id;
 
     private String name;
 

@@ -33,6 +33,16 @@ docker pull mysql:8.0.39-debian
 docker run --name mysql-8.0.39-debian -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:8.0.39-debian
 ```
 
+## Install Neo4j from Docker Hub
+
+```bash
+docker pull neo4j:latest
+```
+
+```bash
+docker run --name neo4j-latest --publish=7474:7474 --publish=7687:7687 -e 'NEO4J_AUTH=neo4j/admin@123' neo4j:latest
+```
+
 ## Install Mongodb from Docker Hub
 
 ```bash

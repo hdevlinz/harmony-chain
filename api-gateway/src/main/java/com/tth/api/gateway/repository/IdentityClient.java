@@ -1,7 +1,7 @@
 package com.tth.api.gateway.repository;
 
+import com.tth.api.gateway.dto.APIResponse;
 import com.tth.api.gateway.dto.request.IntrospectRequest;
-import com.tth.api.gateway.dto.response.APIResponse;
 import com.tth.api.gateway.dto.response.IntrospectResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;

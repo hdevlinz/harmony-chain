@@ -22,7 +22,7 @@ import java.util.Map;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ProductServiceImplement implements ProductService {
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;

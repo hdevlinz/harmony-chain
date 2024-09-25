@@ -20,7 +20,7 @@ import java.util.Map;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UnitServiceImplement implements UnitService {
+public class UnitServiceImpl implements UnitService {
 
     private final UnitRepository unitRepository;
     private final UnitMapper unitMapper;

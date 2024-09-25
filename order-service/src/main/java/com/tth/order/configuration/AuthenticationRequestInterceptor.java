@@ -1,4 +1,4 @@
-package com.tth.product.configuration;
+package com.tth.order.configuration;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

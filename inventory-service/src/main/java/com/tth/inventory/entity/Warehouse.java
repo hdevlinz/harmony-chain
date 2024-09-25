@@ -1,14 +1,14 @@
-package com.fh.scms.pojo;
+package com.tth.inventory.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Set;
 
 @Setter
 @Getter
@@ -39,15 +39,4 @@ public class Warehouse extends BaseEntity implements Serializable {
     @Column(nullable = false, precision = 11, scale = 2, columnDefinition = "decimal default 0.0")
     private BigDecimal cost = BigDecimal.ZERO;
 
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
-    private Set<Inventory> inventorySet;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
-    private Set<Shipment> shipmentSet;
-
-    @Override
-    public String toString() {
-        return "com.fh.scm.pojo.Warehouse[ id=" + this.id + " ]";
-    }
 }

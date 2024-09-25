@@ -1,6 +1,6 @@
 package com.tth.identity.controller;
 
-import com.tth.identity.dto.response.APIResponse;
+import com.tth.identity.dto.APIResponse;
 import com.tth.identity.dto.response.customer.CustomerResponse;
 import com.tth.identity.entity.Customer;
 import com.tth.identity.mapper.CustomerMapper;

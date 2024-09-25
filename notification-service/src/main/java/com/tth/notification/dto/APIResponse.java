@@ -1,4 +1,4 @@
-package com.tth.notification.dto.response;
+package com.tth.notification.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

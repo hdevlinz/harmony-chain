@@ -2,7 +2,7 @@ package com.tth.api.gateway.configuration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tth.api.gateway.dto.response.APIResponse;
+import com.tth.api.gateway.dto.APIResponse;
 import com.tth.api.gateway.service.IdentityService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.NonFinal;
@@ -31,6 +31,8 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
 
     @NonFinal
     private static final List<String> PUBLIC_ENDPOINTS = Arrays.asList(
+            "/notification/email/send",
+
             "/identity/auth/token",
             "/identity/auth/refresh",
             "/identity/auth/logout",
@@ -40,7 +42,9 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             "/identity/shippers/.*",
             "/identity/suppliers",
             "/identity/suppliers/.*",
-            "/notification/email/send"
+
+            "/product/.*",
+            "/inventory/.*"
     );
 
     private final ObjectMapper objectMapper;

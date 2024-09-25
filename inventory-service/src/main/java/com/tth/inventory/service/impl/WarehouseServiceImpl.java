@@ -1,49 +1,35 @@
-package com.fh.scms.services.implement;
+package com.tth.inventory.service.impl;
 
-import com.fh.scms.pojo.Warehouse;
-import com.fh.scms.repository.WarehouseRepository;
-import com.fh.scms.services.WarehouseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tth.inventory.dto.PageResponse;
+import com.tth.inventory.entity.Warehouse;
+import com.tth.inventory.repository.WarehouseRepository;
+import com.tth.inventory.service.WarehouseService;
+import com.tth.inventory.service.specification.WarehouseSpecification;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
 @Transactional
-public class WarehouseServiceImplement implements WarehouseService {
+@RequiredArgsConstructor
+public class WarehouseServiceImpl implements WarehouseService {
 
-    @Autowired
-    private WarehouseRepository warehouseRepository;
-
-    @Override
-    public Warehouse findById(Long id) {
-        return this.warehouseRepository.findById(id);
-    }
+    private final WarehouseRepository warehouseRepository;
 
     @Override
-    public void save(Warehouse warehouse) {
-        this.warehouseRepository.save(warehouse);
+    public PageResponse<Warehouse> findAllWithFilter(Map<String, String> params, int page, int size) {
+        Specification<Warehouse> spec = WarehouseSpecification.filter(params);
+
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Warehouse> result = this.warehouseRepository.findAll(spec, pageable);
+
+        return PageResponse.of(result);
     }
 
-    @Override
-    public void update(Warehouse warehouse) {
-        this.warehouseRepository.update(warehouse);
-    }
-
-    @Override
-    public void delete(Long id) {
-        this.warehouseRepository.delete(id);
-    }
-
-    @Override
-    public Long count() {
-        return this.warehouseRepository.count();
-    }
-
-    @Override
-    public List<Warehouse> findAllWithFilter(Map<String, String> params) {
-        return this.warehouseRepository.findAllWithFilter(params);
-    }
 }

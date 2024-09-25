@@ -1,6 +1,6 @@
 package com.tth.identity.exception;
 
-import com.tth.identity.dto.response.APIResponse;
+import com.tth.identity.dto.APIResponse;
 import com.tth.identity.enums.ErrorCode;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;

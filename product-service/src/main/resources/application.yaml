@@ -1,1 +1,39 @@
-spring.application.name=product-service
+# Server configuration
+server:
+   port: 8081
+   servlet:
+      context-path: /product
+      encoding:
+         charset: UTF-8
+         enabled: true
+         force: true
+
+# Application configuration
+app:
+   services:
+      identity:
+         url: http://localhost:8080/identity
+
+# Spring configuration
+spring:
+   application:
+      name: product-service
+   datasource:
+      url: ${DBMS_URL:jdbc:mysql://localhost:3306/product_service}
+      driverClassName: "com.mysql.cj.jdbc.Driver"
+      username: ${DBMS_USERNAME:root}
+      password: ${DBMS_PASSWORD:root}
+   jpa:
+      show-sql: true
+      open-in-view: false
+      hibernate:
+         ddl-auto: update
+   kafka:
+      bootstrap-servers: localhost:9094
+      producer:
+         key-serializer: org.apache.kafka.common.serialization.StringSerializer
+         value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+   servlet:
+      multipart:
+         max-file-size: 10MB
+         max-request-size: 10MB

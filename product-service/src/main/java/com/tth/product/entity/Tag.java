@@ -1,11 +1,10 @@
 package com.tth.product.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -25,19 +24,12 @@ public class Tag extends BaseEntity implements Serializable {
 
     private String description;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "tagSet")
-    private Set<Product> productTagSet;
-
-    @Override
-    public String toString() {
-        return "com.fh.scm.pojo.Tag[ id=" + this.id + " ]";
-    }
+    @ManyToMany(mappedBy = "tags")
+    private Set<Product> products;
 
     @PreRemove
     private void removeTagFromProduct() {
-        for (Product product : this.productTagSet) {
-            product.getTagSet().remove(this);
-        }
+        this.products.forEach(product -> product.getTags().remove(this));
     }
+
 }

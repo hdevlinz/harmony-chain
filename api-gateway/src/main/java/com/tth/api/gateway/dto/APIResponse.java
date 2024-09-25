@@ -1,4 +1,4 @@
-package com.tth.api.gateway.dto.response;
+package com.tth.api.gateway.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

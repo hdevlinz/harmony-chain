@@ -1,10 +1,10 @@
-package com.fh.scms.pojo;
+package com.tth.inventory.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -30,8 +30,4 @@ public class Inventory extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL)
     private Set<InventoryDetails> inventoryDetailsSet;
 
-    @Override
-    public String toString() {
-        return "com.fh.scm.pojo.Inventory[ id=" + this.id + " ]";
-    }
 }

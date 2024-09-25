@@ -1,14 +1,14 @@
 package com.tth.identity.service.impl;
 
-import com.tth.identity.dto.response.PageResponse;
+import com.tth.identity.dto.PageResponse;
 import com.tth.identity.dto.response.supplier.SupplierResponse;
 import com.tth.identity.entity.Supplier;
 import com.tth.identity.enums.ErrorCode;
 import com.tth.identity.exception.AppException;
 import com.tth.identity.mapper.SupplierMapper;
 import com.tth.identity.repository.SupplierRepository;
-import com.tth.identity.repository.specification.SupplierSpecification;
 import com.tth.identity.service.SupplierService;
+import com.tth.identity.service.specification.SupplierSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +34,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public PageResponse<SupplierResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
-        Specification<Supplier> spec = SupplierSpecification.filterSuppliers(params);
+        Specification<Supplier> spec = SupplierSpecification.filter(params);
 
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<SupplierResponse> result = this.supplierRepository.findAll(spec, pageable).map(this.supplierMapper::toSupplierResponse);

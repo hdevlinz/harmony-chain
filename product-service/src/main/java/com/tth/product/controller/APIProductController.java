@@ -1,65 +1,37 @@
-package com.fh.scms.controllers.api;
+package com.tth.product.controller;
 
-import com.fh.scms.dto.MessageResponse;
-import com.fh.scms.pojo.Product;
-import com.fh.scms.services.ProductService;
+import com.tth.product.entity.Product;
+import com.tth.product.mapper.ProductMapper;
+import com.tth.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @CrossOrigin
 @Transactional
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/products", produces = "application/json; charset=UTF-8")
+@RequestMapping(path = "/products", produces = "application/json; charset=UTF-8")
 public class APIProductController {
 
     private final ProductService productService;
+    private final ProductMapper productMapper;
 
     @GetMapping
-    public ResponseEntity<?> listProducts(@RequestParam(required = false, defaultValue = "") Map<String, String> params) {
-        List<Product> products = this.productService.findAllWithFilter(params);
-
-        return ResponseEntity.ok(this.productService.getAllProductResponseForList(products));
+    public ResponseEntity<?> listProducts(@RequestParam(required = false, defaultValue = "") Map<String, String> params,
+                                          @RequestParam(required = false, defaultValue = "1") int page,
+                                          @RequestParam(required = false, defaultValue = "10") int size) {
+        return ResponseEntity.ok(this.productService.findAllWithFilter(params, page, size));
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<?> getProduct(@PathVariable(value = "productId") Long productId) {
+    public ResponseEntity<?> getProduct(@PathVariable(value = "productId") String productId) {
         Product product = this.productService.findById(productId);
-        Optional.ofNullable(product).orElseThrow(() -> new EntityNotFoundException("Không tìm thấy sản phẩm"));
 
-        return ResponseEntity.ok(this.productService.getProductResponseForDetails(product));
+        return ResponseEntity.ok(this.productMapper.toProductDetailsResponse(product));
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> handleEntityNotFoundException(@NotNull HttpServletRequest req, EntityNotFoundException e) {
-        LoggerFactory.getLogger(req.getRequestURI()).error(e.getMessage(), e);
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of(new MessageResponse(e.getMessage())));
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<?> handleAccessDenied(@NotNull HttpServletRequest req, AccessDeniedException e) {
-        LoggerFactory.getLogger(req.getRequestURI()).error(e.getMessage(), e);
-
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(List.of(new MessageResponse(e.getMessage())));
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleException(@NotNull HttpServletRequest req, Exception e) {
-        LoggerFactory.getLogger(req.getRequestURI()).error(e.getMessage(), e);
-
-        return ResponseEntity.badRequest().body(List.of(new MessageResponse(e.getMessage())));
-    }
 }

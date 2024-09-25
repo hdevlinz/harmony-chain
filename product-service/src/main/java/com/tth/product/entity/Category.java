@@ -1,11 +1,10 @@
 package com.tth.product.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -25,12 +24,7 @@ public class Category extends BaseEntity implements Serializable {
 
     private String description;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST})
-    private Set<Product> productSet;
+    private Set<Product> products;
 
-    @Override
-    public String toString() {
-        return "com.fh.scm.pojo.Cateogry[ id=" + this.id + " ]";
-    }
 }

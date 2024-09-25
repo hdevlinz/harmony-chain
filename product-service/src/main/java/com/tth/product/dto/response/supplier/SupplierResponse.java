@@ -1,4 +1,4 @@
-package com.tth.identity.dto.response.supplier;
+package com.tth.product.dto.response.supplier;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;

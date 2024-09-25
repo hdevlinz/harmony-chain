@@ -1,6 +1,6 @@
 package com.tth.notification.exception;
 
-import com.tth.notification.dto.response.APIResponse;
+import com.tth.notification.dto.APIResponse;
 import com.tth.notification.enums.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.fh.scms.pojo;
+package com.tth.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;

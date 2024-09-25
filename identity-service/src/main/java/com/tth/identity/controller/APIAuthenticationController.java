@@ -1,11 +1,11 @@
 package com.tth.identity.controller;
 
 import com.nimbusds.jose.JOSEException;
+import com.tth.identity.dto.APIResponse;
 import com.tth.identity.dto.request.IntrospectRequest;
 import com.tth.identity.dto.request.LoginRequest;
 import com.tth.identity.dto.request.LogoutRequest;
 import com.tth.identity.dto.request.RefreshTokenRequest;
-import com.tth.identity.dto.response.APIResponse;
 import com.tth.identity.dto.response.AuthenticationResponse;
 import com.tth.identity.dto.response.IntrospectResponse;
 import com.tth.identity.service.AuthenticationService;

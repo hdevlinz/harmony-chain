@@ -1,21 +1,12 @@
-package com.fh.scms.services;
+package com.tth.inventory.service;
 
-import com.fh.scms.pojo.Inventory;
+import com.tth.inventory.dto.PageResponse;
+import com.tth.inventory.entity.Inventory;
 
-import java.util.List;
 import java.util.Map;
 
 public interface InventoryService {
 
-    Inventory findById(Long id);
+    PageResponse<Inventory> findAllWithFilter(Map<String, String> params, int page, int size);
 
-    void save(Inventory inventory);
-
-    void update(Inventory inventory);
-
-    void delete(Long id);
-
-    Long count();
-
-    List<Inventory> findAllWithFilter(Map<String, String> params);
 }

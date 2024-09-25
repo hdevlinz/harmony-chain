@@ -1,4 +1,4 @@
-package com.tth.identity.repository.specification;
+package com.tth.identity.service.specification;
 
 import com.tth.identity.entity.Shipper;
 import jakarta.persistence.criteria.Predicate;
@@ -12,7 +12,7 @@ import java.util.Map;
 @Slf4j
 public class ShipperSpecification {
 
-    public static Specification<Shipper> filterShippers(Map<String, String> params) {
+    public static Specification<Shipper> filter(Map<String, String> params) {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(builder.equal(root.get("active"), true));

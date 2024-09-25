@@ -1,49 +1,35 @@
-package com.fh.scms.services.implement;
+package com.tth.inventory.service.impl;
 
-import com.fh.scms.pojo.Inventory;
-import com.fh.scms.repository.InventoryRepository;
-import com.fh.scms.services.InventoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tth.inventory.dto.PageResponse;
+import com.tth.inventory.entity.Inventory;
+import com.tth.inventory.repository.InventoryRepository;
+import com.tth.inventory.service.InventoryService;
+import com.tth.inventory.service.specification.InventorySpecification;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
 @Transactional
-public class InventoryServiceImplement implements InventoryService {
+@RequiredArgsConstructor
+public class InventoryServiceImpl implements InventoryService {
 
-    @Autowired
-    private InventoryRepository inventoryRepository;
-
-    @Override
-    public Inventory findById(Long id) {
-        return this.inventoryRepository.findById(id);
-    }
+    private final InventoryRepository inventoryRepository;
 
     @Override
-    public void save(Inventory inventory) {
-        this.inventoryRepository.save(inventory);
+    public PageResponse<Inventory> findAllWithFilter(Map<String, String> params, int page, int size) {
+        Specification<Inventory> spec = InventorySpecification.filter(params);
+
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Inventory> result = this.inventoryRepository.findAll(spec, pageable);
+
+        return PageResponse.of(result);
     }
 
-    @Override
-    public void update(Inventory inventory) {
-        this.inventoryRepository.update(inventory);
-    }
-
-    @Override
-    public void delete(Long id) {
-        this.inventoryRepository.delete(id);
-    }
-
-    @Override
-    public Long count() {
-        return this.inventoryRepository.count();
-    }
-
-    @Override
-    public List<Inventory> findAllWithFilter(Map<String, String> params) {
-        return this.inventoryRepository.findAllWithFilter(params);
-    }
 }

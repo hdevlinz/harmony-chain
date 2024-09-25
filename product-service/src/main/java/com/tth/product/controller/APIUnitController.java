@@ -1,26 +1,25 @@
-package com.fh.scms.controllers.api;
+package com.tth.product.controller;
 
-import com.fh.scms.dto.unit.UnitResponse;
-import com.fh.scms.services.UnitService;
+import com.tth.product.service.UnitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/units", produces = "application/json; charset=UTF-8")
+@RequestMapping(path = "/units", produces = "application/json; charset=UTF-8")
 public class APIUnitController {
 
     private final UnitService unitService;
 
     @GetMapping
-    public ResponseEntity<?> list(@RequestParam(required = false, defaultValue = "") Map<String, String> params) {
-        List<UnitResponse> units = this.unitService.getAllUnitResponse(params);
-
-        return ResponseEntity.ok(units);
+    public ResponseEntity<?> listUnits(@RequestParam(required = false, defaultValue = "") Map<String, String> params,
+                                       @RequestParam(required = false, defaultValue = "1") int page,
+                                       @RequestParam(required = false, defaultValue = "10") int size) {
+        return ResponseEntity.ok(this.unitService.findAllWithFilter(params, page, size));
     }
+
 }

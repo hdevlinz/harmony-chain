@@ -1,8 +1,8 @@
 package com.tth.identity.controller;
 
+import com.tth.identity.dto.APIResponse;
 import com.tth.identity.dto.request.RegisterRequest;
 import com.tth.identity.dto.request.UpdateRequest;
-import com.tth.identity.dto.response.APIResponse;
 import com.tth.identity.dto.response.UserResponse;
 import com.tth.identity.service.UserService;
 import jakarta.validation.Valid;

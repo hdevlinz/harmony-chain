@@ -1,21 +1,10 @@
-package com.fh.scms.repository;
+package com.tth.product.repository;
 
-import com.fh.scms.pojo.Category;
+import com.tth.product.entity.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-
-public interface CategoryRepository {
-
-    Category findById(Long id);
-
-    void save(Category category);
-
-    void update(Category category);
-
-    void delete(Long id);
-
-    Long count();
-
-    List<Category> findAllWithFilter(Map<String, String> params);
+@Repository
+public interface CategoryRepository extends JpaRepository<Category, String>, JpaSpecificationExecutor<Category> {
 }

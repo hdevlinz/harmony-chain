@@ -1,33 +1,15 @@
-package com.fh.scms.services;
+package com.tth.product.service;
 
-import com.fh.scms.dto.product.ProductResponseForDetails;
-import com.fh.scms.dto.product.ProductResponseForList;
-import com.fh.scms.pojo.Product;
+import com.tth.product.dto.PageResponse;
+import com.tth.product.dto.response.ProductListResponse;
+import com.tth.product.entity.Product;
 
-import java.util.List;
 import java.util.Map;
 
 public interface ProductService {
 
-    Product findById(Long id);
+    Product findById(String id);
 
-    void save(Product Product);
+    PageResponse<ProductListResponse> findAllWithFilter(Map<String, String> params, int page, int size);
 
-    void update(Product Product);
-
-    void delete(Long id);
-
-    Long count();
-
-    List<Product> findAllWithFilter(Map<String, String> params);
-
-    ProductResponseForList getProductResponseForList(Product product);
-
-    List<ProductResponseForList> getAllProductResponseForList(List<Product> products);
-
-    ProductResponseForDetails getProductResponseForDetails(Product product);
-
-    void save(Product product, List<Long> tagIds);
-
-    void update(Product product, List<Long> tagIds);
 }

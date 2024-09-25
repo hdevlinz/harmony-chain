@@ -20,7 +20,7 @@ import java.util.Map;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CategoryServiceImplement implements CategoryService {
+public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;

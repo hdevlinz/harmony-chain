@@ -1,8 +1,8 @@
-package com.tth.identity.configuration;
+package com.tth.product.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tth.identity.dto.response.APIResponse;
-import com.tth.identity.enums.ErrorCode;
+import com.tth.product.dto.APIResponse;
+import com.tth.product.enums.ErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

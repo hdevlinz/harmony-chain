@@ -1,6 +1,6 @@
 package com.tth.identity.controller;
 
-import com.tth.identity.dto.response.APIResponse;
+import com.tth.identity.dto.APIResponse;
 import com.tth.identity.dto.response.shipper.ShipperResponse;
 import com.tth.identity.entity.Shipper;
 import com.tth.identity.mapper.ShipperMapper;

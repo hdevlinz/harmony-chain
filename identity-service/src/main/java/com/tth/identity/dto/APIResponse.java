@@ -1,4 +1,4 @@
-package com.tth.identity.dto.response;
+package com.tth.identity.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

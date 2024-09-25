@@ -1,7 +1,7 @@
 package com.tth.api.gateway.service.impl;
 
+import com.tth.api.gateway.dto.APIResponse;
 import com.tth.api.gateway.dto.request.IntrospectRequest;
-import com.tth.api.gateway.dto.response.APIResponse;
 import com.tth.api.gateway.dto.response.IntrospectResponse;
 import com.tth.api.gateway.repository.IdentityClient;
 import com.tth.api.gateway.service.IdentityService;

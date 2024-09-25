@@ -20,7 +20,7 @@ import java.util.Map;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class TagServiceImplement implements TagService {
+public class TagServiceImpl implements TagService {
 
     private final TagRepository tagRepository;
     private final TagMapper tagMapper;

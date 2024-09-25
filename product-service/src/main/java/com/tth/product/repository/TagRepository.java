@@ -1,23 +1,10 @@
-package com.fh.scms.repository;
+package com.tth.product.repository;
 
-import com.fh.scms.pojo.Tag;
+import com.tth.product.entity.Tag;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-
-public interface TagRepository {
-
-    List<Tag> findByProductId(Long productId);
-
-    Tag findById(Long id);
-
-    void save(Tag tag);
-
-    void update(Tag tag);
-
-    void delete(Long id);
-
-    Long count();
-
-    List<Tag> findAllWithFilter(Map<String, String> params);
+@Repository
+public interface TagRepository extends JpaRepository<Tag, String>, JpaSpecificationExecutor<Tag> {
 }

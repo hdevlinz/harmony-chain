@@ -1,4 +1,4 @@
-package com.tth.product.dto.category;
+package com.tth.product.dto.response.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryResponse {
 
-    private Long id;
+    private String id;
 
     private String name;
 
     private String description;
+
 }

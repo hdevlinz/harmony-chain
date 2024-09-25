@@ -1,4 +1,4 @@
-package com.tth.product.dto;
+package com.tth.inventory.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

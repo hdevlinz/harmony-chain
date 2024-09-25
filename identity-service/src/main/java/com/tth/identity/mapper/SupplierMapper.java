@@ -7,6 +7,7 @@ import com.tth.identity.entity.Supplier;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public interface SupplierMapper {
     @Mapping(target = "contactInfo", source = "supplierContactInfo")
     Supplier toSupplier(RegisterRequest registerRequest);
 
+    @Named("mapSupplierToResponse")
     SupplierResponse toSupplierResponse(Supplier supplier);
 
     List<SupplierResponse> toSupplierResponse(List<Supplier> suppliers);

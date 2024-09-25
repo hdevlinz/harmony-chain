@@ -1,4 +1,4 @@
-package com.tth.product.dto.unit;
+package com.tth.product.dto.response.unit;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UnitResponse {
 
-    private Long id;
+    private String id;
 
     private String name;
 
     private String abbreviation;
+
 }

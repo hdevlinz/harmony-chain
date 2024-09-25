@@ -1,14 +1,30 @@
-package com.tth.identity.configuration;
+package com.tth.product.configuration;
 
-import com.tth.identity.dto.request.RegisterRequest;
-import com.tth.identity.enums.UserRole;
-import com.tth.identity.service.UserService;
+import com.tth.product.dto.response.supplier.SupplierResponse;
+import com.tth.product.entity.Category;
+import com.tth.product.entity.Product;
+import com.tth.product.entity.Tag;
+import com.tth.product.entity.Unit;
+import com.tth.product.repository.CategoryRepository;
+import com.tth.product.repository.ProductRepository;
+import com.tth.product.repository.TagRepository;
+import com.tth.product.repository.UnitRepository;
+import com.tth.product.repository.httpclient.IdentityClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Configuration
@@ -17,179 +33,145 @@ public class AppInitilizerConfigs {
 
     @Bean
     @ConditionalOnProperty(prefix = "spring", value = "datasource.driverClassName", havingValue = "com.mysql.cj.jdbc.Driver")
-    public ApplicationRunner applicationRunner(UserService userService) {
+    public ApplicationRunner applicationRunner(
+            CategoryRepository categoryRepository,
+            TagRepository tagRepository,
+            UnitRepository unitRepository,
+            ProductRepository productRepository,
+            IdentityClient identityClient
+    ) {
         return args -> {
             log.info("Initializing application.....");
 
-            if (!userService.existsByUsername("adminscm")) {
-                userService.registration(RegisterRequest.builder()
-                        .email("admin@scm.com")
-                        .username("adminscm")
-                        .password("adminscm")
-                        .role(UserRole.ROLE_ADMIN)
-                        .build());
+            if (productRepository.count() == 0) {
+                log.info("Creating categories.....");
+                this.createCategory(categoryRepository);
 
-                this.createCustomer(userService);
-                this.createShipper(userService);
-                this.createSupplier(userService);
+                log.info("Creating tags.....");
+                this.createTag(tagRepository);
+
+                log.info("Creating units.....");
+                this.createUnit(unitRepository);
+
+                log.info("Creating products.....");
+                this.createProduct(productRepository, categoryRepository, tagRepository, unitRepository, identityClient);
             }
 
             log.info("Application initialization completed.....");
         };
     }
 
-    private void createCustomer(UserService userService) {
-        userService.registration(RegisterRequest.builder()
-                .email("customer1@scm.com")
-                .username("customer1")
-                .password("customer1")
-                .role(UserRole.ROLE_CUSTOMER)
-                .customerFirstName("First shipperName 1")
-                .customerMiddleName("Middle shipperName 1")
-                .customerLastName("Last shipperName 1")
-                .customerAddress("TPHCM")
-                .customerPhone("0123456789")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("customer2@scm.com")
-                .username("customer2")
-                .password("customer2")
-                .role(UserRole.ROLE_CUSTOMER)
-                .customerFirstName("First shipperName 2")
-                .customerMiddleName("Middle shipperName 2")
-                .customerLastName("Last shipperName 2")
-                .customerAddress("TPHCM")
-                .customerPhone("9872635196")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("customer3@scm.com")
-                .username("customer3")
-                .password("customer3")
-                .role(UserRole.ROLE_CUSTOMER)
-                .customerFirstName("First shipperName 3")
-                .customerMiddleName("Middle shipperName 3")
-                .customerLastName("Last shipperName 3")
-                .customerAddress("TPHCM")
-                .customerPhone("2781764019")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("customer4@scm.com")
-                .username("customer4")
-                .password("customer4")
-                .role(UserRole.ROLE_CUSTOMER)
-                .customerFirstName("First shipperName 4")
-                .customerMiddleName("Middle shipperName 4")
-                .customerLastName("Last shipperName 4")
-                .customerAddress("TPHCM")
-                .customerPhone("2781236019")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("customer5@scm.com")
-                .username("customer5")
-                .password("customer5")
-                .role(UserRole.ROLE_CUSTOMER)
-                .customerFirstName("First shipperName 5")
-                .customerMiddleName("Middle shipperName 5")
-                .customerLastName("Last shipperName 5")
-                .customerAddress("TPHCM")
-                .customerPhone("2781764059")
-                .build());
+    private void createCategory(CategoryRepository categoryRepository) {
+        categoryRepository.saveAll(List.of(
+                Category.builder().name("Thiết Bị Mạng").description("Thiết Bị Mạng").build(),
+                Category.builder().name("Thiết Bị Di Động").description("Thiết Bị Di Động").build(),
+                Category.builder().name("Công Nghệ Đám Mây").description("Công Nghệ Đám Mây").build(),
+                Category.builder().name("Lưu Trữ và Đám Mây").description("Lưu Trữ và Đám Mây").build(),
+                Category.builder().name("An Ninh và Bảo Mật").description("An Ninh và Bảo Mật").build(),
+                Category.builder().name("Phần Mềm và Ứng Dụng").description("Phần Mềm và Ứng Dụng").build(),
+                Category.builder().name("Máy Tính và Phụ Kiện").description("Máy Tính và Phụ Kiện").build(),
+                Category.builder().name("Thiết Bị Đầu Vào và Đầu Ra").description("Thiết Bị Đầu Vào và Đầu Ra").build(),
+                Category.builder().name("Phát Triển Web và Ứng Dụng").description("Phát Triển Web và Ứng Dụng").build(),
+                Category.builder().name("Khoa Học Dữ Liệu và Trí Tuệ Nhân Tạo").description("Khoa Học Dữ Liệu và Trí Tuệ Nhân Tạo").build()
+        ));
     }
 
-    private void createShipper(UserService userService) {
-        userService.registration(RegisterRequest.builder()
-                .email("shipper1@scm.com")
-                .username("shipper1")
-                .password("shipper1")
-                .role(UserRole.ROLE_SHIPPER)
-                .shipperName("Shipper 1")
-                .shipperContactInfo("0987654321")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("shipper2@scm.com")
-                .username("shipper2")
-                .password("shipper2")
-                .role(UserRole.ROLE_SHIPPER)
-                .shipperName("Shipper 2")
-                .shipperContactInfo("8239184751")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("shipper3@scm.com")
-                .username("shipper3")
-                .password("shipper3")
-                .role(UserRole.ROLE_SHIPPER)
-                .shipperName("Shipper 3")
-                .shipperContactInfo("2617384928")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("shipper4@scm.com")
-                .username("shipper4")
-                .password("shipper4")
-                .role(UserRole.ROLE_SHIPPER)
-                .shipperName("Shipper 4")
-                .shipperContactInfo("2617324928")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("shipper5@scm.com")
-                .username("shipper5")
-                .password("shipper5")
-                .role(UserRole.ROLE_SHIPPER)
-                .shipperName("Shipper 5")
-                .shipperContactInfo("2117324928")
-                .build());
+    private void createTag(TagRepository tagRepository) {
+        tagRepository.saveAll(List.of(
+                Tag.builder().name("Trí Tuệ Nhân Tạo").description("Trí Tuệ Nhân Tạo").build(),
+                Tag.builder().name("An Ninh Mạng").description("An Ninh Mạng").build(),
+                Tag.builder().name("Điện Toán Đám Mây").description("Điện Toán Đám Mây").build(),
+                Tag.builder().name("Khoa Học Dữ Liệu").description("Khoa Học Dữ Liệu").build(),
+                Tag.builder().name("Chuỗi Khối").description("Chuỗi Khối").build(),
+                Tag.builder().name("Phát Triển và Vận Hành").description("Phát Triển và Vận Hành").build(),
+                Tag.builder().name("Học Máy").description("Học Máy").build(),
+                Tag.builder().name("Internet Vạn Vật").description("Internet Vạn Vật").build(),
+                Tag.builder().name("Dữ Liệu Lớn").description("Dữ Liệu Lớn").build(),
+                Tag.builder().name("Phát Triển Phần Mềm").description("Phát Triển Phần Mềm").build()
+        ));
+
     }
 
-    private void createSupplier(UserService userService) {
-        userService.registration(RegisterRequest.builder()
-                .email("supplier1@scm.com")
-                .username("supplier1")
-                .password("supplier1")
-                .role(UserRole.ROLE_SUPPLIER)
-                .supplierName("Supplier 1")
-                .supplierAddress("TPHCM")
-                .supplierPhone("1234567890")
-                .supplierContactInfo("1234567890")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("supplier2@scm.com")
-                .username("supplier2")
-                .password("supplier2")
-                .role(UserRole.ROLE_SUPPLIER)
-                .supplierName("Supplier 2")
-                .supplierAddress("TPHCM")
-                .supplierPhone("5982716231")
-                .supplierContactInfo("5982716231")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("supplier3@scm.com")
-                .username("supplier3")
-                .password("supplier3")
-                .role(UserRole.ROLE_SUPPLIER)
-                .supplierName("Supplier 3")
-                .supplierAddress("TPHCM")
-                .supplierPhone("6782910498")
-                .supplierContactInfo("6782910498")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("supplier4@scm.com")
-                .username("supplier4")
-                .password("supplier4")
-                .role(UserRole.ROLE_SUPPLIER)
-                .supplierName("Supplier 4")
-                .supplierAddress("TPHCM")
-                .supplierPhone("6782910498")
-                .supplierContactInfo("6782910498")
-                .build());
-        userService.registration(RegisterRequest.builder()
-                .email("supplier5@scm.com")
-                .username("supplier5")
-                .password("supplier5")
-                .role(UserRole.ROLE_SUPPLIER)
-                .supplierName("Supplier 5")
-                .supplierAddress("TPHCM")
-                .supplierPhone("6782910498")
-                .supplierContactInfo("6782910498")
-                .build());
+    private void createUnit(UnitRepository unitRepository) {
+        unitRepository.saveAll(List.of(
+                Unit.builder().name("Cái").abbreviation("PCS").build(),
+                Unit.builder().name("Hộp").abbreviation("BOX").build(),
+                Unit.builder().name("Kilogram").abbreviation("KG").build(),
+                Unit.builder().name("Grams").abbreviation("G").build(),
+                Unit.builder().name("Lít").abbreviation("L").build(),
+                Unit.builder().name("Mét").abbreviation("M").build(),
+                Unit.builder().name("Centimet").abbreviation("CM").build(),
+                Unit.builder().name("Gói").abbreviation("PKG").build(),
+                Unit.builder().name("Tá").abbreviation("DZ").build(),
+                Unit.builder().name("Cuộn").abbreviation("RL").build()
+        ));
+    }
+
+    private void createProduct(
+            ProductRepository productRepository,
+            CategoryRepository categoryRepository,
+            TagRepository tagRepository,
+            UnitRepository unitRepository,
+            IdentityClient identityClient) {
+        AtomicInteger count = new AtomicInteger(1);
+        Random random = new Random();
+
+        List<Category> categories = categoryRepository.findAll();
+        List<Tag> tags = tagRepository.findAll();
+        List<Unit> units = unitRepository.findAll();
+
+        categories.forEach(category -> {
+            // Tạo sản phẩm hết hạn
+            this.createProductsWithExpiryDates(productRepository, category, tags, units, identityClient, -30, random, count);
+
+            // Tạo sản phẩm sắp hết hạn
+            this.createProductsWithExpiryDates(productRepository, category, tags, units, identityClient, 15, random, count);
+
+            // Tạo sản phẩm còn hạn
+            this.createProductsWithExpiryDates(productRepository, category, tags, units, identityClient, 60, random, count);
+        });
+    }
+
+    private void createProductsWithExpiryDates(
+            ProductRepository productRepository,
+            Category category,
+            List<Tag> tags,
+            List<Unit> units,
+            IdentityClient identityClient,
+            int daysFromNow,
+            Random random,
+            AtomicInteger count) {
+
+        List<SupplierResponse> suppliers = identityClient.listSuppliers(null, 1, 10).getData();
+
+        suppliers.forEach(supplier -> {
+            for (int i = 0; i < 10; i++) {
+                BigDecimal price = BigDecimal.valueOf(30000 + (random.nextDouble() * (500000 - 50000)));
+
+                LocalDate expiryDate = LocalDate.now().plusDays(daysFromNow);
+
+                Collections.shuffle(tags, random);
+                Set<Tag> randomTags = tags.parallelStream()
+                        .limit(2)
+                        .collect(Collectors.toSet());
+
+                Unit unit = units.get(random.nextInt(units.size()));
+
+                Product product = Product.builder()
+                        .name("Product " + count)
+                        .price(price)
+                        .unit(unit)
+                        .description("Product " + count)
+                        .expiryDate(expiryDate)
+                        .supplierId(supplier.getId())
+                        .category(category)
+                        .tags(randomTags)
+                        .build();
+                productRepository.save(product);
+
+                count.getAndIncrement();
+            }
+        });
     }
 
 }

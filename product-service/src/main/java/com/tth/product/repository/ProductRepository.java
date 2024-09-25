@@ -1,21 +1,10 @@
-package com.fh.scms.repository;
+package com.tth.product.repository;
 
-import com.fh.scms.pojo.Product;
+import com.tth.product.entity.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-
-public interface ProductRepository {
-
-    Product findById(Long id);
-
-    void save(Product Product);
-
-    void update(Product Product);
-
-    void delete(Long id);
-
-    Long count();
-
-    List<Product> findAllWithFilter(Map<String, String> params);
+@Repository
+public interface ProductRepository extends JpaRepository<Product, String>, JpaSpecificationExecutor<Product> {
 }

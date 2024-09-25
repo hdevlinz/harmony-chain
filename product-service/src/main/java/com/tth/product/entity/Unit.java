@@ -1,14 +1,13 @@
 package com.tth.product.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -31,12 +30,7 @@ public class Unit extends BaseEntity implements Serializable {
     @Column(nullable = false, unique = true)
     private String abbreviation;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "unit")
-    private Set<Product> productSet;
+    private Set<Product> products;
 
-    @Override
-    public String toString() {
-        return "com.fh.scm.pojo.Unit[ id=" + this.id + " ]";
-    }
 }

@@ -1,4 +1,4 @@
-package com.fh.scms.dto.product;
+package com.tth.product.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,4 +14,5 @@ public class ProductRequestAddToCart {
     private Long productId;
 
     private Float quantity;
+
 }

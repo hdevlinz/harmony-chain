@@ -1,6 +1,6 @@
-package com.tth.identity.exception;
+package com.tth.product.exception;
 
-import com.tth.identity.enums.ErrorCode;
+import com.tth.product.enums.ErrorCode;
 import lombok.Getter;
 
 @Getter

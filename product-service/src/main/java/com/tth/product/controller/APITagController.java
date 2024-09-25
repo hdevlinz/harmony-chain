@@ -1,26 +1,25 @@
-package com.fh.scms.controllers.api;
+package com.tth.product.controller;
 
-import com.fh.scms.dto.tag.TagResponse;
-import com.fh.scms.services.TagService;
+import com.tth.product.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/tags", produces = "application/json; charset=UTF-8")
+@RequestMapping(path = "/tags", produces = "application/json; charset=UTF-8")
 public class APITagController {
 
     private final TagService tagService;
 
     @GetMapping
-    public ResponseEntity<?> list(@RequestParam(required = false, defaultValue = "") Map<String, String> params) {
-        List<TagResponse> tags = this.tagService.getAllTagResponse(params);
-
-        return ResponseEntity.ok(tags);
+    public ResponseEntity<?> listTags(@RequestParam(required = false, defaultValue = "") Map<String, String> params,
+                                      @RequestParam(required = false, defaultValue = "1") int page,
+                                      @RequestParam(required = false, defaultValue = "10") int size) {
+        return ResponseEntity.ok(this.tagService.findAllWithFilter(params, page, size));
     }
+
 }

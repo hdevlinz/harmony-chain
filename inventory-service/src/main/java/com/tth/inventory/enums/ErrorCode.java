@@ -1,4 +1,4 @@
-package com.tth.product.enums;
+package com.tth.inventory.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

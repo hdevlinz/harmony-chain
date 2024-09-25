@@ -7,6 +7,7 @@ import com.tth.identity.entity.Shipper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public interface ShipperMapper {
     @Mapping(target = "contactInfo", source = "shipperContactInfo")
     Shipper toShipper(RegisterRequest registerRequest);
 
+    @Named("mapShipperToResponse")
     ShipperResponse toShipperResponse(Shipper shipper);
 
     List<ShipperResponse> toShipperResponse(List<Shipper> shippers);

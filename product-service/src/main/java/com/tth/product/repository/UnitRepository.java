@@ -1,21 +1,10 @@
-package com.fh.scms.repository;
+package com.tth.product.repository;
 
-import com.fh.scms.pojo.Unit;
+import com.tth.product.entity.Unit;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-
-public interface UnitRepository {
-
-    Unit findById(Long id);
-
-    void save(Unit unit);
-
-    void update(Unit unit);
-
-    void delete(Long id);
-
-    Long count();
-
-    List<Unit> findAllWithFilter(Map<String, String> params);
+@Repository
+public interface UnitRepository extends JpaRepository<Unit, String>, JpaSpecificationExecutor<Unit> {
 }

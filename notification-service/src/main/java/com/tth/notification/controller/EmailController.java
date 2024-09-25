@@ -1,7 +1,7 @@
 package com.tth.notification.controller;
 
+import com.tth.notification.dto.APIResponse;
 import com.tth.notification.dto.request.SendEmailRequest;
-import com.tth.notification.dto.response.APIResponse;
 import com.tth.notification.dto.response.SendEmailResponse;
 import com.tth.notification.service.EmailService;
 import lombok.RequiredArgsConstructor;

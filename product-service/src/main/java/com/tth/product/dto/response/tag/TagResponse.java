@@ -1,4 +1,4 @@
-package com.tth.product.dto.tag;
+package com.tth.product.dto.response.tag;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TagResponse {
 
-    private Long id;
+    private String id;
 
     private String name;
 
     private String description;
+
 }

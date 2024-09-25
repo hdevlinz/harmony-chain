@@ -1,4 +1,4 @@
-package com.tth.identity.configuration;
+package com.tth.product.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -45,7 +45,6 @@ public class SecurityConfigs {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         httpSecurity.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/users/info").authenticated()
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/**").authenticated()

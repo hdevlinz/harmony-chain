@@ -1,14 +1,14 @@
 package com.tth.identity.service.impl;
 
-import com.tth.identity.dto.response.PageResponse;
+import com.tth.identity.dto.PageResponse;
 import com.tth.identity.dto.response.shipper.ShipperResponse;
 import com.tth.identity.entity.Shipper;
 import com.tth.identity.enums.ErrorCode;
 import com.tth.identity.exception.AppException;
 import com.tth.identity.mapper.ShipperMapper;
 import com.tth.identity.repository.ShipperRepository;
-import com.tth.identity.repository.specification.ShipperSpecification;
 import com.tth.identity.service.ShipperService;
+import com.tth.identity.service.specification.ShipperSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +34,7 @@ public class ShipperServiceImpl implements ShipperService {
 
     @Override
     public PageResponse<ShipperResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
-        Specification<Shipper> spec = ShipperSpecification.filterShippers(params);
+        Specification<Shipper> spec = ShipperSpecification.filter(params);
 
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<ShipperResponse> result = this.shipperRepository.findAll(spec, pageable).map(this.shipperMapper::toShipperResponse);

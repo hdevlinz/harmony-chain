@@ -1,14 +1,14 @@
 package com.tth.identity.service.impl;
 
-import com.tth.identity.dto.response.PageResponse;
+import com.tth.identity.dto.PageResponse;
 import com.tth.identity.dto.response.customer.CustomerResponse;
 import com.tth.identity.entity.Customer;
 import com.tth.identity.enums.ErrorCode;
 import com.tth.identity.exception.AppException;
 import com.tth.identity.mapper.CustomerMapper;
 import com.tth.identity.repository.CustomerRepository;
-import com.tth.identity.repository.specification.CustomerSpecification;
 import com.tth.identity.service.CustomerService;
+import com.tth.identity.service.specification.CustomerSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public PageResponse<CustomerResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
-        Specification<Customer> spec = CustomerSpecification.filterCustomers(params);
+        Specification<Customer> spec = CustomerSpecification.filter(params);
 
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<CustomerResponse> result = this.customerRepository.findAll(spec, pageable).map(this.customerMapper::toCustomerResponse);

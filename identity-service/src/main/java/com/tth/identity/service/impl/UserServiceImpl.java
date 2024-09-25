@@ -1,9 +1,9 @@
 package com.tth.identity.service.impl;
 
 import com.tth.event.dto.NotificationEvent;
+import com.tth.identity.dto.PageResponse;
 import com.tth.identity.dto.request.RegisterRequest;
 import com.tth.identity.dto.request.UpdateRequest;
-import com.tth.identity.dto.response.PageResponse;
 import com.tth.identity.dto.response.UserResponse;
 import com.tth.identity.entity.Customer;
 import com.tth.identity.entity.Shipper;
@@ -18,8 +18,8 @@ import com.tth.identity.mapper.SupplierMapper;
 import com.tth.identity.mapper.UserMapper;
 import com.tth.identity.repository.UserRepository;
 import com.tth.identity.repository.httpclient.FileClient;
-import com.tth.identity.repository.specification.UserSpecification;
 import com.tth.identity.service.UserService;
+import com.tth.identity.service.specification.UserSpecification;
 import com.tth.identity.util.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -144,7 +144,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResponse<UserResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
-        Specification<User> spec = UserSpecification.filterUsers(params);
+        Specification<User> spec = UserSpecification.filter(params);
 
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<UserResponse> result = this.userRepository.findAll(spec, pageable).map(this.userMapper::toUserResponse);

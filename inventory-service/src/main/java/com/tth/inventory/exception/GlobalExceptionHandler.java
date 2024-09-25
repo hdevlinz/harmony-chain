@@ -1,7 +1,7 @@
-package com.tth.product.exception;
+package com.tth.inventory.exception;
 
-import com.tth.product.dto.APIResponse;
-import com.tth.product.enums.ErrorCode;
+import com.tth.inventory.dto.APIResponse;
+import com.tth.inventory.enums.ErrorCode;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
