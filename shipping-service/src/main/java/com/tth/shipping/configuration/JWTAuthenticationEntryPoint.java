@@ -1,8 +1,8 @@
-package com.tth.order.configuration;
+package com.tth.shipping.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tth.order.dto.APIResponse;
-import com.tth.order.enums.ErrorCode;
+import com.tth.shipping.dto.APIResponse;
+import com.tth.shipping.enums.ErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
