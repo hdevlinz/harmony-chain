@@ -17,9 +17,9 @@ public interface OrderService {
 
     void checkin(OrderRequest orderRequest, User user);
 
-    void cancelOrder(String orderId);
+    void cancelOrder(String orderNumber);
 
-    void updateOrderStatus(String orderId, String status);
+    void updateOrderStatus(String orderNumber, String status);
 
     List<OrderResponse> findRecentlyOrders();
 
@@ -27,7 +27,7 @@ public interface OrderService {
 
     PageResponse<Order> findByDeliveryScheduleId(String deliveryScheduleId, int page, int size);
 
-    PageResponse<Order> findAllOrderOfAuthenticated(Map<String, String> params, int page, int size);
+    PageResponse<OrderResponse> findAllOrderOfAuthenticated(Map<String, String> params, int page, int size);
 
     PageResponse<Order> findAllBySupplierId(String supplierId, Map<String, String> params, int page, int size);
 

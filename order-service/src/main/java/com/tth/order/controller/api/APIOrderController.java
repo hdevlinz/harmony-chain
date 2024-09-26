@@ -1,4 +1,4 @@
-package com.tth.order.controller;
+package com.tth.order.controller.api;
 
 import com.tth.order.dto.APIResponse;
 import com.tth.order.dto.request.OrderRequest;
@@ -50,16 +50,16 @@ public class APIOrderController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PatchMapping(path = "/{orderId}/cancel")
-    public ResponseEntity<?> cancelOrder(@PathVariable String orderId) {
-        this.orderService.cancelOrder(orderId);
+    @PatchMapping(path = "/{orderNumber}/cancel")
+    public ResponseEntity<?> cancelOrder(@PathVariable String orderNumber) {
+        this.orderService.cancelOrder(orderNumber);
 
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping(path = "/{orderId}/status")
-    public ResponseEntity<?> updateOrderStatus(@PathVariable String orderId, @RequestBody Map<String, String> params) {
-        this.orderService.updateOrderStatus(orderId, params.get("status"));
+    @PatchMapping(path = "/{orderNumber}/status")
+    public ResponseEntity<?> updateOrderStatus(@PathVariable String orderNumber, @RequestBody Map<String, String> request) {
+        this.orderService.updateOrderStatus(orderNumber, request.get("status"));
 
         return ResponseEntity.ok().build();
     }

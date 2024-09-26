@@ -1,3 +1,4 @@
+name: harmony
 version: "3"
 services:
    mysql:

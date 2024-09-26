@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,7 +16,5 @@ public class OrderDetailsRequest {
     private String productId;
 
     private Float quantity;
-
-    private BigDecimal unitPrice;
 
 }

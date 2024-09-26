@@ -1,5 +1,9 @@
 package com.tth.notification.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tth.notification.dto.APIResponse;
+import com.tth.notification.enums.ErrorCode;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +47,20 @@ public class SecurityConfigs {
                 .requestMatchers(HttpMethod.PUT, "/**").authenticated()
                 .requestMatchers(HttpMethod.PATCH, "/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/**").authenticated()
+        );
+
+        httpSecurity.exceptionHandling(exceptionHandling -> exceptionHandling
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    APIResponse<?> apiResponse = APIResponse.builder()
+                            .code(ErrorCode.UNAUTHORIZED.getCode())
+                            .message(ErrorCode.UNAUTHORIZED.getMessage())
+                            .build();
+                    ObjectMapper objectMapper = new ObjectMapper();
+
+                    response.setContentType("application/json");
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.getWriter().write((objectMapper.writeValueAsString(apiResponse)));
+                })
         );
 
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2

@@ -1,4 +1,4 @@
-package com.tth.order.controller.CRUD;
+package com.tth.order.controller.crud;
 
 import com.tth.order.dto.APIResponse;
 import com.tth.order.dto.request.inventory.CreateInventoryRequest;

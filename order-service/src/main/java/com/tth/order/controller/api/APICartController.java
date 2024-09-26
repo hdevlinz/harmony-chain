@@ -1,4 +1,4 @@
-package com.tth.order.controller;
+package com.tth.order.controller.api;
 
 import com.tth.order.dto.APIResponse;
 import com.tth.order.dto.request.product.ProductRequestAddToCart;

@@ -1,4 +1,4 @@
-package com.tth.order.controller;
+package com.tth.order.controller.api;
 
 import com.tth.order.service.TaxService;
 import lombok.RequiredArgsConstructor;

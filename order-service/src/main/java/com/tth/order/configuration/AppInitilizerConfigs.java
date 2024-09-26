@@ -131,7 +131,6 @@ public class AppInitilizerConfigs {
                     .map(product -> OrderDetailsRequest.builder()
                             .productId(product.getId())
                             .quantity(3F)
-                            .unitPrice(product.getPrice())
                             .build())
                     .collect(Collectors.toSet());
 

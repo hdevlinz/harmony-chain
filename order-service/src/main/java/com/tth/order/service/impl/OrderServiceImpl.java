@@ -28,7 +28,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,14 +50,21 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse findByOrderNumber(String orderNumber) {
-        return this.orderRepository.findByOrderNumber(orderNumber)
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+
+        return this.orderRepository.findByOrderNumberAndUserId(orderNumber, user.getName())
                 .map(this.orderMapper::toOrderResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
     }
 
     @Override
     public void checkout(OrderRequest orderRequest, User usert) {
-        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Authentication user;
+        if (usert == null) {
+            user = SecurityContextHolder.getContext().getAuthentication();
+        } else {
+            user = null;
+        }
 
         if (orderRequest.getType() == OrderType.OUTBOUND) {
             // Tập hợp tất cả các productId từ danh sách OrderDetails
@@ -72,24 +82,25 @@ public class OrderServiceImpl implements OrderService {
             Map<String, Set<OrderDetailsRequest>> groupedBySupplier = orderRequest.getOrderDetails().stream()
                     .collect(Collectors.groupingBy(odr -> productMap.get(odr.getProductId()).getSupplier().getId(), Collectors.toSet()));
 
+            // Tạo đơn hàng mới
+            Order order = Order.builder()
+                    .userId(usert != null ? usert.getId() : user.getName())
+                    .type(orderRequest.getType())
+                    .build();
+            if (orderRequest.getStatus() != null) {
+                order.setStatus(orderRequest.getStatus());
+            }
+            this.orderRepository.save(order);
+
             // Tạo đơn hàng cho mỗi nhà cung cấp
+            final BigDecimal[][] totalAmount = {{BigDecimal.ZERO}};
             groupedBySupplier.forEach((supplier, orderDetailsList) -> {
-                // Tạo đơn hàng mới
-                Order order = Order.builder()
-                        .userId(usert != null ? usert.getId() : user.getName())
-                        .type(orderRequest.getType())
-                        .build();
-                if (orderRequest.getStatus() != null) {
-                    order.setStatus(orderRequest.getStatus());
-                }
-                this.orderRepository.save(order);
-
                 // Tính toán tổng giá trị của đơn hàng
-                BigDecimal[] totalAmount = this.getTotalAmountOfOrder(order, orderDetailsList, productMap);
-
-                // Tạo hóa đơn cho đơn hàng
-                this.createInvoice(usert != null ? usert.getId() : user.getName(), order, orderRequest, totalAmount);
+                totalAmount[0] = this.getTotalAmountOfOrder(order, orderDetailsList, productMap);
             });
+
+            // Tạo hóa đơn cho đơn hàng
+            this.createInvoice(usert != null ? usert.getId() : user.getName(), order, orderRequest, totalAmount[0]);
         }
     }
 
@@ -107,9 +118,9 @@ public class OrderServiceImpl implements OrderService {
                 this.inventoryDetailsRepository.save(inventoryDetails);
 
                 // Tạo chi tiết đơn hàng
-                this.createOrderDetails(order, odr.getProductId(), inventoryDetails, odr);
+                this.createOrderDetails(order, productMap.get(odr.getProductId()), inventoryDetails, odr);
 
-                totalAmount[0] = totalAmount[0].add(odr.getUnitPrice().multiply(BigDecimal.valueOf(odr.getQuantity())));
+                totalAmount[0] = totalAmount[0].add(productMap.get(odr.getProductId()).getPrice().multiply(BigDecimal.valueOf(odr.getQuantity())));
             }
         });
 
@@ -129,9 +140,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPPLIER', 'DISTRIBUTOR', 'MANUFACTURER')")
     public void checkin(OrderRequest orderRequest, User usert) {
-        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Authentication user;
+        if (usert == null) {
+            user = SecurityContextHolder.getContext().getAuthentication();
+        } else {
+            user = null;
+        }
 
         if (orderRequest.getType() == OrderType.INBOUND) {
             // Tìm kiếm tồn kho cần nhập hàng, nếu không tìm thấy thì báo lỗi
@@ -153,26 +168,27 @@ public class OrderServiceImpl implements OrderService {
             Map<String, Set<OrderDetailsRequest>> groupedBySupplier = orderRequest.getOrderDetails().stream()
                     .collect(Collectors.groupingBy(odr -> productMap.get(odr.getProductId()).getSupplier().getId(), Collectors.toSet()));
 
-            // Tạo đơn hàng cho mỗi nhà cung cấp
-            groupedBySupplier.forEach((supplier, orderDetailsList) -> {
-                // Tạo đơn hàng mới
-                Order order = Order.builder()
-                        .userId(usert != null ? usert.getId() : user.getName())
-                        .type(orderRequest.getType())
-                        .build();
-                if (orderRequest.getStatus() != null) {
-                    order.setStatus(orderRequest.getStatus());
-                }
-                this.orderRepository.save(order);
+            // Tạo đơn hàng mới
+            Order order = Order.builder()
+                    .userId(usert != null ? usert.getId() : user.getName())
+                    .type(orderRequest.getType())
+                    .build();
+            if (orderRequest.getStatus() != null) {
+                order.setStatus(orderRequest.getStatus());
+            }
+            this.orderRepository.save(order);
 
+            // Tạo đơn hàng cho mỗi nhà cung cấp
+            final BigDecimal[][] totalAmount = {{BigDecimal.ZERO}};
+            groupedBySupplier.forEach((supplier, orderDetailsList) -> {
                 this.checkCapacityOfWarehouse(inventory, orderRequest.getOrderDetails());
 
                 // Nếu không vượt quá sức chứa thì tính toán tổng giá trị của đơn hàng
-                BigDecimal[] totalAmount = this.getTotalAmountOfOrder(inventory, order, orderRequest.getOrderDetails());
-
-                // Tạo hóa đơn cho đơn hàng
-                this.createInvoice(usert != null ? usert.getId() : user.getName(), order, orderRequest, totalAmount);
+                totalAmount[0] = this.getTotalAmountOfOrder(inventory, order, orderRequest.getOrderDetails(), productMap);
             });
+
+            // Tạo hóa đơn cho đơn hàng
+            this.createInvoice(usert != null ? usert.getId() : user.getName(), order, orderRequest, totalAmount[0]);
         }
     }
 
@@ -194,7 +210,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private BigDecimal[] getTotalAmountOfOrder(Inventory inventory, Order order, Set<OrderDetailsRequest> orderDetailsRequests) {
+    private BigDecimal[] getTotalAmountOfOrder(Inventory inventory, Order order, Set<OrderDetailsRequest> orderDetailsRequests, Map<String, ProductListResponse> productMap) {
         final BigDecimal[] totalAmount = {BigDecimal.ZERO};
 
         // Duyệt danh sách các sản phẩm trong đơn hàng
@@ -218,9 +234,9 @@ public class OrderServiceImpl implements OrderService {
                 this.inventoryDetailsRepository.save(inventoryDetails);
 
                 // Tạo chi tiết đơn hàng
-                this.createOrderDetails(order, odr.getProductId(), inventoryDetails, odr);
+                this.createOrderDetails(order, productMap.get(odr.getProductId()), inventoryDetails, odr);
 
-                totalAmount[0] = totalAmount[0].add(odr.getUnitPrice().multiply(BigDecimal.valueOf(odr.getQuantity())));
+                totalAmount[0] = totalAmount[0].add(productMap.get(odr.getProductId()).getPrice().multiply(BigDecimal.valueOf(odr.getQuantity())));
             }
         });
 
@@ -228,15 +244,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void cancelOrder(String orderId) {
+    public void cancelOrder(String orderNumber) {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
 
-        Order order = this.orderRepository.findById(orderId)
+        Order order = this.orderRepository.findByOrderNumberAndUserId(orderNumber, user.getName())
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
-
-        if (!Objects.equals(order.getUserId(), user.getName())) {
-            throw new AppException(ErrorCode.ORDER_NOT_FOUND);
-        }
 
         switch (order.getStatus()) {
             case CANCELLED:
@@ -258,7 +270,7 @@ public class OrderServiceImpl implements OrderService {
             this.inventoryDetailsRepository.save(inventoryDetails);
         });
 
-        this.invoiceRepository.findByOrderId(orderId).ifPresent(invoice -> {
+        this.invoiceRepository.findByOrderId(orderNumber).ifPresent(invoice -> {
             order.setInvoice(null);
             this.invoiceRepository.delete(invoice);
         });
@@ -266,7 +278,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @PreAuthorize("hasAnyRole('ADMIN', 'SHIPPER', 'SUPPLIER', 'DISTRIBUTOR', 'MANUFACTURER')")
-    public void updateOrderStatus(String orderId, String status) {
+    public void updateOrderStatus(String orderNumber, String status) {
         OrderStatus orderStatus;
         try {
             orderStatus = OrderStatus.valueOf(status.toUpperCase(Locale.getDefault()));
@@ -274,7 +286,7 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalArgumentException("Trạng thái đơn hàng không hợp lệ");
         }
 
-        Order order = this.orderRepository.findById(orderId)
+        Order order = this.orderRepository.findByOrderNumber(orderNumber)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
 
         if (order.getStatus() == OrderStatus.CANCELLED) {
@@ -282,7 +294,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         if (order.getStatus() == orderStatus) {
-            throw new IllegalStateException("Đơn hàng đã ở trạng thái " + orderStatus);
+            throw new IllegalStateException("Đơn hàng đã ở trạng thái " + orderStatus.getDisplayName());
         }
 
         switch (orderStatus) {
@@ -331,13 +343,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PageResponse<Order> findAllOrderOfAuthenticated(Map<String, String> params, int page, int size) {
+    public PageResponse<OrderResponse> findAllOrderOfAuthenticated(Map<String, String> params, int page, int size) {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        params.put("userId", user.getName());
 
         Specification<Order> specification = OrderSpecification.filterByParams(params);
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Order> invoices = this.orderRepository.findAllByUserId(user.getName(), specification, pageable);
-        System.out.println(invoices + ".............................................");
+        Page<OrderResponse> invoices = this.orderRepository.findAll(specification, pageable)
+                .map(this.orderMapper::toOrderResponse);
 
         return PageResponse.of(invoices);
     }
@@ -351,16 +364,15 @@ public class OrderServiceImpl implements OrderService {
         return PageResponse.of(orders);
     }
 
-    private void createOrderDetails(Order order, String productId, InventoryDetails inventoryDetails, OrderDetailsRequest odr) {
+    private void createOrderDetails(Order order, ProductListResponse product, InventoryDetails inventoryDetails, OrderDetailsRequest odr) {
         OrderDetails orderDetails = OrderDetails.builder()
                 .order(order)
-                .productId(productId)
+                .productId(product.getId())
                 .inventoryDetails(inventoryDetails)
                 .quantity(odr.getQuantity())
-                .unitPrice(odr.getUnitPrice())
+                .unitPrice(product.getPrice())
                 .build();
         this.orderDetailsRepository.save(orderDetails);
-
     }
 
     private void createInvoice(String userId, Order order, OrderRequest orderRequest, BigDecimal[] totalAmount) {
