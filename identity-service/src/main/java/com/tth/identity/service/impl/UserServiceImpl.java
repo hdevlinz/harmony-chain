@@ -61,23 +61,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse registration(RegisterRequest registerRequest) {
-        if (this.userRepository.existsByUsername(registerRequest.getUsername())) {
+    public UserResponse registration(RegisterRequest request) {
+        if (this.userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USERNAME_EXISTED);
         }
 
-        if (this.userRepository.existsByEmail(registerRequest.getEmail())) {
+        if (this.userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
 
-        User user = this.userMapper.toUser(registerRequest);
-        user.setPassword(this.passwordEncoder.encode(registerRequest.getPassword()));
+        User user = this.userMapper.toUser(request);
+        user.setPassword(this.passwordEncoder.encode(request.getPassword()));
 
         switch (user.getRole()) {
             case UserRole.ROLE_ADMIN -> {
             }
             case UserRole.ROLE_CUSTOMER -> {
-                Customer customer = this.customerMapper.toCustomer(registerRequest);
+                Customer customer = this.customerMapper.toCustomer(request);
                 customer.setUser(user);
                 user.setCustomer(customer);
             }
@@ -86,12 +86,12 @@ public class UserServiceImpl implements UserService {
 //            case ROLE_MANUFACTURER -> {
 //            }
             case UserRole.ROLE_SHIPPER -> {
-                Shipper shipper = this.shipperMapper.toShipper(registerRequest);
+                Shipper shipper = this.shipperMapper.toShipper(request);
                 shipper.setUser(user);
                 user.setShipper(shipper);
             }
             case UserRole.ROLE_SUPPLIER -> {
-                Supplier supplier = this.supplierMapper.toSupplier(registerRequest);
+                Supplier supplier = this.supplierMapper.toSupplier(request);
                 supplier.setUser(user);
                 user.setSupplier(supplier);
             }
@@ -106,9 +106,9 @@ public class UserServiceImpl implements UserService {
         // Publish message to Kafka
         NotificationEvent notificationEvent = NotificationEvent.builder()
                 .chanel("EMAIL")
-                .recipient(registerRequest.getEmail())
+                .recipient(request.getEmail())
                 .subject("Welcome to Harmony SCMS")
-                .body(String.format("Chào mừng bạn đến với Harmony Supply Chain, %s!", registerRequest.getUsername()))
+                .body(String.format("Chào mừng bạn đến với Harmony Supply Chain, %s!", request.getUsername()))
                 .build();
         this.kafkaTemplate.send("notification-delivery", notificationEvent);
 
@@ -124,22 +124,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updateInfo(UpdateRequest updateRequest) {
+    public UserResponse updateInfo(UpdateRequest request) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = this.userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-        if (this.hasPasswordUpdateRequest(updateRequest)) {
-            if (!this.passwordEncoder.matches(updateRequest.getOldPassword(), user.getPassword())) {
+        if (this.hasPasswordUpdateRequest(request)) {
+            if (!this.passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
                 throw new AppException(ErrorCode.PASSWORD_INCORRECT);
             }
 
-            user.setPassword(this.passwordEncoder.encode(updateRequest.getNewPassword()));
+            user.setPassword(this.passwordEncoder.encode(request.getNewPassword()));
         }
 
-        this.updateUserFields(user, updateRequest);
+        this.updateUserFields(user, request);
         this.userRepository.save(user);
 
         return this.userMapper.toUserResponse(user);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return this.userRepository.findAll();
     }
 
     @Override
@@ -152,18 +157,18 @@ public class UserServiceImpl implements UserService {
         return PageResponse.of(result);
     }
 
-    private boolean hasPasswordUpdateRequest(UpdateRequest updateRequest) {
-        return updateRequest.getOldPassword() != null && !updateRequest.getOldPassword().isEmpty() &&
-                updateRequest.getNewPassword() != null && !updateRequest.getNewPassword().isEmpty();
+    private boolean hasPasswordUpdateRequest(UpdateRequest request) {
+        return request.getOldPassword() != null && !request.getOldPassword().isEmpty() &&
+                request.getNewPassword() != null && !request.getNewPassword().isEmpty();
     }
 
-    private void updateUserFields(User user, UpdateRequest updateRequest) {
+    private void updateUserFields(User user, UpdateRequest request) {
         Field[] fields = UpdateRequest.class.getDeclaredFields();
 
         for (Field field : fields) {
             field.setAccessible(true);
             try {
-                Object value = field.get(updateRequest);
+                Object value = field.get(request);
                 if (value == null || value.toString().isEmpty()) {
                     continue;
                 }

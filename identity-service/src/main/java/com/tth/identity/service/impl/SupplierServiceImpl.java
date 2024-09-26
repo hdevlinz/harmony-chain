@@ -28,8 +28,11 @@ public class SupplierServiceImpl implements SupplierService {
     private final SupplierMapper supplierMapper;
 
     @Override
-    public Supplier findById(String id) {
-        return this.supplierRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.SUPPLIER_NOT_FOUND));
+    public SupplierResponse findById(String supplierId) {
+        Supplier supplier = this.supplierRepository.findById(supplierId)
+                .orElseThrow(() -> new AppException(ErrorCode.SUPPLIER_NOT_FOUND));
+
+        return this.supplierMapper.toSupplierResponse(supplier);
     }
 
     @Override

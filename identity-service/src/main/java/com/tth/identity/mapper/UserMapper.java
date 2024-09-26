@@ -22,9 +22,9 @@ public interface UserMapper {
     @Mapping(target = "shipper", ignore = true)
     User toUser(RegisterRequest registerRequest);
 
-    @Mapping(target = "customer", source = "user.customer", qualifiedByName = "mapCustomerToResponse")
-    @Mapping(target = "shipper", source = "user.shipper", qualifiedByName = "mapShipperToResponse")
-    @Mapping(target = "supplier", source = "user.supplier", qualifiedByName = "mapSupplierToResponse")
+    @Mapping(target = "customer", source = "customer", qualifiedByName = "mapCustomerToResponse")
+    @Mapping(target = "shipper", source = "shipper", qualifiedByName = "mapShipperToResponse")
+    @Mapping(target = "supplier", source = "supplier", qualifiedByName = "mapSupplierToResponse")
     UserResponse toUserResponse(User user);
 
     @Mapping(target = "avatar", ignore = true)

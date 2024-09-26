@@ -2,8 +2,6 @@ package com.tth.identity.controller;
 
 import com.tth.identity.dto.APIResponse;
 import com.tth.identity.dto.response.customer.CustomerResponse;
-import com.tth.identity.entity.Customer;
-import com.tth.identity.mapper.CustomerMapper;
 import com.tth.identity.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,6 @@ import java.util.Map;
 @RequestMapping(path = "/customers", produces = "application/json; charset=UTF-8")
 public class APICustomerController {
 
-    private final CustomerMapper customerMapper;
     private final CustomerService customerService;
 
     @GetMapping
@@ -28,11 +25,10 @@ public class APICustomerController {
     }
 
     @GetMapping(path = "/{customerId}")
-    public ResponseEntity<?> getCustomer(@PathVariable(value = "customerId") String id) {
-        Customer customer = this.customerService.findById(id);
-        CustomerResponse result = this.customerMapper.toCustomerResponse(customer);
+    public ResponseEntity<?> getCustomer(@PathVariable String customerId) {
+        CustomerResponse customer = this.customerService.findById(customerId);
 
-        return ResponseEntity.ok(APIResponse.<CustomerResponse>builder().result(result).build());
+        return ResponseEntity.ok(APIResponse.<CustomerResponse>builder().result(customer).build());
     }
 
 }

@@ -1,6 +1,6 @@
 # Server configuration
 server:
-   port: 8887
+   port: 8886
    servlet:
       context-path: /notification
       encoding:
@@ -12,8 +12,8 @@ server:
 app:
    services:
       email:
-         url: https://api.brevo.com
-   mail-api-key: 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
+         url: ${EMAIL_SERVICE_URL:https://api.brevo.com}
+   mail-api-key: ${MAIL_API_KEY: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}
 
 # Spring configuration
 spring:

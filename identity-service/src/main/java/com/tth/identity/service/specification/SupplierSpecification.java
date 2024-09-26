@@ -17,12 +17,26 @@ public class SupplierSpecification {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(builder.equal(root.get("active"), true));
 
-            if (params != null && !params.isEmpty()) {
-                String name = params.get("name");
-                if (name != null && !name.isEmpty()) {
-                    predicates.add(builder.like(root.get("name"), String.format("%%%s%%", name)));
+            params.forEach((key, value) -> {
+                if (value != null && !value.isEmpty()) {
+                    switch (key) {
+                        case "name":
+                            predicates.add(builder.like(root.get("name"), String.format("%%%s%%", value)));
+                            break;
+                        case "address":
+                            predicates.add(builder.like(root.get("address"), String.format("%%%s%%", value)));
+                            break;
+                        case "phone":
+                            predicates.add(builder.like(root.get("phone"), String.format("%%%s%%", value)));
+                            break;
+                        case "contactInfo":
+                            predicates.add(builder.like(root.get("contactInfo"), String.format("%%%s%%", value)));
+                            break;
+                        default:
+                            log.warn("Unknown filter key: {}", key);
+                    }
                 }
-            }
+            });
 
             return builder.and(predicates.toArray(Predicate[]::new));
         };

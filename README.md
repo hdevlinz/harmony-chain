@@ -23,6 +23,12 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo docker run hello-world
 ```
 
+## Install from **docker-compose.yml** file
+
+```bash
+docker compose up -d
+```
+
 ## Install MySQL from Docker Hub
 
 ```bash
@@ -31,16 +37,6 @@ docker pull mysql:8.0.39-debian
 
 ```bash
 docker run --name mysql-8.0.39-debian -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:8.0.39-debian
-```
-
-## Install Neo4j from Docker Hub
-
-```bash
-docker pull neo4j:latest
-```
-
-```bash
-docker run --name neo4j-latest --publish=7474:7474 --publish=7687:7687 -e 'NEO4J_AUTH=neo4j/admin@123' neo4j:latest
 ```
 
 ## Install Mongodb from Docker Hub
@@ -53,8 +49,22 @@ docker pull bitnami/mongodb:7.0.11
 docker run -d --name mongodb-7.0.11 -p 27017:27017 -e MONGODB_ROOT_USER=root -e MONGODB_ROOT_PASSWORD=root bitnami/mongodb:7.0.11
 ```
 
-## Install Kafka from **docker-compose.yml** file
+## Install Neo4j from Docker Hub
 
 ```bash
-docker-compose up -d
+docker pull neo4j:latest
+```
+
+```bash
+docker run --name neo4j-latest --publish=7474:7474 --publish=7687:7687 -e 'NEO4J_AUTH=neo4j/admin@123' neo4j:latest
+```
+
+## Install Kafka from Docker Hub
+
+```bash
+docker pull bitnami/kafka:3.7.0
+```
+
+```bash
+docker run -d --name kafka-3.7.0 -p 9094:9094 bitnami/kafka:3.7.0
 ```

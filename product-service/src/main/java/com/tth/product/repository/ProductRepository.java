@@ -7,4 +7,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, String>, JpaSpecificationExecutor<Product> {
+
+    Iterable<Product> findByName(String productName);
+
+    Iterable<Product> findByUnitId(String unitId);
+
+    Iterable<Product> findByCategoryId(String categoryId);
+
 }

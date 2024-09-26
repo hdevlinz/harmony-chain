@@ -45,6 +45,9 @@ public class SecurityConfigs {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         httpSecurity.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/carts/**").authenticated()
+                .requestMatchers("/orders/**").authenticated()
+                .requestMatchers("/invoices/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/**").authenticated()

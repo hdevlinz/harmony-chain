@@ -1,6 +1,7 @@
 package com.tth.product.service.impl;
 
 import com.tth.product.dto.PageResponse;
+import com.tth.product.dto.response.ProductDetailsResponse;
 import com.tth.product.dto.response.ProductListResponse;
 import com.tth.product.entity.Product;
 import com.tth.product.enums.ErrorCode;
@@ -17,7 +18,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -28,8 +31,15 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public Product findById(String id) {
-        return this.productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+    public ProductDetailsResponse findById(String id) {
+        Product product = this.productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        return this.productMapper.toProductDetailsResponse(product);
+    }
+
+    @Override
+    public List<ProductListResponse> findAllInBatch(Set<String> productIds) {
+        return this.productRepository.findAllById(productIds).stream().map(this.productMapper::toProductListResponse).toList();
     }
 
     @Override

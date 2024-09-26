@@ -18,18 +18,27 @@ public class CustomerSpecification {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(builder.equal(root.get("active"), true));
 
-            if (params != null && !params.isEmpty()) {
-                String name = params.get("name");
-                if (name != null && !name.isEmpty()) {
-                    List<Predicate> namePredicates = new ArrayList<>();
-
-                    Arrays.asList("lastName", "middleName", "firstName").forEach(key -> {
-                        namePredicates.add(builder.like(root.get(key), String.format("%%%s%%", name)));
-                    });
-
-                    predicates.add(builder.or(namePredicates.toArray(Predicate[]::new)));
+            params.forEach((key, value) -> {
+                if (value != null && !value.isEmpty()) {
+                    switch (key) {
+                        case "name":
+                            List<Predicate> namePredicates = new ArrayList<>();
+                            Arrays.asList("lastName", "middleName", "firstName").forEach(s -> {
+                                namePredicates.add(builder.like(root.get(s), String.format("%%%s%%", value)));
+                            });
+                            predicates.add(builder.or(namePredicates.toArray(Predicate[]::new)));
+                            break;
+                        case "address":
+                            predicates.add(builder.like(root.get("address"), String.format("%%%s%%", value)));
+                            break;
+                        case "phone":
+                            predicates.add(builder.like(root.get("phone"), String.format("%%%s%%", value)));
+                            break;
+                        default:
+                            log.warn("Unknown filter key: {}", key);
+                    }
                 }
-            }
+            });
 
             return builder.and(predicates.toArray(Predicate[]::new));
         };

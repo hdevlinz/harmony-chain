@@ -2,6 +2,7 @@ package com.tth.product.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tth.product.dto.response.category.CategoryResponse;
+import com.tth.product.dto.response.supplier.SupplierResponse;
 import com.tth.product.dto.response.tag.TagResponse;
 import com.tth.product.dto.response.unit.UnitResponse;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,8 @@ public class ProductDetailsResponse {
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date expiryDate;
+
+    private SupplierResponse supplier;
 
     private UnitResponse unit;
 

@@ -2,14 +2,15 @@ package com.tth.product.exception;
 
 import com.tth.product.dto.APIResponse;
 import com.tth.product.enums.ErrorCode;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Objects;
 
 @Slf4j
 @RestControllerAdvice
@@ -45,12 +46,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ErrorCode.UNAUTHORIZED.getHttpStatusCode()).body(apiResponse);
     }
 
-    @ExceptionHandler(value = ConstraintViolationException.class)
-    public ResponseEntity<?> handleMethodArgumentNotValidException(ConstraintViolationException exception) {
-        String defaultMessage = exception.getConstraintViolations().stream()
-                .map(ConstraintViolation::getMessageTemplate)
-                .findFirst()
-                .orElse("Yêu cầu không hợp lệ.");
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        String defaultMessage = Objects.requireNonNull(exception.getFieldError()).getDefaultMessage();
+
         APIResponse<?> apiResponse = APIResponse.builder()
                 .code(ErrorCode.INVALID_REQUEST.getCode())
                 .message(defaultMessage)

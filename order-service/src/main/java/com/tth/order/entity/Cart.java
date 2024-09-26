@@ -1,9 +1,8 @@
 package com.tth.order.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -16,10 +15,10 @@ import java.util.Set;
 @Table(name = "cart")
 public class Cart extends BaseEntity implements Serializable {
 
-    @JsonIgnore
-    @OneToOne(cascade = {CascadeType.REMOVE}, optional = false, orphanRemoval = true)
-    private User user;
+    @Column(name = "user_id", nullable = false)
+    private String userId;
 
     @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private Set<CartDetails> cartDetailsSet;
+    private Set<CartDetails> cartDetails;
+
 }

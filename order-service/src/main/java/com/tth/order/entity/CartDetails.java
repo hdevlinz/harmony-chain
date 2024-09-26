@@ -1,10 +1,10 @@
 package com.tth.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -18,6 +18,9 @@ import java.math.BigDecimal;
         @UniqueConstraint(columnNames = {"cart_id", "product_id"})
 })
 public class CartDetails extends BaseEntity implements Serializable {
+
+    @Column(name = "product_id", nullable = false)
+    private String productId;
 
     @Builder.Default
     @NotNull(message = "Quantity is required")
@@ -34,7 +37,4 @@ public class CartDetails extends BaseEntity implements Serializable {
     @JoinColumn(name = "cart_id", referencedColumnName = "id", nullable = false)
     private Cart cart;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private Product product;
 }

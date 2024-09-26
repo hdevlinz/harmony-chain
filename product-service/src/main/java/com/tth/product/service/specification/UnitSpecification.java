@@ -17,17 +17,20 @@ public class UnitSpecification {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(builder.equal(root.get("active"), true));
 
-            if (params != null && !params.isEmpty()) {
-                String name = params.get("name");
-                if (name != null && !name.isEmpty()) {
-                    predicates.add(builder.like(root.get("name"), String.format("%%%s%%", name)));
+            params.forEach((key, value) -> {
+                if (value != null && !value.isEmpty()) {
+                    switch (key) {
+                        case "name":
+                            predicates.add(builder.like(root.get("name"), String.format("%%%s%%", value)));
+                            break;
+                        case "abbreviation":
+                            predicates.add(builder.like(root.get("abbreviation"), String.format("%%%s%%", value)));
+                            break;
+                        default:
+                            log.warn("Unknown filter key: {}", key);
+                    }
                 }
-
-                String abbreviation = params.get("abbreviation");
-                if (abbreviation != null && !abbreviation.isEmpty()) {
-                    predicates.add(builder.like(root.get("abbreviation"), String.format("%%%s%%", abbreviation)));
-                }
-            }
+            });
 
             return builder.and(predicates.toArray(Predicate[]::new));
         };

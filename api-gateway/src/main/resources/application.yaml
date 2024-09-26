@@ -13,7 +13,7 @@ app:
    strip-prefix: 2
    services:
       indentity:
-         url: http://localhost:8080/identity
+         url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
 
 # Spring configuration
 spring:
@@ -22,33 +22,51 @@ spring:
    cloud:
       gateway:
          routes:
-            -  id: identity_service
-               uri: http://localhost:8080
-               predicates:
-                  - Path=${app.api-prefix}/identity/**
-               filters:
-                  - StripPrefix=${app.strip-prefix}
-            -  id: product_service
-               uri: http://localhost:8081
-               predicates:
-                  - Path=${app.api-prefix}/product/**
-               filters:
-                  - StripPrefix=${app.strip-prefix}
-            -  id: inventory_service
-               uri: http://localhost:8082
-               predicates:
-                  - Path=${app.api-prefix}/inventory/**
-               filters:
-                  - StripPrefix=${app.strip-prefix}
             -  id: file_service
-               uri: http://localhost:8886
+               uri: ${FILE_SERVICE_URL:http://localhost:8887}
                predicates:
                   - Path=${app.api-prefix}/file/**
                filters:
                   - StripPrefix=${app.strip-prefix}
+
             -  id: notification_service
-               uri: http://localhost:8887
+               uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8886}
                predicates:
                   - Path=${app.api-prefix}/notification/**
+               filters:
+                  - StripPrefix=${app.strip-prefix}
+
+            -  id: identity_service
+               uri: ${IDENTITY_SERVICE_URL:http://localhost:8080}
+               predicates:
+                  - Path=${app.api-prefix}/identity/**
+               filters:
+                  - StripPrefix=${app.strip-prefix}
+
+            -  id: order_service
+               uri: ${ORDER_SERVICE_URL:http://localhost:8081}
+               predicates:
+                  - Path=${app.api-prefix}/order/**
+               filters:
+                  - StripPrefix=${app.strip-prefix}
+
+            -  id: product_service
+               uri: ${PRODUCT_SERVICE_URL:http://localhost:8082}
+               predicates:
+                  - Path=${app.api-prefix}/product/**
+               filters:
+                  - StripPrefix=${app.strip-prefix}
+
+            -  id: profile_service
+               uri: ${PROFILE_SERVICE_URL:http://localhost:8083}
+               predicates:
+                  - Path=${app.api-prefix}/profile/**
+               filters:
+                  - StripPrefix=${app.strip-prefix}
+
+            -  id: shipping_service
+               uri: ${SHIPPING_SERVICE_URL:http://localhost:8084}
+               predicates:
+                  - Path=${app.api-prefix}/shipping/**
                filters:
                   - StripPrefix=${app.strip-prefix}

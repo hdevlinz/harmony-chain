@@ -28,8 +28,11 @@ public class ShipperServiceImpl implements ShipperService {
     private final ShipperMapper shipperMapper;
 
     @Override
-    public Shipper findById(String id) {
-        return this.shipperRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.SHIPPED_NOT_FOUND));
+    public ShipperResponse findById(String shipperId) {
+        Shipper shipper = this.shipperRepository.findById(shipperId)
+                .orElseThrow(() -> new AppException(ErrorCode.SHIPPED_NOT_FOUND));
+
+        return this.shipperMapper.toShipperResponse(shipper);
     }
 
     @Override

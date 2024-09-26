@@ -2,8 +2,6 @@ package com.tth.identity.controller;
 
 import com.tth.identity.dto.APIResponse;
 import com.tth.identity.dto.response.supplier.SupplierResponse;
-import com.tth.identity.entity.Supplier;
-import com.tth.identity.mapper.SupplierMapper;
 import com.tth.identity.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,6 @@ import java.util.Map;
 @RequestMapping(path = "/suppliers", produces = "application/json; charset=UTF-8")
 public class APISupplierController {
 
-    private final SupplierMapper supplierMapper;
     private final SupplierService supplierService;
 
     @GetMapping
@@ -28,11 +25,10 @@ public class APISupplierController {
     }
 
     @GetMapping(path = "/{supplierId}")
-    public ResponseEntity<?> getSupplier(@PathVariable(value = "supplierId") String id) {
-        Supplier supplier = this.supplierService.findById(id);
-        SupplierResponse result = this.supplierMapper.toSupplierResponse(supplier);
+    public ResponseEntity<?> getSupplier(@PathVariable String supplierId) {
+        SupplierResponse supplier = this.supplierService.findById(supplierId);
 
-        return ResponseEntity.ok(APIResponse.<SupplierResponse>builder().result(result).build());
+        return ResponseEntity.ok(APIResponse.<SupplierResponse>builder().result(supplier).build());
     }
 
 }

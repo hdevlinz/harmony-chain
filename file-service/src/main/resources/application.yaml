@@ -1,6 +1,6 @@
 # Server configuration
 server:
-   port: 8886
+   port: 8887
    servlet:
       context-path: /file
       encoding:
@@ -19,7 +19,7 @@ spring:
 
 # AWS configuration
 aws:
-   access-key-id: AKIA6K5V7JXAJRAGPNOP
-   secret-access-key: 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
+   access-key-id: ${AWS_ACCESS_KEY_ID:AKIA6K5V7JXAJRAGPNOP}
+   secret-access-key: ${AWS_SECRET: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}
    s3:
-      bucket-name: harmony-supply-chain
+      bucket-name: ${S3_BUCKET_NAME:harmony-supply-chain}

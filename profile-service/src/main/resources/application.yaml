@@ -1,0 +1,30 @@
+# Server configuration
+server:
+   port: 8083
+   servlet:
+      context-path: /profile
+      encoding:
+         charset: UTF-8
+         enabled: true
+         force: true
+
+# Application configuration
+app:
+   services:
+      identity:
+         url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
+
+# Spring configuration
+spring:
+   application:
+      name: profile-service
+   neo4j:
+      uri: ${NEO4J_URI:bolt://localhost:7687}
+      authentication:
+         username: ${NEO4J_USERNAME:neo4j}
+         password: ${NEO4J_PASSWORD:admin@123}
+   kafka:
+      bootstrap-servers: localhost:9094
+      producer:
+         key-serializer: org.apache.kafka.common.serialization.StringSerializer
+         value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -21,45 +20,39 @@ public class ProductSpecification {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(builder.equal(root.get("active"), true));
 
-            if (params != null && !params.isEmpty()) {
-                Arrays.asList("supplier", "name", "fromPrice", "toPrice", "category", "unit", "tags").forEach(key -> {
-                    if (params.containsKey(key) && !params.get(key).isEmpty()) {
-                        switch (key) {
-                            case "supplier":
-                                Predicate p1 = builder.equal(root.get("supplierId"), Long.parseLong(params.get("supplier")));
-                                predicates.add(p1);
-                                break;
-                            case "name":
-                                Predicate p2 = builder.like(root.get("name"), String.format("%%%s%%", params.get("name")));
-                                predicates.add(p2);
-                                break;
-                            case "fromPrice":
-                                Predicate p3 = builder.greaterThanOrEqualTo(root.get("price"), new BigDecimal(params.get("fromPrice")));
-                                predicates.add(p3);
-                                break;
-                            case "toPrice":
-                                Predicate p4 = builder.lessThanOrEqualTo(root.get("price"), new BigDecimal(params.get("toPrice")));
-                                predicates.add(p4);
-                                break;
-                            case "category":
-                                Predicate p5 = builder.equal(root.get("category").get("id"), params.get("category"));
-                                predicates.add(p5);
-                                break;
-                            case "unit":
-                                Predicate p6 = builder.equal(root.get("unit").get("id"), params.get("unit"));
-                                predicates.add(p6);
-                                break;
-                            case "tags":
-                                List<String> tagIdList = List.of(params.get("tags").split(","));
+            params.forEach((key, value) -> {
+                if (value != null && !value.isEmpty()) {
+                    switch (key) {
+                        case "supplier":
+                            predicates.add(builder.equal(root.get("supplierId"), value));
+                            break;
+                        case "name":
+                            predicates.add(builder.like(root.get("name"), String.format("%%%s%%", value)));
+                            break;
+                        case "fromPrice":
+                            predicates.add(builder.greaterThanOrEqualTo(root.get("price"), new BigDecimal(value)));
+                            break;
+                        case "toPrice":
+                            predicates.add(builder.lessThanOrEqualTo(root.get("price"), new BigDecimal(value)));
+                            break;
+                        case "category":
+                            predicates.add(builder.equal(root.get("category").get("id"), value));
+                            break;
+                        case "unit":
+                            predicates.add(builder.equal(root.get("unit").get("id"), value));
+                            break;
+                        case "tags":
+                            List<String> tagIdList = List.of(value.split(","));
 
-                                Join<Product, Tag> tagJoin = root.join("tags");
-                                Predicate tagPredicate = tagJoin.get("id").in(tagIdList);
-                                predicates.add(tagPredicate);
-                                break;
-                        }
+                            Join<Product, Tag> tagJoin = root.join("tags");
+                            Predicate tagPredicate = tagJoin.get("id").in(tagIdList);
+                            predicates.add(tagPredicate);
+                            break;
+                        default:
+                            log.warn("Unknown filter key: {}", key);
                     }
-                });
-            }
+                }
+            });
 
             return builder.and(predicates.toArray(Predicate[]::new));
         };

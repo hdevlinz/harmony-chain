@@ -1,6 +1,6 @@
 # Server configuration
 server:
-   port: 8081
+   port: 8082
    servlet:
       context-path: /product
       encoding:
@@ -12,7 +12,7 @@ server:
 app:
    services:
       identity:
-         url: http://localhost:8080/identity
+         url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
 
 # Spring configuration
 spring:

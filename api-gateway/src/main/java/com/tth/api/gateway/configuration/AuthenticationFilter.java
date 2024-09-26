@@ -31,8 +31,6 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
 
     @NonFinal
     private static final List<String> PUBLIC_ENDPOINTS = Arrays.asList(
-            "/notification/email/send",
-
             "/identity/auth/token",
             "/identity/auth/refresh",
             "/identity/auth/logout",
@@ -42,9 +40,11 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             "/identity/shippers/.*",
             "/identity/suppliers",
             "/identity/suppliers/.*",
-
+            "/notification/email/send",
+            "/order/.*",
             "/product/.*",
-            "/inventory/.*"
+            "/profile/.*",
+            "/shipping/.*"
     );
 
     private final ObjectMapper objectMapper;

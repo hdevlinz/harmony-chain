@@ -1,14 +1,17 @@
 package com.tth.product.controller;
 
-import com.tth.product.entity.Product;
-import com.tth.product.mapper.ProductMapper;
+import com.tth.product.dto.APIResponse;
+import com.tth.product.dto.response.ProductDetailsResponse;
+import com.tth.product.dto.response.ProductListResponse;
 import com.tth.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @CrossOrigin
 @Transactional
@@ -18,7 +21,6 @@ import java.util.Map;
 public class APIProductController {
 
     private final ProductService productService;
-    private final ProductMapper productMapper;
 
     @GetMapping
     public ResponseEntity<?> listProducts(@RequestParam(required = false, defaultValue = "") Map<String, String> params,
@@ -27,11 +29,18 @@ public class APIProductController {
         return ResponseEntity.ok(this.productService.findAllWithFilter(params, page, size));
     }
 
-    @GetMapping("/{productId}")
-    public ResponseEntity<?> getProduct(@PathVariable(value = "productId") String productId) {
-        Product product = this.productService.findById(productId);
+    @PostMapping("/batch")
+    public ResponseEntity<?> getProductsInBatch(@RequestBody Set<String> productIds) {
+        List<ProductListResponse> products = this.productService.findAllInBatch(productIds);
 
-        return ResponseEntity.ok(this.productMapper.toProductDetailsResponse(product));
+        return ResponseEntity.ok(APIResponse.<List<ProductListResponse>>builder().result(products).build());
+    }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<?> getProduct(@PathVariable String productId) {
+        ProductDetailsResponse product = this.productService.findById(productId);
+
+        return ResponseEntity.ok(APIResponse.<ProductDetailsResponse>builder().result(product).build());
     }
 
 }

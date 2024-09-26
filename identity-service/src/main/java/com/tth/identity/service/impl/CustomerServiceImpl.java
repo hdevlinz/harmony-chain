@@ -30,8 +30,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public Customer findById(String id) {
-        return this.customerRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
+    public CustomerResponse findById(String customerId) {
+        Customer customer = this.customerRepository.findById(customerId)
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
+
+        return this.customerMapper.toCustomerResponse(customer);
     }
 
     @Override

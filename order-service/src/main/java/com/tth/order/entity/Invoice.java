@@ -1,10 +1,10 @@
 package com.tth.order.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -19,6 +19,9 @@ import java.util.UUID;
         @Index(name = "invoice_number_index", columnList = "invoice_number", unique = true),
 })
 public class Invoice extends BaseEntity implements Serializable {
+
+    @Column(name = "user_id", nullable = false)
+    private String userId;
 
     @Builder.Default
     @NotBlank(message = "{invoice.invoiceNumber.notNull}")
@@ -36,20 +39,12 @@ public class Invoice extends BaseEntity implements Serializable {
     @Column(name = "total_amount", nullable = false, precision = 11, scale = 2, columnDefinition = "decimal default 0.0")
     private BigDecimal totalAmount = BigDecimal.ZERO;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private User user;
+    @ManyToOne
+    @JoinColumn(name = "tax_id", referencedColumnName = "id")
+    private Tax tax;
 
     @OneToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "tax_id", referencedColumnName = "id")
-    private Tax tax;
-
-    @Override
-    public String toString() {
-        return "com.fh.scm.pojo.Invoice[ id=" + this.id + " ]";
-    }
 }

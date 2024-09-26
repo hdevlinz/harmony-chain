@@ -1,6 +1,6 @@
 # Server configuration
 server:
-   port: 8083
+   port: 8081
    servlet:
       context-path: /order
       encoding:
@@ -12,7 +12,9 @@ server:
 app:
    services:
       identity:
-         url: http://localhost:8080/identity
+         url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
+      product:
+         url: ${PRODUCT_SERVICE_URL:http://localhost:8082/product}
 
 # Spring configuration
 spring:
@@ -37,3 +39,6 @@ spring:
       multipart:
          max-file-size: 10MB
          max-request-size: 10MB
+
+stripe:
+   secret-key: ${STRIPE_SECRET_KEY:sk_test_51O41qGBy1BulLKF8u3JAYr4tDLkAXiR3UpjDbyJn3QR5Jfr84h62AVXmU9RPKgwjtIIUSKPKIlvsOZJeTUHfdzZu0013X6szi0}

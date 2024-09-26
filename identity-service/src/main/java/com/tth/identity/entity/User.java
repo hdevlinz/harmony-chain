@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 public class User extends BaseEntity implements Serializable {
 
     @Transient
+    @JsonIgnore
     private MultipartFile file;
 
     @NotNull(message = "{user.email.notNull}")

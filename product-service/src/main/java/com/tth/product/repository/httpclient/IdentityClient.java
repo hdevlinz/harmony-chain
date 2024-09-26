@@ -1,9 +1,11 @@
 package com.tth.product.repository.httpclient;
 
+import com.tth.product.dto.APIResponse;
 import com.tth.product.dto.PageResponse;
 import com.tth.product.dto.response.supplier.SupplierResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
@@ -15,5 +17,8 @@ public interface IdentityClient {
     PageResponse<SupplierResponse> listSuppliers(@RequestParam(required = false, defaultValue = "") Map<String, String> params,
                                                  @RequestParam(required = false, defaultValue = "1") int page,
                                                  @RequestParam(required = false, defaultValue = "10") int size);
+
+    @GetMapping(path = "/suppliers/{supplierId}")
+    APIResponse<SupplierResponse> getSupplier(@PathVariable String supplierId);
 
 }

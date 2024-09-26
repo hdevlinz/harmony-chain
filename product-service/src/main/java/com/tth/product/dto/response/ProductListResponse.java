@@ -1,5 +1,6 @@
 package com.tth.product.dto.response;
 
+import com.tth.product.dto.response.supplier.SupplierResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,5 +23,7 @@ public class ProductListResponse {
     private BigDecimal price;
 
     private String description;
+
+    private SupplierResponse supplier;
 
 }

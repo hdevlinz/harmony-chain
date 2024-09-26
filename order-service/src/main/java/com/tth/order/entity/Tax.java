@@ -1,10 +1,10 @@
 package com.tth.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -33,10 +33,6 @@ public class Tax extends BaseEntity implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "tax")
-    private Set<Invoice> invoiceSet;
+    private Set<Invoice> invoices;
 
-    @Override
-    public String toString() {
-        return "com.fh.scm.pojo.Tax[ id=" + this.id + " ]";
-    }
 }
