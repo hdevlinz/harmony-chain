@@ -2,7 +2,7 @@ package com.tth.identity.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tth.identity.enums.UserRole;
+import com.tth.commonlibrary.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -61,18 +61,6 @@ public class User extends BaseEntity implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private Customer customer;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private Supplier supplier;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private Shipper shipper;
 
 //    @ManyToMany
 //    @JoinTable(

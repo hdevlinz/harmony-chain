@@ -1,12 +1,10 @@
 package com.tth.product.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -16,21 +14,20 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "unit")
+@Document(collection = "unit")
 public class Unit extends BaseEntity implements Serializable {
 
     @NotNull(message = "{unit.name.notNull}")
     @NotBlank(message = "{unit.name.notNull}")
-    @Column(nullable = false, unique = true)
+    @Field(name = "name")
     private String name;
 
     @NotNull(message = "{unit.abbreviation.notNull}")
     @NotBlank(message = "{unit.abbreviation.notNull}")
-    @Column(nullable = false, unique = true)
+    @Field(name = "abbreviation")
     private String abbreviation;
 
-    @OneToMany(mappedBy = "unit")
+    //    @OneToMany(mappedBy = "unit")
     private Set<Product> products;
 
 }

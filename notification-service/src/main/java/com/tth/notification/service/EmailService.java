@@ -1,11 +1,11 @@
 package com.tth.notification.service;
 
+import com.tth.commonlibrary.enums.ErrorCode;
+import com.tth.commonlibrary.exception.AppException;
 import com.tth.notification.dto.request.EmailRequest;
 import com.tth.notification.dto.request.SendEmailRequest;
 import com.tth.notification.dto.request.Sender;
 import com.tth.notification.dto.response.SendEmailResponse;
-import com.tth.notification.enums.ErrorCode;
-import com.tth.notification.exception.AppException;
 import com.tth.notification.repository.EmailClient;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;

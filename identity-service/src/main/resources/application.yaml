@@ -24,7 +24,6 @@ spring:
       username: ${DBMS_USERNAME:root}
       password: ${DBMS_PASSWORD:root}
    jpa:
-      show-sql: true
       open-in-view: false
       hibernate:
          ddl-auto: update

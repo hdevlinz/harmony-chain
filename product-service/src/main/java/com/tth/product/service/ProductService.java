@@ -1,8 +1,8 @@
 package com.tth.product.service;
 
-import com.tth.product.dto.PageResponse;
-import com.tth.product.dto.response.ProductDetailsResponse;
-import com.tth.product.dto.response.ProductListResponse;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.response.product.ProductDetailsResponse;
+import com.tth.commonlibrary.dto.response.product.ProductListResponse;
 
 import java.util.List;
 import java.util.Map;

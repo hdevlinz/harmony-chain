@@ -1,9 +1,9 @@
 package com.tth.order.service.specification;
 
+import com.tth.commonlibrary.enums.OrderStatus;
+import com.tth.commonlibrary.enums.OrderType;
 import com.tth.order.entity.Order;
 import com.tth.order.entity.OrderDetails;
-import com.tth.order.enums.OrderStatus;
-import com.tth.order.enums.OrderType;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;

@@ -1,6 +1,6 @@
 package com.tth.product.mapper;
 
-import com.tth.product.dto.response.tag.TagResponse;
+import com.tth.commonlibrary.dto.response.tag.TagResponse;
 import com.tth.product.entity.Tag;
 import org.mapstruct.Mapper;
 

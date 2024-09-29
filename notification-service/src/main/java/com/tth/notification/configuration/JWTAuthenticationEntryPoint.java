@@ -1,8 +1,8 @@
 package com.tth.notification.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tth.notification.dto.APIResponse;
-import com.tth.notification.enums.ErrorCode;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.enums.ErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,7 +1,7 @@
 package com.tth.product.mapper;
 
-import com.tth.product.dto.response.ProductDetailsResponse;
-import com.tth.product.dto.response.ProductListResponse;
+import com.tth.commonlibrary.dto.response.product.ProductDetailsResponse;
+import com.tth.commonlibrary.dto.response.product.ProductListResponse;
 import com.tth.product.entity.Product;
 import com.tth.product.mapper.helper.ProductMappingHelper;
 import org.mapstruct.Mapper;

@@ -1,7 +1,7 @@
 package com.tth.shipping.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.tth.shipping.enums.DeliveryMethodType;
+import com.tth.commonlibrary.enums.DeliveryMethodType;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,8 +17,14 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document("delivery_schedule")
+@Document(collection = "delivery_schedule")
 public class DeliverySchedule extends BaseEntity implements Serializable {
+
+    @Field(name = "shipper_id")
+    private String shipperId;
+
+    @Field(name = "warehouse_id")
+    private String warehouseId;
 
     @NotNull(message = "{deliverySchedule.scheduledDate.notNull}")
     @DateTimeFormat(pattern = "dd-MM-yyyy")

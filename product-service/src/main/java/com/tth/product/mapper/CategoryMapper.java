@@ -1,6 +1,6 @@
 package com.tth.product.mapper;
 
-import com.tth.product.dto.response.category.CategoryResponse;
+import com.tth.commonlibrary.dto.response.category.CategoryResponse;
 import com.tth.product.entity.Category;
 import org.mapstruct.Mapper;
 

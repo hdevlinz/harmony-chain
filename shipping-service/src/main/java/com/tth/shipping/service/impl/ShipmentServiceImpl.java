@@ -1,6 +1,6 @@
 package com.tth.shipping.service.impl;
 
-import com.tth.shipping.dto.PageResponse;
+import com.tth.commonlibrary.dto.PageResponse;
 import com.tth.shipping.entity.Shipment;
 import com.tth.shipping.repository.ShipmentRepository;
 import com.tth.shipping.service.ShipmentService;

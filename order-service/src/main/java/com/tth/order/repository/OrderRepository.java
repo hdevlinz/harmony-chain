@@ -21,6 +21,6 @@ public interface OrderRepository extends JpaRepository<Order, String>, JpaSpecif
     @Query("SELECT o FROM Order o ORDER BY o.createdAt DESC LIMIT 10")
     List<Order> findRecentOrders();
 
-    Page<Order> findByDeliveryScheduleId(String deliveryScheduleId, Pageable pageable);
+    Page<Order> findByShipmentId(String shipmentId, Pageable pageable);
 
 }

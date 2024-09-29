@@ -1,9 +1,9 @@
 package com.tth.order.controller.crud;
 
-import com.tth.order.dto.APIResponse;
-import com.tth.order.dto.request.inventory.CreateInventoryRequest;
-import com.tth.order.dto.request.inventory.UpdateInventoryRequest;
-import com.tth.order.dto.response.inventory.InventoryResponse;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.request.inventory.CreateInventoryRequest;
+import com.tth.commonlibrary.dto.request.inventory.UpdateInventoryRequest;
+import com.tth.commonlibrary.dto.response.inventory.InventoryResponse;
 import com.tth.order.service.InventoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

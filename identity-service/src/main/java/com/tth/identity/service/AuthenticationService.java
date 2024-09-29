@@ -1,11 +1,11 @@
 package com.tth.identity.service;
 
 import com.nimbusds.jose.JOSEException;
-import com.tth.identity.dto.request.IntrospectRequest;
-import com.tth.identity.dto.request.LogoutRequest;
-import com.tth.identity.dto.request.RefreshTokenRequest;
-import com.tth.identity.dto.response.AuthenticationResponse;
-import com.tth.identity.dto.response.IntrospectResponse;
+import com.tth.commonlibrary.dto.request.identity.IntrospectRequest;
+import com.tth.commonlibrary.dto.request.identity.LogoutRequest;
+import com.tth.commonlibrary.dto.request.identity.RefreshTokenRequest;
+import com.tth.commonlibrary.dto.response.identity.AuthenticationResponse;
+import com.tth.commonlibrary.dto.response.identity.IntrospectResponse;
 
 import java.text.ParseException;
 

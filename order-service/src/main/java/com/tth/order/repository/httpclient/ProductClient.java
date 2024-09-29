@@ -1,9 +1,9 @@
 package com.tth.order.repository.httpclient;
 
-import com.tth.order.dto.APIResponse;
-import com.tth.order.dto.PageResponse;
-import com.tth.order.dto.response.product.ProductDetailsResponse;
-import com.tth.order.dto.response.product.ProductListResponse;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.response.product.ProductDetailsResponse;
+import com.tth.commonlibrary.dto.response.product.ProductListResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

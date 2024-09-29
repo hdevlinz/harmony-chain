@@ -1,11 +1,11 @@
 package com.tth.order.mapper.helper;
 
-import com.tth.order.dto.response.inventory.InventoryDetailsResponse;
-import com.tth.order.dto.response.product.ProductListResponse;
+import com.tth.commonlibrary.dto.response.inventory.InventoryDetailsResponse;
+import com.tth.commonlibrary.dto.response.product.ProductListResponse;
+import com.tth.commonlibrary.enums.ErrorCode;
+import com.tth.commonlibrary.exception.AppException;
 import com.tth.order.entity.InventoryDetails;
 import com.tth.order.entity.Warehouse;
-import com.tth.order.enums.ErrorCode;
-import com.tth.order.exception.AppException;
 import com.tth.order.repository.WarehouseRepository;
 import com.tth.order.repository.httpclient.ProductClient;
 import lombok.RequiredArgsConstructor;

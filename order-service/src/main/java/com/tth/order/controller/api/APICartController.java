@@ -1,8 +1,8 @@
 package com.tth.order.controller.api;
 
-import com.tth.order.dto.APIResponse;
-import com.tth.order.dto.request.product.ProductRequestAddToCart;
-import com.tth.order.dto.response.cart.CartDetailsResponse;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.request.product.ProductRequestAddToCart;
+import com.tth.commonlibrary.dto.response.cart.CartDetailsResponse;
 import com.tth.order.entity.Cart;
 import com.tth.order.service.CartService;
 import lombok.RequiredArgsConstructor;

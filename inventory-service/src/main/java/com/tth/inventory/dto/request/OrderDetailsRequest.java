@@ -1,0 +1,20 @@
+package com.tth.inventory.dto.request;
+
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderDetailsRequest {
+
+    @NotNull
+    private String productId;
+
+    private Float quantity;
+
+}

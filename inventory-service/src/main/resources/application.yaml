@@ -1,0 +1,43 @@
+# Server configuration
+server:
+   port: 8087
+   servlet:
+      context-path: /inventory
+      encoding:
+         charset: UTF-8
+         enabled: true
+         force: true
+
+# Application configuration
+app:
+   services:
+      identity:
+         url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
+      product:
+         url: ${PRODUCT_SERVICE_URL:http://localhost:8082/product}
+
+# Spring configuration
+spring:
+   application:
+      name: inventory-service
+   datasource:
+      url: ${DBMS_URL:jdbc:mysql://localhost:3306/inventory_service}
+      driverClassName: "com.mysql.cj.jdbc.Driver"
+      username: ${DBMS_USERNAME:root}
+      password: ${DBMS_PASSWORD:root}
+   jpa:
+      open-in-view: false
+      hibernate:
+         ddl-auto: update
+   kafka:
+      bootstrap-servers: localhost:9094
+      producer:
+         key-serializer: org.apache.kafka.common.serialization.StringSerializer
+         value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+   servlet:
+      multipart:
+         max-file-size: 10MB
+         max-request-size: 10MB
+
+stripe:
+   secret-key: ${STRIPE_SECRET_KEY:sk_test_51O41qGBy1BulLKF8u3JAYr4tDLkAXiR3UpjDbyJn3QR5Jfr84h62AVXmU9RPKgwjtIIUSKPKIlvsOZJeTUHfdzZu0013X6szi0}

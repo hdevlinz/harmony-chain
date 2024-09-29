@@ -1,13 +1,13 @@
 package com.tth.identity.controller;
 
 import com.nimbusds.jose.JOSEException;
-import com.tth.identity.dto.APIResponse;
-import com.tth.identity.dto.request.IntrospectRequest;
-import com.tth.identity.dto.request.LoginRequest;
-import com.tth.identity.dto.request.LogoutRequest;
-import com.tth.identity.dto.request.RefreshTokenRequest;
-import com.tth.identity.dto.response.AuthenticationResponse;
-import com.tth.identity.dto.response.IntrospectResponse;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.request.identity.IntrospectRequest;
+import com.tth.commonlibrary.dto.request.identity.LoginRequest;
+import com.tth.commonlibrary.dto.request.identity.LogoutRequest;
+import com.tth.commonlibrary.dto.request.identity.RefreshTokenRequest;
+import com.tth.commonlibrary.dto.response.identity.AuthenticationResponse;
+import com.tth.commonlibrary.dto.response.identity.IntrospectResponse;
 import com.tth.identity.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

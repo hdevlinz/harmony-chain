@@ -1,6 +1,6 @@
 package com.tth.order.mapper;
 
-import com.tth.order.dto.response.invoice.InvoiceResponse;
+import com.tth.commonlibrary.dto.response.invoice.InvoiceResponse;
 import com.tth.order.entity.Invoice;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,8 +1,8 @@
 package com.tth.product.controller;
 
-import com.tth.product.dto.APIResponse;
-import com.tth.product.dto.response.ProductDetailsResponse;
-import com.tth.product.dto.response.ProductListResponse;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.response.product.ProductDetailsResponse;
+import com.tth.commonlibrary.dto.response.product.ProductListResponse;
 import com.tth.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,10 @@
 package com.tth.product.entity;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -13,23 +14,22 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "tag")
+@Document(collection = "tag")
 public class Tag extends BaseEntity implements Serializable {
 
     @NotNull(message = "{tag.name.notNull}")
     @NotBlank(message = "{tag.name.notNull}")
-    @Column(nullable = false, unique = true)
+    @Field(name = "name")
     private String name;
 
     private String description;
 
-    @ManyToMany(mappedBy = "tags")
+    //    @ManyToMany(mappedBy = "tags")
     private Set<Product> products;
 
-    @PreRemove
-    private void removeTagFromProduct() {
-        this.products.forEach(product -> product.getTags().remove(this));
-    }
+//    @PreRemove
+//    private void removeTagFromProduct() {
+//        this.products.forEach(product -> product.getTags().remove(this));
+//    }
 
 }

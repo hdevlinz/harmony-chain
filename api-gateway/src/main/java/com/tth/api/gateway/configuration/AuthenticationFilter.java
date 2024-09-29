@@ -41,9 +41,12 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             "/identity/suppliers",
             "/identity/suppliers/.*",
             "/notification/email/send",
+            "/cart/.*",
+            "/inventory/.*",
             "/order/.*",
             "/product/.*",
             "/profile/.*",
+            "/rating/.*",
             "/shipping/.*"
     );
 

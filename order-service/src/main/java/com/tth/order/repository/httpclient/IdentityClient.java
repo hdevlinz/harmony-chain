@@ -1,7 +1,7 @@
 package com.tth.order.repository.httpclient;
 
-import com.tth.order.dto.APIResponse;
-import com.tth.order.dto.response.user.User;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.response.user.UserResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,6 +11,6 @@ import java.util.List;
 public interface IdentityClient {
 
     @GetMapping(path = "/internal/users")
-    APIResponse<List<User>> getAllUser();
+    APIResponse<List<UserResponse>> getAllUser();
 
 }

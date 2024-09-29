@@ -1,6 +1,6 @@
 package com.tth.order.mapper;
 
-import com.tth.order.dto.response.tax.TaxResponse;
+import com.tth.commonlibrary.dto.response.tax.TaxResponse;
 import com.tth.order.entity.Tax;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;

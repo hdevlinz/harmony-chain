@@ -1,6 +1,6 @@
 package com.tth.order.service.impl;
 
-import com.tth.order.dto.PageResponse;
+import com.tth.commonlibrary.dto.PageResponse;
 import com.tth.order.entity.Tax;
 import com.tth.order.repository.TaxRepository;
 import com.tth.order.service.TaxService;

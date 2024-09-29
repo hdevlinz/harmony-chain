@@ -1,0 +1,32 @@
+# Server configuration
+server:
+   port: 8085
+   servlet:
+      context-path: /rating
+      encoding:
+         charset: UTF-8
+         enabled: true
+         force: true
+
+# Application configuration
+app:
+   services:
+      identity:
+         url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
+
+# Spring configuration
+spring:
+   application:
+      name: rating-service
+   data:
+      mongodb:
+         uri: ${MONGODB_URI:mongodb://root:root@localhost:27017/rating_service?authSource=admin}
+   kafka:
+      bootstrap-servers: localhost:9094
+      producer:
+         key-serializer: org.apache.kafka.common.serialization.StringSerializer
+         value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+   servlet:
+      multipart:
+         max-file-size: 10MB
+         max-request-size: 10MB

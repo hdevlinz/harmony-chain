@@ -1,8 +1,8 @@
 package com.tth.product.repository.httpclient;
 
-import com.tth.product.dto.APIResponse;
-import com.tth.product.dto.PageResponse;
-import com.tth.product.dto.response.supplier.SupplierResponse;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.response.supplier.SupplierResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

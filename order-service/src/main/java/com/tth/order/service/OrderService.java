@@ -1,9 +1,9 @@
 package com.tth.order.service;
 
-import com.tth.order.dto.PageResponse;
-import com.tth.order.dto.request.OrderRequest;
-import com.tth.order.dto.response.OrderResponse;
-import com.tth.order.dto.response.user.User;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.request.order.OrderRequest;
+import com.tth.commonlibrary.dto.response.order.OrderResponse;
+import com.tth.commonlibrary.dto.response.user.UserResponse;
 import com.tth.order.entity.Order;
 
 import java.util.List;
@@ -13,9 +13,9 @@ public interface OrderService {
 
     OrderResponse findByOrderNumber(String orderNumber);
 
-    void checkout(OrderRequest orderRequest, User user);
+    void checkout(OrderRequest orderRequest, UserResponse user);
 
-    void checkin(OrderRequest orderRequest, User user);
+    void checkin(OrderRequest orderRequest, UserResponse user);
 
     void cancelOrder(String orderNumber);
 
@@ -25,7 +25,7 @@ public interface OrderService {
 
     PageResponse<Order> findAllByParams(Map<String, String> params, int page, int size);
 
-    PageResponse<Order> findByDeliveryScheduleId(String deliveryScheduleId, int page, int size);
+    PageResponse<Order> findByShipmentId(String deliveryScheduleId, int page, int size);
 
     PageResponse<OrderResponse> findAllOrderOfAuthenticated(Map<String, String> params, int page, int size);
 

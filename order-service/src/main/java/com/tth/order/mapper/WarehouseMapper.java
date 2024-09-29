@@ -1,8 +1,8 @@
 package com.tth.order.mapper;
 
-import com.tth.order.dto.request.warehouse.CreateWarehouseRequest;
-import com.tth.order.dto.request.warehouse.UpdateWarehouseRequest;
-import com.tth.order.dto.response.warehouse.WarehouseResponse;
+import com.tth.commonlibrary.dto.request.warehouse.CreateWarehouseRequest;
+import com.tth.commonlibrary.dto.request.warehouse.UpdateWarehouseRequest;
+import com.tth.commonlibrary.dto.response.warehouse.WarehouseResponse;
 import com.tth.order.entity.Warehouse;
 import org.mapstruct.*;
 

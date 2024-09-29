@@ -1,6 +1,6 @@
 package com.tth.identity.controller.internal;
 
-import com.tth.identity.dto.APIResponse;
+import com.tth.commonlibrary.dto.APIResponse;
 import com.tth.identity.entity.User;
 import com.tth.identity.service.UserService;
 import lombok.RequiredArgsConstructor;

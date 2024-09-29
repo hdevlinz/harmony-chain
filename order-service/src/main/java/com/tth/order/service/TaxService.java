@@ -1,6 +1,6 @@
 package com.tth.order.service;
 
-import com.tth.order.dto.PageResponse;
+import com.tth.commonlibrary.dto.PageResponse;
 import com.tth.order.entity.Tax;
 
 import java.util.Map;

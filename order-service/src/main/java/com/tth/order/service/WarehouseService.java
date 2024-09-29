@@ -1,9 +1,9 @@
 package com.tth.order.service;
 
-import com.tth.order.dto.PageResponse;
-import com.tth.order.dto.request.warehouse.CreateWarehouseRequest;
-import com.tth.order.dto.request.warehouse.UpdateWarehouseRequest;
-import com.tth.order.dto.response.warehouse.WarehouseResponse;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.request.warehouse.CreateWarehouseRequest;
+import com.tth.commonlibrary.dto.request.warehouse.UpdateWarehouseRequest;
+import com.tth.commonlibrary.dto.response.warehouse.WarehouseResponse;
 
 import java.util.Map;
 

@@ -1,7 +1,7 @@
 package com.tth.order.mapper;
 
-import com.tth.order.dto.response.OrderDetailsReponse;
-import com.tth.order.dto.response.OrderResponse;
+import com.tth.commonlibrary.dto.response.order.OrderDetailsReponse;
+import com.tth.commonlibrary.dto.response.order.OrderResponse;
 import com.tth.order.entity.Order;
 import com.tth.order.entity.OrderDetails;
 import org.mapstruct.Mapper;

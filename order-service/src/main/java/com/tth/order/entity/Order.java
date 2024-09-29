@@ -2,8 +2,8 @@ package com.tth.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tth.order.enums.OrderStatus;
-import com.tth.order.enums.OrderType;
+import com.tth.commonlibrary.enums.OrderStatus;
+import com.tth.commonlibrary.enums.OrderType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -28,8 +28,8 @@ public class Order extends BaseEntity implements Serializable {
     @Column(name = "user_id", nullable = false)
     private String userId;
 
-    @Column(name = "delivery_schedule_id")
-    private String deliveryScheduleId;
+    @Column(name = "shipment_id")
+    private String shipmentId;
 
     @Builder.Default
     @NotNull(message = "{order.orderNumber.notNull}")

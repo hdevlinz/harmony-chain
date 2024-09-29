@@ -1,7 +1,7 @@
 package com.tth.order.service;
 
-import com.tth.order.dto.request.product.ProductRequestAddToCart;
-import com.tth.order.dto.response.cart.CartDetailsResponse;
+import com.tth.commonlibrary.dto.request.product.ProductRequestAddToCart;
+import com.tth.commonlibrary.dto.response.cart.CartDetailsResponse;
 import com.tth.order.entity.Cart;
 
 import java.util.Map;

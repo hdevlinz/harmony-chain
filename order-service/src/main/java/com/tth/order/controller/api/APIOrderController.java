@@ -1,8 +1,8 @@
 package com.tth.order.controller.api;
 
-import com.tth.order.dto.APIResponse;
-import com.tth.order.dto.request.OrderRequest;
-import com.tth.order.dto.response.OrderResponse;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.request.order.OrderRequest;
+import com.tth.commonlibrary.dto.response.order.OrderResponse;
 import com.tth.order.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

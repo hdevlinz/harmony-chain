@@ -1,9 +1,9 @@
 package com.tth.order.service;
 
-import com.tth.order.dto.PageResponse;
-import com.tth.order.dto.request.inventory.CreateInventoryRequest;
-import com.tth.order.dto.request.inventory.UpdateInventoryRequest;
-import com.tth.order.dto.response.inventory.InventoryResponse;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.request.inventory.CreateInventoryRequest;
+import com.tth.commonlibrary.dto.request.inventory.UpdateInventoryRequest;
+import com.tth.commonlibrary.dto.response.inventory.InventoryResponse;
 
 import java.util.Map;
 

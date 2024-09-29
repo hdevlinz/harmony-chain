@@ -1,12 +1,12 @@
 package com.tth.product.repository;
 
 import com.tth.product.entity.Product;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.tth.product.repository.specification.ProductSpecification;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, String>, JpaSpecificationExecutor<Product> {
+public interface ProductRepository extends MongoRepository<Product, String>, ProductSpecification {
 
     Iterable<Product> findByName(String productName);
 

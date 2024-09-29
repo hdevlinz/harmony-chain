@@ -1,9 +1,9 @@
 package com.tth.order.mapper;
 
-import com.tth.order.dto.request.inventory.CreateInventoryRequest;
-import com.tth.order.dto.request.inventory.UpdateInventoryRequest;
-import com.tth.order.dto.response.inventory.InventoryDetailsResponse;
-import com.tth.order.dto.response.inventory.InventoryResponse;
+import com.tth.commonlibrary.dto.request.inventory.CreateInventoryRequest;
+import com.tth.commonlibrary.dto.request.inventory.UpdateInventoryRequest;
+import com.tth.commonlibrary.dto.response.inventory.InventoryDetailsResponse;
+import com.tth.commonlibrary.dto.response.inventory.InventoryResponse;
 import com.tth.order.entity.Inventory;
 import com.tth.order.entity.InventoryDetails;
 import com.tth.order.mapper.helper.InventoryHelper;

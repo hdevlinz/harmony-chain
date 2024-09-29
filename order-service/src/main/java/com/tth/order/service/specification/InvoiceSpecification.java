@@ -1,7 +1,7 @@
 package com.tth.order.service.specification;
 
+import com.tth.commonlibrary.util.Utils;
 import com.tth.order.entity.Invoice;
-import com.tth.order.util.Utils;
 import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;

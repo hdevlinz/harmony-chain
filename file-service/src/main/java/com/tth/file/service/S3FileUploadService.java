@@ -1,6 +1,6 @@
 package com.tth.file.service;
 
-import com.tth.file.enums.FileCategory;
+import com.tth.commonlibrary.enums.FileCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

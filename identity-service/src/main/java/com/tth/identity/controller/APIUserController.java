@@ -1,9 +1,9 @@
 package com.tth.identity.controller;
 
-import com.tth.identity.dto.APIResponse;
-import com.tth.identity.dto.request.RegisterRequest;
-import com.tth.identity.dto.request.UpdateRequest;
-import com.tth.identity.dto.response.UserResponse;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.request.identity.RegisterRequest;
+import com.tth.commonlibrary.dto.request.identity.UpdateRequest;
+import com.tth.commonlibrary.dto.response.identity.UserResponse;
 import com.tth.identity.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

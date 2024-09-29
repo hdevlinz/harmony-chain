@@ -1,8 +1,8 @@
 package com.tth.identity.service.specification;
 
+import com.tth.commonlibrary.enums.UserRole;
+import com.tth.commonlibrary.util.Utils;
 import com.tth.identity.entity.User;
-import com.tth.identity.enums.UserRole;
-import com.tth.identity.util.Utils;
 import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;

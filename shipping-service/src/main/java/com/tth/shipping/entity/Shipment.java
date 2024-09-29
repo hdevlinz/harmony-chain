@@ -1,6 +1,6 @@
 package com.tth.shipping.entity;
 
-import com.tth.shipping.enums.ShipmentStatus;
+import com.tth.commonlibrary.enums.ShipmentStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,14 +15,8 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document("shipment")
+@Document(collection = "shipment")
 public class Shipment extends BaseEntity implements Serializable {
-
-    @Field(name = "shipper_id")
-    private String shipperId;
-
-    @Field(name = "warehouse_id")
-    private String warehouseId;
 
     @Builder.Default
     @NotNull(message = "{shipment.cost.notNull}")

@@ -1,9 +1,9 @@
 package com.tth.order.controller.crud;
 
-import com.tth.order.dto.APIResponse;
-import com.tth.order.dto.request.warehouse.CreateWarehouseRequest;
-import com.tth.order.dto.request.warehouse.UpdateWarehouseRequest;
-import com.tth.order.dto.response.warehouse.WarehouseResponse;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.request.warehouse.CreateWarehouseRequest;
+import com.tth.commonlibrary.dto.request.warehouse.UpdateWarehouseRequest;
+import com.tth.commonlibrary.dto.response.warehouse.WarehouseResponse;
 import com.tth.order.service.WarehouseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

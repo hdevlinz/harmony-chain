@@ -1,16 +1,16 @@
 package com.tth.order.service.impl;
 
-import com.tth.order.dto.PageResponse;
-import com.tth.order.dto.request.OrderDetailsRequest;
-import com.tth.order.dto.request.OrderRequest;
-import com.tth.order.dto.response.OrderResponse;
-import com.tth.order.dto.response.product.ProductListResponse;
-import com.tth.order.dto.response.user.User;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.request.order.OrderDetailsRequest;
+import com.tth.commonlibrary.dto.request.order.OrderRequest;
+import com.tth.commonlibrary.dto.response.order.OrderResponse;
+import com.tth.commonlibrary.dto.response.product.ProductListResponse;
+import com.tth.commonlibrary.dto.response.user.UserResponse;
+import com.tth.commonlibrary.enums.ErrorCode;
+import com.tth.commonlibrary.enums.OrderStatus;
+import com.tth.commonlibrary.enums.OrderType;
+import com.tth.commonlibrary.exception.AppException;
 import com.tth.order.entity.*;
-import com.tth.order.enums.ErrorCode;
-import com.tth.order.enums.OrderStatus;
-import com.tth.order.enums.OrderType;
-import com.tth.order.exception.AppException;
 import com.tth.order.mapper.OrderMapper;
 import com.tth.order.repository.*;
 import com.tth.order.repository.httpclient.ProductClient;
@@ -58,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void checkout(OrderRequest orderRequest, User usert) {
+    public void checkout(OrderRequest orderRequest, UserResponse usert) {
         Authentication user;
         if (usert == null) {
             user = SecurityContextHolder.getContext().getAuthentication();
@@ -140,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void checkin(OrderRequest orderRequest, User usert) {
+    public void checkin(OrderRequest orderRequest, UserResponse usert) {
         Authentication user;
         if (usert == null) {
             user = SecurityContextHolder.getContext().getAuthentication();
@@ -335,9 +335,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PageResponse<Order> findByDeliveryScheduleId(String deliveryScheduleId, int page, int size) {
+    public PageResponse<Order> findByShipmentId(String deliveryScheduleId, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Order> orders = this.orderRepository.findByDeliveryScheduleId(deliveryScheduleId, pageable);
+        Page<Order> orders = this.orderRepository.findByShipmentId(deliveryScheduleId, pageable);
 
         return PageResponse.of(orders);
     }

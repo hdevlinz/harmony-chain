@@ -1,12 +1,12 @@
 package com.tth.order.service.impl;
 
-import com.tth.order.dto.PageResponse;
-import com.tth.order.dto.request.inventory.CreateInventoryRequest;
-import com.tth.order.dto.request.inventory.UpdateInventoryRequest;
-import com.tth.order.dto.response.inventory.InventoryResponse;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.request.inventory.CreateInventoryRequest;
+import com.tth.commonlibrary.dto.request.inventory.UpdateInventoryRequest;
+import com.tth.commonlibrary.dto.response.inventory.InventoryResponse;
+import com.tth.commonlibrary.enums.ErrorCode;
+import com.tth.commonlibrary.exception.AppException;
 import com.tth.order.entity.Inventory;
-import com.tth.order.enums.ErrorCode;
-import com.tth.order.exception.AppException;
 import com.tth.order.mapper.InventoryMapper;
 import com.tth.order.repository.InventoryRepository;
 import com.tth.order.repository.WarehouseRepository;
