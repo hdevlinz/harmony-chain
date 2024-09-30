@@ -1,9 +1,9 @@
 package com.tth.inventory.service;
 
-import com.tth.order.dto.PageResponse;
-import com.tth.order.dto.request.warehouse.CreateWarehouseRequest;
-import com.tth.order.dto.request.warehouse.UpdateWarehouseRequest;
-import com.tth.order.dto.response.warehouse.WarehouseResponse;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.request.warehouse.WarehouseRequestCreate;
+import com.tth.commonlibrary.dto.request.warehouse.WarehouseRequestUpdate;
+import com.tth.commonlibrary.dto.response.inventory.warehouse.WarehouseResponse;
 
 import java.util.Map;
 
@@ -11,9 +11,9 @@ public interface WarehouseService {
 
     WarehouseResponse findById(String warehouseId);
 
-    WarehouseResponse create(CreateWarehouseRequest request);
+    WarehouseResponse create(WarehouseRequestCreate request);
 
-    WarehouseResponse update(String warehouseId, UpdateWarehouseRequest request);
+    WarehouseResponse update(String warehouseId, WarehouseRequestUpdate request);
 
     void delete(String warehouseId);
 

@@ -1,9 +1,8 @@
 package com.tth.profile.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tth.profile.dto.APIResponse;
-import com.tth.profile.enums.ErrorCode;
-import jakarta.servlet.ServletException;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.enums.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
@@ -15,7 +14,7 @@ import java.io.IOException;
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         response.setStatus(ErrorCode.UNAUTHENTICATED.getHttpStatusCode().value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 

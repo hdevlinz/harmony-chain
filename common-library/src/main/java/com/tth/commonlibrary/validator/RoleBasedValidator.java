@@ -18,7 +18,7 @@ public class RoleBasedValidator implements ConstraintValidator<RoleBasedConstrai
 
         return switch (request.getRole()) {
             case UserRole.ROLE_CUSTOMER -> this.validateCustomer(request, context);
-            case UserRole.ROLE_SHIPPER -> this.validateShipper(request, context);
+            case UserRole.ROLE_CARRIER -> this.validateShipper(request, context);
             case UserRole.ROLE_SUPPLIER -> this.validateSupplier(request, context);
             default -> true;
         };
@@ -69,13 +69,13 @@ public class RoleBasedValidator implements ConstraintValidator<RoleBasedConstrai
     private boolean validateShipper(RegisterRequest request, ConstraintValidatorContext context) {
         boolean isValid = true;
 
-        if (request.getShipperName() == null || request.getShipperName().isEmpty()) {
+        if (request.getCarrierName() == null || request.getCarrierName().isEmpty()) {
             context.buildConstraintViolationWithTemplate("{shipper.name.notNull}")
                     .addPropertyNode("shipperName").addConstraintViolation();
             isValid = false;
         }
 
-        if (request.getShipperContactInfo() == null || request.getShipperContactInfo().isEmpty()) {
+        if (request.getCarrierContactInfo() == null || request.getCarrierContactInfo().isEmpty()) {
             context.buildConstraintViolationWithTemplate("{shipper.contactInfo.notNull}")
                     .addPropertyNode("shipperContactInfo").addConstraintViolation();
             isValid = false;

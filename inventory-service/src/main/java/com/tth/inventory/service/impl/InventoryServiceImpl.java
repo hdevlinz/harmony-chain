@@ -1,17 +1,16 @@
 package com.tth.inventory.service.impl;
 
-import com.tth.order.dto.PageResponse;
-import com.tth.order.dto.request.inventory.CreateInventoryRequest;
-import com.tth.order.dto.request.inventory.UpdateInventoryRequest;
-import com.tth.order.dto.response.inventory.InventoryResponse;
-import com.tth.order.entity.Inventory;
-import com.tth.order.enums.ErrorCode;
-import com.tth.order.exception.AppException;
-import com.tth.order.mapper.InventoryMapper;
-import com.tth.order.repository.InventoryRepository;
-import com.tth.order.repository.WarehouseRepository;
-import com.tth.order.service.InventoryService;
-import com.tth.order.service.specification.InventorySpecification;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.request.inventory.InventoryRequestCreate;
+import com.tth.commonlibrary.dto.request.inventory.InventoryRequestUpdate;
+import com.tth.commonlibrary.dto.response.inventory.InventoryResponse;
+import com.tth.commonlibrary.enums.ErrorCode;
+import com.tth.commonlibrary.exception.AppException;
+import com.tth.inventory.entity.Inventory;
+import com.tth.inventory.mapper.InventoryMapper;
+import com.tth.inventory.repository.InventoryRepository;
+import com.tth.inventory.service.InventoryService;
+import com.tth.inventory.service.specification.InventorySpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +27,6 @@ import java.util.Map;
 public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
-    private final WarehouseRepository warehouseRepository;
     private final InventoryMapper inventoryMapper;
 
     @Override
@@ -40,7 +38,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public InventoryResponse create(CreateInventoryRequest request) {
+    public InventoryResponse create(InventoryRequestCreate request) {
         Inventory inventory = this.inventoryMapper.toInventory(request);
         inventory = this.inventoryRepository.save(inventory);
 
@@ -48,7 +46,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public InventoryResponse update(String inventoryId, UpdateInventoryRequest request) {
+    public InventoryResponse update(String inventoryId, InventoryRequestUpdate request) {
         Inventory inventory = this.inventoryRepository.findById(inventoryId)
                 .orElseThrow(() -> new AppException(ErrorCode.INVENTORY_NOT_FOUND));
 

@@ -13,6 +13,8 @@ app:
    services:
       file:
          url: ${FILE_SERVICE_URL:http://localhost:8886/file}
+      profile:
+         url: ${PROFILE_SERVICE_URL:http://localhost:8083/profile}
 
 # Spring configuration
 spring:

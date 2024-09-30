@@ -28,7 +28,7 @@ public class AppInitializerConfigs {
                         .build());
 
                 this.createCustomer(userService);
-                this.createShipper(userService);
+                this.createCarrier(userService);
                 this.createSupplier(userService);
             }
 
@@ -42,9 +42,9 @@ public class AppInitializerConfigs {
                 .username("customer1")
                 .password("customer1")
                 .role(UserRole.ROLE_CUSTOMER)
-                .customerFirstName("First shipperName 1")
-                .customerMiddleName("Middle shipperName 1")
-                .customerLastName("Last shipperName 1")
+                .customerFirstName("First customerName 1")
+                .customerMiddleName("Middle customerName 1")
+                .customerLastName("Last customerName 1")
                 .customerAddress("TPHCM")
                 .customerPhone("0123456789")
                 .build());
@@ -53,9 +53,9 @@ public class AppInitializerConfigs {
                 .username("customer2")
                 .password("customer2")
                 .role(UserRole.ROLE_CUSTOMER)
-                .customerFirstName("First shipperName 2")
-                .customerMiddleName("Middle shipperName 2")
-                .customerLastName("Last shipperName 2")
+                .customerFirstName("First customerName 2")
+                .customerMiddleName("Middle customerName 2")
+                .customerLastName("Last customerName 2")
                 .customerAddress("TPHCM")
                 .customerPhone("9872635196")
                 .build());
@@ -64,9 +64,9 @@ public class AppInitializerConfigs {
                 .username("customer3")
                 .password("customer3")
                 .role(UserRole.ROLE_CUSTOMER)
-                .customerFirstName("First shipperName 3")
-                .customerMiddleName("Middle shipperName 3")
-                .customerLastName("Last shipperName 3")
+                .customerFirstName("First customerName 3")
+                .customerMiddleName("Middle customerName 3")
+                .customerLastName("Last customerName 3")
                 .customerAddress("TPHCM")
                 .customerPhone("2781764019")
                 .build());
@@ -75,9 +75,9 @@ public class AppInitializerConfigs {
                 .username("customer4")
                 .password("customer4")
                 .role(UserRole.ROLE_CUSTOMER)
-                .customerFirstName("First shipperName 4")
-                .customerMiddleName("Middle shipperName 4")
-                .customerLastName("Last shipperName 4")
+                .customerFirstName("First customerName 4")
+                .customerMiddleName("Middle customerName 4")
+                .customerLastName("Last customerName 4")
                 .customerAddress("TPHCM")
                 .customerPhone("2781236019")
                 .build());
@@ -86,54 +86,54 @@ public class AppInitializerConfigs {
                 .username("customer5")
                 .password("customer5")
                 .role(UserRole.ROLE_CUSTOMER)
-                .customerFirstName("First shipperName 5")
-                .customerMiddleName("Middle shipperName 5")
-                .customerLastName("Last shipperName 5")
+                .customerFirstName("First customerName 5")
+                .customerMiddleName("Middle customerName 5")
+                .customerLastName("Last customerName 5")
                 .customerAddress("TPHCM")
                 .customerPhone("2781764059")
                 .build());
     }
 
-    private void createShipper(UserService userService) {
+    private void createCarrier(UserService userService) {
         userService.registration(RegisterRequest.builder()
-                .email("shipper1@scm.com")
-                .username("shipper1")
-                .password("shipper1")
-                .role(UserRole.ROLE_SHIPPER)
-                .shipperName("Shipper 1")
-                .shipperContactInfo("0987654321")
+                .email("carrier1@scm.com")
+                .username("carrier1")
+                .password("carrier1")
+                .role(UserRole.ROLE_CARRIER)
+                .carrierName("Carrier 1")
+                .carrierContactInfo("0987654321")
                 .build());
         userService.registration(RegisterRequest.builder()
-                .email("shipper2@scm.com")
-                .username("shipper2")
-                .password("shipper2")
-                .role(UserRole.ROLE_SHIPPER)
-                .shipperName("Shipper 2")
-                .shipperContactInfo("8239184751")
+                .email("carrier2@scm.com")
+                .username("carrier2")
+                .password("carrier2")
+                .role(UserRole.ROLE_CARRIER)
+                .carrierName("Carrier 2")
+                .carrierContactInfo("8239184751")
                 .build());
         userService.registration(RegisterRequest.builder()
-                .email("shipper3@scm.com")
-                .username("shipper3")
-                .password("shipper3")
-                .role(UserRole.ROLE_SHIPPER)
-                .shipperName("Shipper 3")
-                .shipperContactInfo("2617384928")
+                .email("carrier3@scm.com")
+                .username("carrier3")
+                .password("carrier3")
+                .role(UserRole.ROLE_CARRIER)
+                .carrierName("Carrier 3")
+                .carrierContactInfo("2617384928")
                 .build());
         userService.registration(RegisterRequest.builder()
-                .email("shipper4@scm.com")
-                .username("shipper4")
-                .password("shipper4")
-                .role(UserRole.ROLE_SHIPPER)
-                .shipperName("Shipper 4")
-                .shipperContactInfo("2617324928")
+                .email("carrier4@scm.com")
+                .username("carrier4")
+                .password("carrier4")
+                .role(UserRole.ROLE_CARRIER)
+                .carrierName("Carrier 4")
+                .carrierContactInfo("2617324928")
                 .build());
         userService.registration(RegisterRequest.builder()
-                .email("shipper5@scm.com")
-                .username("shipper5")
-                .password("shipper5")
-                .role(UserRole.ROLE_SHIPPER)
-                .shipperName("Shipper 5")
-                .shipperContactInfo("2117324928")
+                .email("carrier5@scm.com")
+                .username("carrier5")
+                .password("carrier5")
+                .role(UserRole.ROLE_CARRIER)
+                .carrierName("Carrier 5")
+                .carrierContactInfo("2117324928")
                 .build());
     }
 

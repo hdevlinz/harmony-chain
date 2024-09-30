@@ -1,9 +1,9 @@
 package com.tth.inventory.service;
 
-import com.tth.order.dto.PageResponse;
-import com.tth.order.dto.request.inventory.CreateInventoryRequest;
-import com.tth.order.dto.request.inventory.UpdateInventoryRequest;
-import com.tth.order.dto.response.inventory.InventoryResponse;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.request.inventory.InventoryRequestCreate;
+import com.tth.commonlibrary.dto.request.inventory.InventoryRequestUpdate;
+import com.tth.commonlibrary.dto.response.inventory.InventoryResponse;
 
 import java.util.Map;
 
@@ -11,9 +11,9 @@ public interface InventoryService {
 
     InventoryResponse findById(String id);
 
-    InventoryResponse create(CreateInventoryRequest request);
+    InventoryResponse create(InventoryRequestCreate request);
 
-    InventoryResponse update(String inventoryId, UpdateInventoryRequest request);
+    InventoryResponse update(String inventoryId, InventoryRequestUpdate request);
 
     void delete(String inventoryId);
 

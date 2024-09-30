@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 public enum UserRole {
 
     ROLE_ADMIN("Quản trị viên"),
+    ROLE_CARRIER("Đối tác vận chuyển"),
     ROLE_CUSTOMER("Khách hàng"),
+    ROLE_SUPPLIER("Nhà cung cấp"),
     ROLE_DISTRIBUTOR("Nhà phân phối"),
-    ROLE_MANUFACTURER("Nhà sản xuất"),
-    ROLE_SHIPPER("Nhà vận chuyển"),
-    ROLE_SUPPLIER("Nhà cung cấp");
+    ROLE_MANUFACTURER("Nhà sản xuất");
 
     private final String displayName;
 

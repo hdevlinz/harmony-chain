@@ -1,7 +1,7 @@
 package com.tth.product.service;
 
 import com.tth.commonlibrary.dto.PageResponse;
-import com.tth.commonlibrary.dto.response.tag.TagResponse;
+import com.tth.commonlibrary.dto.response.product.tag.TagResponse;
 
 import java.util.Map;
 

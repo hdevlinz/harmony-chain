@@ -49,6 +49,10 @@ public class SecurityConfigs {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         httpSecurity.authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.POST, "/ratings/**").authenticated()
+                .requestMatchers(HttpMethod.PATCH, "/ratings/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/ratings/**").authenticated()
+                .requestMatchers("/ratings/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/**").authenticated()

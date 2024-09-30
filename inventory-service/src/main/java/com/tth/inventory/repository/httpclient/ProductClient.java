@@ -1,11 +1,13 @@
 package com.tth.inventory.repository.httpclient;
 
-import com.tth.order.dto.APIResponse;
-import com.tth.order.dto.PageResponse;
-import com.tth.order.dto.response.product.ProductDetailsResponse;
-import com.tth.order.dto.response.product.ProductListResponse;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.response.product.ProductListResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -21,8 +23,5 @@ public interface ProductClient {
 
     @PostMapping(path = "/products/batch")
     APIResponse<List<ProductListResponse>> getProductsInBatch(@RequestBody Set<String> productIds);
-
-    @GetMapping("/products/{productId}")
-    APIResponse<ProductDetailsResponse> getProduct(@PathVariable String productId);
 
 }

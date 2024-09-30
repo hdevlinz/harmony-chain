@@ -19,11 +19,9 @@ import java.math.BigDecimal;
 @Document(collection = "rating")
 public class Rating extends BaseEntity implements Serializable {
 
-    //    @ManyToOne(optional = false)
     @Field(name = "supplier_id")
     private String supplierId;
 
-    //    @ManyToOne(optional = false)
     @Field(name = "user_id")
     private String userId;
 

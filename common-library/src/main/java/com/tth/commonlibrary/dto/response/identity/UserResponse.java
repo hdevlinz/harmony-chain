@@ -2,9 +2,7 @@ package com.tth.commonlibrary.dto.response.identity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tth.commonlibrary.dto.response.customer.CustomerResponse;
-import com.tth.commonlibrary.dto.response.shipper.ShipperResponse;
-import com.tth.commonlibrary.dto.response.supplier.SupplierResponse;
+import com.tth.commonlibrary.dto.response.profile.UserProfileResponse;
 import com.tth.commonlibrary.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,17 +18,17 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponse {
 
-    // User
     private String email;
+
     private String username;
+
     private String avatar;
+
     private UserRole role;
+
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime lastLogin;
 
-    // Instance
-    private CustomerResponse customer;
-    private ShipperResponse shipper;
-    private SupplierResponse supplier;
+    private UserProfileResponse profile;
 
 }

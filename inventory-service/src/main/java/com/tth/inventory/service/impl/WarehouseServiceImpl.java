@@ -1,16 +1,16 @@
 package com.tth.inventory.service.impl;
 
-import com.tth.order.dto.PageResponse;
-import com.tth.order.dto.request.warehouse.CreateWarehouseRequest;
-import com.tth.order.dto.request.warehouse.UpdateWarehouseRequest;
-import com.tth.order.dto.response.warehouse.WarehouseResponse;
-import com.tth.order.entity.Warehouse;
-import com.tth.order.enums.ErrorCode;
-import com.tth.order.exception.AppException;
-import com.tth.order.mapper.WarehouseMapper;
-import com.tth.order.repository.WarehouseRepository;
-import com.tth.order.service.WarehouseService;
-import com.tth.order.service.specification.WarehouseSpecification;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.request.warehouse.WarehouseRequestCreate;
+import com.tth.commonlibrary.dto.request.warehouse.WarehouseRequestUpdate;
+import com.tth.commonlibrary.dto.response.inventory.warehouse.WarehouseResponse;
+import com.tth.commonlibrary.enums.ErrorCode;
+import com.tth.commonlibrary.exception.AppException;
+import com.tth.inventory.entity.Warehouse;
+import com.tth.inventory.mapper.WarehouseMapper;
+import com.tth.inventory.repository.WarehouseRepository;
+import com.tth.inventory.service.WarehouseService;
+import com.tth.inventory.service.specification.WarehouseSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,7 +38,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public WarehouseResponse create(CreateWarehouseRequest request) {
+    public WarehouseResponse create(WarehouseRequestCreate request) {
         if (this.warehouseRepository.existsByName(request.getName())) {
             throw new AppException(ErrorCode.WAREHOUSE_EXISTS);
         }
@@ -50,7 +50,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public WarehouseResponse update(String warehouseId, UpdateWarehouseRequest request) {
+    public WarehouseResponse update(String warehouseId, WarehouseRequestUpdate request) {
         if (this.warehouseRepository.existsByName(request.getName())) {
             throw new AppException(ErrorCode.WAREHOUSE_EXISTS);
         }

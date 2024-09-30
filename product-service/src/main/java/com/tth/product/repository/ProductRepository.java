@@ -10,8 +10,6 @@ public interface ProductRepository extends MongoRepository<Product, String>, Pro
 
     Iterable<Product> findByName(String productName);
 
-    Iterable<Product> findByUnitId(String unitId);
-
     Iterable<Product> findByCategoryId(String categoryId);
 
 }

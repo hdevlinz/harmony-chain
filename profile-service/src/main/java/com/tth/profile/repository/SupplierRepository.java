@@ -1,16 +1,17 @@
 package com.tth.profile.repository;
 
-import com.tth.identity.entity.Supplier;
-import com.tth.identity.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.tth.profile.entity.Supplier;
+import com.tth.profile.repository.specification.SupplierSpecification;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface SupplierRepository extends JpaRepository<Supplier, String>, JpaSpecificationExecutor<Supplier> {
+public interface SupplierRepository extends Neo4jRepository<Supplier, String>, SupplierSpecification {
 
-    Optional<Supplier> findByUser(User user);
+    boolean existsByUserId(String userId);
+
+    Optional<Supplier> findByUserId(String userId);
 
 }

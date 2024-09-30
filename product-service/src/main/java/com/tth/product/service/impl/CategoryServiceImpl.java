@@ -1,7 +1,7 @@
 package com.tth.product.service.impl;
 
 import com.tth.commonlibrary.dto.PageResponse;
-import com.tth.commonlibrary.dto.response.category.CategoryResponse;
+import com.tth.commonlibrary.dto.response.product.category.CategoryResponse;
 import com.tth.product.mapper.CategoryMapper;
 import com.tth.product.repository.CategoryRepository;
 import com.tth.product.service.CategoryService;

@@ -13,6 +13,8 @@ app:
    services:
       identity:
          url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
+      product:
+         url: ${PRODUCT_SERVICE_URL:http://localhost:8082/product}
 
 # Spring configuration
 spring:

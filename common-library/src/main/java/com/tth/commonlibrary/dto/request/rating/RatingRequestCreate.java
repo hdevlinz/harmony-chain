@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class RatingRequestCreate {
 
+    @Builder.Default
     @NotNull(message = "{rating.notNull}")
     @DecimalMin(value = "1.00", message = "{rating.min}")
     @DecimalMax(value = "5.00", message = "{rating.max}")

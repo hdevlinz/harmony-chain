@@ -39,8 +39,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthenticationServiceImp implements AuthenticationService {
 
-    private final UserRepository userRepository;
     private final InvalidatedTokenRepository invalidatedTokenRepository;
+    private final UserRepository userRepository;
+
     @Value("${jwt.signer-key}")
     private String signerKey;
     @Value("${jwt.valid-duration}")
@@ -74,8 +75,8 @@ public class AuthenticationServiceImp implements AuthenticationService {
         InvalidatedToken invalidatedToken = InvalidatedToken.builder().id(jit).expiryTime(expiryTime).build();
         invalidatedTokenRepository.save(invalidatedToken);
 
-        String username = signedJWT.getJWTClaimsSet().getSubject();
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+        String userId = signedJWT.getJWTClaimsSet().getSubject();
+        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
         String token = this.generateToken(user);
 
         return AuthenticationResponse.builder().token(token).build();

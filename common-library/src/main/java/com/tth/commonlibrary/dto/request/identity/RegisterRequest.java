@@ -39,8 +39,8 @@ public class RegisterRequest {
     private String customerPhone;
 
     // Shipper
-    private String shipperName;
-    private String shipperContactInfo;
+    private String carrierName;
+    private String carrierContactInfo;
 
     // Supplier
     private String supplierName;

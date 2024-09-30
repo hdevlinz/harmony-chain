@@ -1,8 +1,8 @@
 package com.tth.profile.mapper;
 
-import com.tth.identity.dto.request.RegisterRequest;
-import com.tth.identity.dto.request.UpdateRequest;
-import com.tth.profile.dto.response.supplier.SupplierResponse;
+import com.tth.commonlibrary.dto.request.profile.supplier.SupplierRequestCreate;
+import com.tth.commonlibrary.dto.request.profile.supplier.SupplierRequestUpdate;
+import com.tth.commonlibrary.dto.response.profile.supplier.SupplierResponse;
 import com.tth.profile.entity.Supplier;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,12 +14,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SupplierMapper {
 
-    @Mapping(target = "user", ignore = true)
     @Mapping(target = "name", source = "supplierName")
     @Mapping(target = "address", source = "supplierAddress")
     @Mapping(target = "phone", source = "supplierPhone")
     @Mapping(target = "contactInfo", source = "supplierContactInfo")
-    Supplier toSupplier(RegisterRequest registerRequest);
+    Supplier toSupplier(SupplierRequestCreate request);
 
     @Named("mapSupplierToResponse")
     SupplierResponse toSupplierResponse(Supplier supplier);
@@ -30,6 +29,6 @@ public interface SupplierMapper {
     @Mapping(target = "address", source = "supplierAddress")
     @Mapping(target = "phone", source = "supplierPhone")
     @Mapping(target = "contactInfo", source = "supplierContactInfo")
-    void updateSupplier(@MappingTarget Supplier supplier, UpdateRequest updateRequest);
+    void updateSupplier(@MappingTarget Supplier supplier, SupplierRequestUpdate request);
 
 }

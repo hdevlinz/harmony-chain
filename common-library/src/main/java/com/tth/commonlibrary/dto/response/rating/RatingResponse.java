@@ -1,7 +1,7 @@
 package com.tth.commonlibrary.dto.response.rating;
 
 import com.tth.commonlibrary.dto.response.identity.UserResponse;
-import com.tth.commonlibrary.dto.response.supplier.SupplierResponse;
+import com.tth.commonlibrary.dto.response.profile.supplier.SupplierResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

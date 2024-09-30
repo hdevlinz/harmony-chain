@@ -1,8 +1,8 @@
 package com.tth.profile.mapper;
 
-import com.tth.identity.dto.request.RegisterRequest;
-import com.tth.identity.dto.request.UpdateRequest;
-import com.tth.profile.dto.response.customer.CustomerResponse;
+import com.tth.commonlibrary.dto.request.profile.customer.CustomerRequestCreate;
+import com.tth.commonlibrary.dto.request.profile.customer.CustomerRequestUpdate;
+import com.tth.commonlibrary.dto.response.profile.customer.CustomerResponse;
 import com.tth.profile.entity.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,13 +16,12 @@ public interface CustomerMapper {
 
     @Mapping(target = "gender", ignore = true)
     @Mapping(target = "dateOfBirth", ignore = true)
-    @Mapping(target = "user", ignore = true)
     @Mapping(target = "firstName", source = "customerFirstName")
     @Mapping(target = "middleName", source = "customerMiddleName")
     @Mapping(target = "lastName", source = "customerLastName")
     @Mapping(target = "address", source = "customerAddress")
     @Mapping(target = "phone", source = "customerPhone")
-    Customer toCustomer(RegisterRequest registerRequest);
+    Customer toCustomer(CustomerRequestCreate request);
 
     @Named("mapCustomerToResponse")
     CustomerResponse toCustomerResponse(Customer customer);
@@ -36,6 +35,6 @@ public interface CustomerMapper {
     @Mapping(target = "phone", source = "customerPhone")
     @Mapping(target = "gender", source = "customerGender")
     @Mapping(target = "dateOfBirth", source = "customerDateOfBirth")
-    void updateCustomer(@MappingTarget Customer customer, UpdateRequest updateRequest);
+    void updateCustomer(@MappingTarget Customer customer, CustomerRequestUpdate request);
 
 }

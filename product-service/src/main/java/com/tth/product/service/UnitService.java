@@ -1,7 +1,7 @@
 package com.tth.product.service;
 
 import com.tth.commonlibrary.dto.PageResponse;
-import com.tth.commonlibrary.dto.response.unit.UnitResponse;
+import com.tth.commonlibrary.dto.response.product.unit.UnitResponse;
 
 import java.util.Map;
 

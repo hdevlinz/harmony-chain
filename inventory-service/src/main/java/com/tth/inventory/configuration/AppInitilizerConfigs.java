@@ -1,22 +1,12 @@
 package com.tth.inventory.configuration;
 
-import com.tth.order.dto.request.OrderDetailsRequest;
-import com.tth.order.dto.request.OrderRequest;
-import com.tth.order.dto.response.inventory.InventoryDetailsResponse;
-import com.tth.order.dto.response.product.ProductListResponse;
-import com.tth.order.dto.response.user.User;
-import com.tth.order.entity.Inventory;
-import com.tth.order.entity.InventoryDetails;
-import com.tth.order.entity.Warehouse;
-import com.tth.order.enums.OrderStatus;
-import com.tth.order.enums.OrderType;
-import com.tth.order.mapper.InventoryMapper;
-import com.tth.order.repository.InventoryDetailsRepository;
-import com.tth.order.repository.InventoryRepository;
-import com.tth.order.repository.WarehouseRepository;
-import com.tth.order.repository.httpclient.IdentityClient;
-import com.tth.order.repository.httpclient.ProductClient;
-import com.tth.order.service.OrderService;
+import com.tth.commonlibrary.dto.response.product.ProductListResponse;
+import com.tth.inventory.entity.Inventory;
+import com.tth.inventory.entity.InventoryDetails;
+import com.tth.inventory.entity.Warehouse;
+import com.tth.inventory.repository.InventoryRepository;
+import com.tth.inventory.repository.WarehouseRepository;
+import com.tth.inventory.repository.httpclient.ProductClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
@@ -25,11 +15,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -42,13 +31,9 @@ public class AppInitilizerConfigs {
     @Bean
     @ConditionalOnProperty(prefix = "spring", value = "datasource.driverClassName", havingValue = "com.mysql.cj.jdbc.Driver")
     public ApplicationRunner applicationRunner(
-            InventoryDetailsRepository inventoryDetailsRepository,
             WarehouseRepository warehouseRepository,
             InventoryRepository inventoryRepository,
-            OrderService orderService,
-            ProductClient productClient,
-            IdentityClient identityClient,
-            InventoryMapper inventoryMapper
+            ProductClient productClient
     ) {
         return args -> {
             log.info("Initializing application.....");
@@ -59,9 +44,6 @@ public class AppInitilizerConfigs {
 
                 log.info("Creating inventories.....");
                 this.createInventory(warehouseRepository, inventoryRepository, productClient);
-
-                log.info("Creating orders.....");
-                this.createOrder(inventoryDetailsRepository, orderService, identityClient, inventoryMapper);
             }
 
             log.info("Application initialization completed.....");
@@ -107,68 +89,6 @@ public class AppInitilizerConfigs {
 
             count.getAndIncrement();
         }));
-    }
-
-    private void createOrder(
-            InventoryDetailsRepository inventoryDetailsRepository,
-            OrderService orderService,
-            IdentityClient identityClient,
-            InventoryMapper inventoryMapper
-
-    ) {
-        List<InventoryDetails> inventoryDetails = inventoryDetailsRepository.findAll();
-        List<InventoryDetailsResponse> inventoryDetailsResponses = new ArrayList<>(inventoryDetails
-                .stream().map(inventoryMapper::toInventoryDetailsResponse).toList());
-        List<User> users = identityClient.getAllUser().getResult();
-        Random random = new Random();
-
-        users.forEach(user -> IntStream.range(0, 10).forEach(index -> {
-            Collections.shuffle(inventoryDetailsResponses, random);
-            List<ProductListResponse> randomProducts = inventoryDetailsResponses.stream()
-                    .map(InventoryDetailsResponse::getProduct).limit(3).toList();
-
-            Set<OrderDetailsRequest> orderDetails = randomProducts.stream()
-                    .map(product -> OrderDetailsRequest.builder()
-                            .productId(product.getId())
-                            .quantity(3F)
-                            .build())
-                    .collect(Collectors.toSet());
-
-            OrderRequest orderRequest = OrderRequest.builder()
-                    .type(OrderType.values()[random.nextInt(OrderType.values().length)])
-                    .status(OrderStatus.DELIVERED)
-                    .paid(true)
-                    .inventoryId(inventoryDetails.getFirst().getInventory().getId())
-                    .orderDetails(orderDetails)
-                    .createdAt(this.getRandomDateTimeInYear())
-                    .build();
-
-            if (orderRequest.getType() == OrderType.OUTBOUND) {
-                orderService.checkout(orderRequest, user);
-            } else if (orderRequest.getType() == OrderType.INBOUND) {
-                orderService.checkin(orderRequest, user);
-            }
-        }));
-    }
-
-    private LocalDateTime getRandomDateTimeInYear() {
-        // Lấy tháng hiện tại
-        LocalDate now = LocalDate.now();
-        int currentMonth = now.getMonthValue();
-
-        // Random tháng từ 1 đến tháng hiện tại
-        int randomMonth = ThreadLocalRandom.current().nextInt(1, currentMonth + 1);
-
-        // Tạo ngày bắt đầu và ngày kết thúc cho tháng random
-        LocalDate start = LocalDate.of(now.getYear(), randomMonth, 1);
-        LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
-
-        // Random ngày trong khoảng từ start đến end
-        long randomDay = ThreadLocalRandom.current().nextLong(start.toEpochDay(), end.toEpochDay() + 1);
-
-        // Chuyển đổi từ epoch day sang LocalDate và sau đó sang Date
-        LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
-        return randomDate.atStartOfDay(ZoneId.systemDefault()).toLocalDateTime();
     }
 
 }

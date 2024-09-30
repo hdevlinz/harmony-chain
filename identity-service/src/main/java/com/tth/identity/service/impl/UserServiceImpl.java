@@ -3,7 +3,11 @@ package com.tth.identity.service.impl;
 import com.tth.commonlibrary.dto.PageResponse;
 import com.tth.commonlibrary.dto.request.identity.RegisterRequest;
 import com.tth.commonlibrary.dto.request.identity.UpdateRequest;
+import com.tth.commonlibrary.dto.request.profile.carrier.CarrierRequestCreate;
+import com.tth.commonlibrary.dto.request.profile.customer.CustomerRequestCreate;
+import com.tth.commonlibrary.dto.request.profile.supplier.SupplierRequestCreate;
 import com.tth.commonlibrary.dto.response.identity.UserResponse;
+import com.tth.commonlibrary.dto.response.profile.UserProfileResponse;
 import com.tth.commonlibrary.enums.ErrorCode;
 import com.tth.commonlibrary.enums.FileCategory;
 import com.tth.commonlibrary.enums.UserRole;
@@ -13,11 +17,11 @@ import com.tth.identity.entity.User;
 import com.tth.identity.mapper.UserMapper;
 import com.tth.identity.repository.UserRepository;
 import com.tth.identity.repository.httpclient.FileClient;
+import com.tth.identity.repository.httpclient.UserProfileClient;
 import com.tth.identity.service.UserService;
 import com.tth.identity.service.specification.UserSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -41,9 +45,10 @@ public class UserServiceImpl implements UserService {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
     private final PasswordEncoder passwordEncoder;
-    private final FileClient fileClient;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final FileClient fileClient;
+    private final UserProfileClient userProfileClient;
 
     @Override
     public boolean existsByUsername(String username) {
@@ -62,35 +67,27 @@ public class UserServiceImpl implements UserService {
 
         User user = this.userMapper.toUser(request);
         user.setPassword(this.passwordEncoder.encode(request.getPassword()));
+        user = this.userRepository.save(user);
 
+        UserProfileResponse profile = null;
         switch (user.getRole()) {
-            case UserRole.ROLE_ADMIN -> {
+            case UserRole.ROLE_CARRIER -> {
+                CarrierRequestCreate carrierRequest = this.userMapper.toCarrierRequestCreate(request);
+                carrierRequest.setUserId(user.getId());
+                profile = this.userProfileClient.createUserProfile(carrierRequest);
             }
-//            case UserRole.ROLE_CUSTOMER -> {
-//                Customer customer = this.customerMapper.toCustomer(request);
-//                customer.setUser(user);
-//                user.setCustomer(customer);
-//            }
-//            case ROLE_DISTRIBUTOR -> {
-//            }
-//            case ROLE_MANUFACTURER -> {
-//            }
-//            case UserRole.ROLE_SHIPPER -> {
-//                Shipper shipper = this.shipperMapper.toShipper(request);
-//                shipper.setUser(user);
-//                user.setShipper(shipper);
-//            }
-//            case UserRole.ROLE_SUPPLIER -> {
-//                Supplier supplier = this.supplierMapper.toSupplier(request);
-//                supplier.setUser(user);
-//                user.setSupplier(supplier);
-//            }
-        }
-
-        try {
-            this.userRepository.save(user);
-        } catch (DataIntegrityViolationException e) {
-            throw new AppException(ErrorCode.USER_EXISTED);
+            case UserRole.ROLE_CUSTOMER -> {
+                CustomerRequestCreate customerRequest = this.userMapper.toCustomerRequestCreate(request);
+                customerRequest.setUserId(user.getId());
+                profile = this.userProfileClient.createUserProfile(customerRequest);
+            }
+            case UserRole.ROLE_SUPPLIER -> {
+                SupplierRequestCreate supplierRequest = this.userMapper.toSupplierRequestCreate(request);
+                supplierRequest.setUserId(user.getId());
+                profile = this.userProfileClient.createUserProfile(supplierRequest);
+            }
+//            case ROLE_DISTRIBUTOR -> {}
+//            case ROLE_MANUFACTURER -> {}
         }
 
         // Publish message to Kafka
@@ -102,7 +99,10 @@ public class UserServiceImpl implements UserService {
                 .build();
         this.kafkaTemplate.send("notification-delivery", notificationEvent);
 
-        return this.userMapper.toUserResponse(user);
+        UserResponse userResponse = this.userMapper.toUserResponse(user);
+        userResponse.setProfile(profile);
+
+        return userResponse;
     }
 
     @Override
@@ -110,7 +110,19 @@ public class UserServiceImpl implements UserService {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = this.userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-        return this.userMapper.toUserResponse(user);
+        UserProfileResponse profile = switch (user.getRole()) {
+            case UserRole.ROLE_CARRIER -> this.userProfileClient.getCarrierProfile(userId);
+            case UserRole.ROLE_CUSTOMER -> this.userProfileClient.getCustomerProfile(userId);
+            case UserRole.ROLE_SUPPLIER -> this.userProfileClient.getSupplierProfile(userId);
+//            case ROLE_DISTRIBUTOR -> {}
+//            case ROLE_MANUFACTURER -> {}
+            default -> null;
+        };
+
+        UserResponse userResponse = this.userMapper.toUserResponse(user);
+        userResponse.setProfile(profile);
+
+        return userResponse;
     }
 
     @Override

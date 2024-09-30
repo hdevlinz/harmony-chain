@@ -1,19 +1,17 @@
 package com.tth.profile.service.impl;
 
-import com.tth.identity.dto.PageResponse;
-import com.tth.identity.dto.response.supplier.SupplierResponse;
-import com.tth.identity.entity.Supplier;
-import com.tth.identity.enums.ErrorCode;
-import com.tth.identity.exception.AppException;
-import com.tth.identity.mapper.SupplierMapper;
-import com.tth.identity.repository.SupplierRepository;
-import com.tth.identity.service.SupplierService;
-import com.tth.identity.service.specification.SupplierSpecification;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.response.profile.supplier.SupplierResponse;
+import com.tth.commonlibrary.enums.ErrorCode;
+import com.tth.commonlibrary.exception.AppException;
+import com.tth.profile.entity.Supplier;
+import com.tth.profile.mapper.SupplierMapper;
+import com.tth.profile.repository.SupplierRepository;
+import com.tth.profile.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,10 +35,8 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public PageResponse<SupplierResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
-        Specification<Supplier> spec = SupplierSpecification.filter(params);
-
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<SupplierResponse> result = this.supplierRepository.findAll(spec, pageable).map(this.supplierMapper::toSupplierResponse);
+        Page<SupplierResponse> result = this.supplierRepository.filter(params, pageable).map(this.supplierMapper::toSupplierResponse);
 
         return PageResponse.of(result);
     }

@@ -1,7 +1,7 @@
 package com.tth.product.service.impl;
 
 import com.tth.commonlibrary.dto.PageResponse;
-import com.tth.commonlibrary.dto.response.unit.UnitResponse;
+import com.tth.commonlibrary.dto.response.product.unit.UnitResponse;
 import com.tth.product.mapper.UnitMapper;
 import com.tth.product.repository.UnitRepository;
 import com.tth.product.service.UnitService;

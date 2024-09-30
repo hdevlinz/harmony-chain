@@ -1,9 +1,9 @@
 package com.tth.inventory.mapper;
 
-import com.tth.order.dto.request.warehouse.CreateWarehouseRequest;
-import com.tth.order.dto.request.warehouse.UpdateWarehouseRequest;
-import com.tth.order.dto.response.warehouse.WarehouseResponse;
-import com.tth.order.entity.Warehouse;
+import com.tth.commonlibrary.dto.request.warehouse.WarehouseRequestCreate;
+import com.tth.commonlibrary.dto.request.warehouse.WarehouseRequestUpdate;
+import com.tth.commonlibrary.dto.response.inventory.warehouse.WarehouseResponse;
+import com.tth.inventory.entity.Warehouse;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring",
@@ -14,10 +14,10 @@ import org.mapstruct.*;
 public interface WarehouseMapper {
 
     @Named("toWarehouse")
-    Warehouse toWarehouse(CreateWarehouseRequest request);
+    Warehouse toWarehouse(WarehouseRequestCreate request);
 
     @Named("updateWarehouse")
-    Warehouse updateWarehouse(@MappingTarget Warehouse warehouse, UpdateWarehouseRequest request);
+    Warehouse updateWarehouse(@MappingTarget Warehouse warehouse, WarehouseRequestUpdate request);
 
     @Named("toWarehouseResponse")
     WarehouseResponse toWarehouseResponse(Warehouse warehouse);

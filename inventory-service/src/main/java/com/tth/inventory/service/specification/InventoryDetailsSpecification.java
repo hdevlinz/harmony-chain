@@ -1,6 +1,6 @@
 package com.tth.inventory.service.specification;
 
-import com.tth.order.entity.InventoryDetails;
+import com.tth.inventory.entity.InventoryDetails;
 import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
@@ -24,7 +24,7 @@ public class InventoryDetailsSpecification {
                             predicates.add(builder.equal(root.get("inventory").get("id"), value));
                             break;
                         case "product":
-                            predicates.add(builder.equal(root.get("product").get("id"), value));
+                            predicates.add(builder.equal(root.get("productId"), value));
                             break;
                         default:
                             log.warn("Unknown filter key: {}", key);

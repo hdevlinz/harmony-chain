@@ -1,7 +1,7 @@
 package com.tth.profile.controller;
 
-import com.tth.profile.dto.APIResponse;
-import com.tth.profile.dto.response.customer.CustomerResponse;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.dto.response.profile.customer.CustomerResponse;
 import com.tth.profile.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

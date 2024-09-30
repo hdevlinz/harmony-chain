@@ -1,9 +1,9 @@
 package com.tth.inventory.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tth.order.dto.APIResponse;
-import com.tth.order.enums.ErrorCode;
-import com.tth.order.enums.UserRole;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.enums.ErrorCode;
+import com.tth.commonlibrary.enums.UserRole;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -1,8 +1,8 @@
 package com.tth.profile.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tth.profile.dto.APIResponse;
-import com.tth.profile.enums.ErrorCode;
+import com.tth.commonlibrary.dto.APIResponse;
+import com.tth.commonlibrary.enums.ErrorCode;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

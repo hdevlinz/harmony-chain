@@ -31,22 +31,21 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
 
     @NonFinal
     private static final List<String> PUBLIC_ENDPOINTS = Arrays.asList(
-            "/identity/auth/token",
-            "/identity/auth/refresh",
-            "/identity/auth/logout",
-            "/identity/auth/introspect",
-            "/identity/users/registration",
-            "/identity/shippers",
-            "/identity/shippers/.*",
-            "/identity/suppliers",
-            "/identity/suppliers/.*",
-            "/notification/email/send",
             "/cart/.*",
+
+            "/identity/auth/.*",
+            "/identity/users/.*",
+
             "/inventory/.*",
+
             "/order/.*",
+
             "/product/.*",
+
             "/profile/.*",
+
             "/rating/.*",
+
             "/shipping/.*"
     );
 

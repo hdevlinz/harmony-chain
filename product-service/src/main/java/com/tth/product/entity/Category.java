@@ -24,7 +24,6 @@ public class Category extends BaseEntity implements Serializable {
 
     private String description;
 
-    //    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST})
     private Set<Product> products;
 
 }

@@ -1,6 +1,6 @@
 package com.tth.product.configuration;
 
-import com.tth.commonlibrary.dto.response.supplier.SupplierResponse;
+import com.tth.commonlibrary.dto.response.profile.supplier.SupplierResponse;
 import com.tth.product.entity.Category;
 import com.tth.product.entity.Product;
 import com.tth.product.entity.Tag;
@@ -9,7 +9,7 @@ import com.tth.product.repository.CategoryRepository;
 import com.tth.product.repository.ProductRepository;
 import com.tth.product.repository.TagRepository;
 import com.tth.product.repository.UnitRepository;
-import com.tth.product.repository.httpclient.IdentityClient;
+import com.tth.product.repository.httpclient.UserProfileClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
@@ -36,7 +36,7 @@ public class AppInitializerConfigs {
             TagRepository tagRepository,
             UnitRepository unitRepository,
             ProductRepository productRepository,
-            IdentityClient identityClient
+            UserProfileClient userProfileClient
     ) {
         return args -> {
             log.info("Initializing application.....");
@@ -52,7 +52,7 @@ public class AppInitializerConfigs {
                 this.createUnit(unitRepository);
 
                 log.info("Creating products.....");
-                this.createProduct(productRepository, categoryRepository, tagRepository, unitRepository, identityClient);
+                this.createProduct(productRepository, categoryRepository, tagRepository, unitRepository, userProfileClient);
             }
 
             log.info("Application initialization completed.....");
@@ -110,7 +110,7 @@ public class AppInitializerConfigs {
             CategoryRepository categoryRepository,
             TagRepository tagRepository,
             UnitRepository unitRepository,
-            IdentityClient identityClient) {
+            UserProfileClient userProfileClient) {
         AtomicInteger count = new AtomicInteger(1);
         Random random = new Random();
 
@@ -120,13 +120,13 @@ public class AppInitializerConfigs {
 
         categories.forEach(category -> {
             // Tạo sản phẩm hết hạn
-            this.createProductsWithExpiryDates(productRepository, category, tags, units, identityClient, -30, random, count);
+            this.createProductsWithExpiryDates(productRepository, category, tags, units, userProfileClient, -30, random, count);
 
             // Tạo sản phẩm sắp hết hạn
-            this.createProductsWithExpiryDates(productRepository, category, tags, units, identityClient, 15, random, count);
+            this.createProductsWithExpiryDates(productRepository, category, tags, units, userProfileClient, 15, random, count);
 
             // Tạo sản phẩm còn hạn
-            this.createProductsWithExpiryDates(productRepository, category, tags, units, identityClient, 60, random, count);
+            this.createProductsWithExpiryDates(productRepository, category, tags, units, userProfileClient, 60, random, count);
         });
     }
 
@@ -135,12 +135,12 @@ public class AppInitializerConfigs {
             Category category,
             List<Tag> tags,
             List<Unit> units,
-            IdentityClient identityClient,
+            UserProfileClient userProfileClient,
             int daysFromNow,
             Random random,
             AtomicInteger count) {
 
-        List<SupplierResponse> suppliers = identityClient.listSuppliers(null, 1, 10).getData();
+        List<SupplierResponse> suppliers = userProfileClient.listSuppliers(null, 1, 10).getData();
 
         suppliers.forEach(supplier -> {
             for (int i = 0; i < 10; i++) {
@@ -149,16 +149,19 @@ public class AppInitializerConfigs {
                 LocalDate expiryDate = LocalDate.now().plusDays(daysFromNow);
 
                 Collections.shuffle(tags, random);
-                Set<Tag> randomTags = tags.parallelStream()
+                Set<Tag> randomTags = tags.stream()
                         .limit(2)
                         .collect(Collectors.toSet());
 
-                Unit unit = units.get(random.nextInt(units.size()));
+                Collections.shuffle(units, random);
+                Set<Unit> randomUnits = units.stream()
+                        .limit(2)
+                        .collect(Collectors.toSet());
 
                 Product product = Product.builder()
                         .name("Product " + count)
                         .price(price)
-                        .unit(unit)
+                        .units(randomUnits)
                         .description("Product " + count)
                         .expiryDate(expiryDate)
                         .supplierId(supplier.getId())

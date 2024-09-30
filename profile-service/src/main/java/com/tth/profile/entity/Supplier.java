@@ -1,10 +1,11 @@
 package com.tth.profile.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
+import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Property;
 
 import java.io.Serializable;
 
@@ -13,34 +14,27 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "supplier")
+@Node("supplier")
 public class Supplier extends BaseEntity implements Serializable {
+
+    @Property(name = "user_id")
+    private String userId;
 
     @NotNull(message = "{supplier.name.notNull}")
     @NotBlank(message = "{supplier.name.notNull}")
-    @Column(nullable = false)
     private String name;
 
     @NotNull(message = "{supplier.address.notNull}")
     @NotBlank(message = "{supplier.address.notNull}")
-    @Column(nullable = false)
     private String address;
 
     @NotNull(message = "{user.phone.notNull}")
     @NotBlank(message = "{user.phone.notNull}")
     @Pattern(regexp = "^[0-9]{10,15}$", message = "{user.phone.pattern}")
-    @Column(nullable = false, length = 15)
     private String phone;
 
     @NotNull(message = "{supplier.contactInfo.notNull}")
     @NotBlank(message = "{supplier.contactInfo.notNull}")
-    @Column(name = "contact_info", nullable = false)
     private String contactInfo;
-
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE}, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private User user;
 
 }

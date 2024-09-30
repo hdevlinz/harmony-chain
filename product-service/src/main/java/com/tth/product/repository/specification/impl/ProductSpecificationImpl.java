@@ -45,8 +45,10 @@ public class ProductSpecificationImpl implements ProductSpecification {
                     case "category":
                         query.addCriteria(Criteria.where("category.id").is(value));
                         break;
-                    case "unit":
-                        query.addCriteria(Criteria.where("unitId").is(value));
+                    case "units":
+                        List<String> unitIdList = List.of(value.split(","));
+
+                        query.addCriteria(Criteria.where("units.id").in(unitIdList));
                         break;
                     case "tags":
                         List<String> tagIdList = List.of(value.split(","));

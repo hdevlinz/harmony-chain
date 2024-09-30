@@ -27,7 +27,6 @@ public class Unit extends BaseEntity implements Serializable {
     @Field(name = "abbreviation")
     private String abbreviation;
 
-    //    @OneToMany(mappedBy = "unit")
     private Set<Product> products;
 
 }

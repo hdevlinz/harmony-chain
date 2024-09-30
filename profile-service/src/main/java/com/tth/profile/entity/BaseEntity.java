@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
+import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -15,27 +18,20 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(generatorClass = UUIDStringGenerator.class)
     protected String id;
 
-    @Column(name = "is_active", nullable = false, columnDefinition = "boolean default true")
     protected Boolean active = true;
 
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @Column(name = "created_at", updatable = false)
     protected LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @Column(name = "updated_at")
     protected LocalDateTime updatedAt;
 
 }

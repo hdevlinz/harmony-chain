@@ -1,6 +1,6 @@
 package com.tth.inventory.service.specification;
 
-import com.tth.order.entity.Warehouse;
+import com.tth.inventory.entity.Warehouse;
 import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;

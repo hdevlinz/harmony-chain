@@ -11,9 +11,9 @@ import org.mapstruct.Mapping;
 public interface ProductMapper {
 
     @Mapping(target = "supplier", source = "supplierId", qualifiedByName = "getSupplier")
-    ProductDetailsResponse toProductDetailsResponse(Product product);
+    ProductListResponse toProductListResponse(Product product);
 
     @Mapping(target = "supplier", source = "supplierId", qualifiedByName = "getSupplier")
-    ProductListResponse toProductListResponse(Product product);
+    ProductDetailsResponse toProductDetailsResponse(Product product);
 
 }

@@ -50,23 +50,11 @@ public class Product extends BaseEntity implements Serializable {
     @Field(name = "expiry_date")
     private LocalDate expiryDate;
 
-    //    @ManyToOne(optional = false)
-    @Field(name = "unit_id")
-    private Unit unit;
-
-    //    @ManyToOne
     @Field(name = "category_id")
     private Category category;
 
-    //    @ManyToMany
-//    @JoinTable(name = "product_tag",
-//            joinColumns = @JoinColumn(name = "product_id"),
-//            inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private Set<Tag> tags;
+    private Set<Unit> units;
 
-//    @PreRemove
-//    public void preRemove() {
-//        this.tags.clear();
-//    }
+    private Set<Tag> tags;
 
 }

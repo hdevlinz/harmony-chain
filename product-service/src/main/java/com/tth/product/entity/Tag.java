@@ -24,12 +24,6 @@ public class Tag extends BaseEntity implements Serializable {
 
     private String description;
 
-    //    @ManyToMany(mappedBy = "tags")
     private Set<Product> products;
-
-//    @PreRemove
-//    private void removeTagFromProduct() {
-//        this.products.forEach(product -> product.getTags().remove(this));
-//    }
 
 }

@@ -1,7 +1,7 @@
 package com.tth.product.service.impl;
 
 import com.tth.commonlibrary.dto.PageResponse;
-import com.tth.commonlibrary.dto.response.tag.TagResponse;
+import com.tth.commonlibrary.dto.response.product.tag.TagResponse;
 import com.tth.product.mapper.TagMapper;
 import com.tth.product.repository.TagRepository;
 import com.tth.product.service.TagService;

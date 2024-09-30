@@ -1,7 +1,7 @@
 package com.tth.profile.service;
 
-import com.tth.identity.dto.PageResponse;
-import com.tth.identity.dto.response.supplier.SupplierResponse;
+import com.tth.commonlibrary.dto.PageResponse;
+import com.tth.commonlibrary.dto.response.profile.supplier.SupplierResponse;
 
 import java.util.Map;
 

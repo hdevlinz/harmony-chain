@@ -1,6 +1,6 @@
 package com.tth.commonlibrary.dto.response.inventory;
 
-import com.tth.commonlibrary.dto.response.warehouse.WarehouseResponse;
+import com.tth.commonlibrary.dto.response.inventory.warehouse.WarehouseResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +13,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InventoryResponse {
+
+    private String id;
 
     private String name;
 
