@@ -19,8 +19,6 @@ public class EmailService {
 
     private final EmailClient emailClient;
 
-    private String apiKey = "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";
-
     public SendEmailResponse sendEmail(SendEmailRequest request) {
         EmailRequest emailRequest = EmailRequest.builder()
                 .to(List.of(request.getTo()))
@@ -32,7 +30,8 @@ public class EmailService {
                 .subject(request.getSubject())
                 .build();
         try {
-            return this.emailClient.sendEmail(this.apiKey, emailRequest);
+            String secretAccessKey = "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";
+            return this.emailClient.sendEmail(secretAccessKey, emailRequest);
         } catch (FeignException e) {
             throw new AppException(ErrorCode.CANNOT_SEND_EMAIL);
         }
