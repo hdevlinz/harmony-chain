@@ -17,6 +17,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class RatingRequestCreate {
 
+    @NotNull(message = "{rating.supplier.notNull}")
+    private String supplierId;
+
     @Builder.Default
     @NotNull(message = "{rating.notNull}")
     @DecimalMin(value = "1.00", message = "{rating.min}")

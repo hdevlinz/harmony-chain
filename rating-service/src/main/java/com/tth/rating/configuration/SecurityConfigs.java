@@ -50,6 +50,7 @@ public class SecurityConfigs {
 
         httpSecurity.authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/ratings/**").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/ratings/**").authenticated()
                 .requestMatchers(HttpMethod.PATCH, "/ratings/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/ratings/**").authenticated()
                 .requestMatchers("/ratings/**").permitAll()

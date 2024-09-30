@@ -2,6 +2,7 @@ package com.tth.commonlibrary.dto.response.rating;
 
 import com.tth.commonlibrary.dto.response.identity.UserResponse;
 import com.tth.commonlibrary.dto.response.profile.supplier.SupplierResponse;
+import com.tth.commonlibrary.enums.CriteriaType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,16 +16,16 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class RatingResponse {
 
-    private Long id;
+    private String id;
 
     private BigDecimal rating;
 
     private String content;
 
-    private String criteria;
-
-    private SupplierResponse supplier;
+    private CriteriaType criteria;
 
     private UserResponse user;
+
+    private SupplierResponse supplier;
 
 }

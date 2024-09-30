@@ -13,6 +13,8 @@ app:
    services:
       identity:
          url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
+      profile:
+         url: ${PROFILE_SERVICE_URL:http://localhost:8083/profile}
 
 # Spring configuration
 spring:

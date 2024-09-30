@@ -11,6 +11,8 @@ import java.util.Map;
 
 public interface UserService {
 
+    User findById(String id);
+
     boolean existsByUsername(String username);
 
     UserResponse registration(RegisterRequest request);

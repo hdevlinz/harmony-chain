@@ -19,6 +19,7 @@ public enum ErrorCode {
     INVOICE_NOT_FOUND(1404, "Hóa đơn không tồn tại.", HttpStatus.NOT_FOUND),
     ORDER_NOT_FOUND(1404, "Đơn hàng không tồn tại.", HttpStatus.NOT_FOUND),
     USER_NOT_FOUND(1404, "Tài khoản không tồn tại.", HttpStatus.NOT_FOUND),
+    RATING_NOT_FOUND(1404, "Đánh giá không tồn tại.", HttpStatus.NOT_FOUND),
 
     USER_EXISTED(1409, "Tài khoản đã tồn tại.", HttpStatus.CONFLICT),
     WAREHOUSE_EXISTS(1409, "Nhà kho đã tồn tại.", HttpStatus.CONFLICT),

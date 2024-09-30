@@ -2,9 +2,9 @@ package com.tth.order.configuration;
 
 import com.tth.commonlibrary.dto.request.order.OrderDetailsRequest;
 import com.tth.commonlibrary.dto.request.order.OrderRequest;
+import com.tth.commonlibrary.dto.response.identity.user.UserResponse;
 import com.tth.commonlibrary.dto.response.inventory.InventoryDetailsResponse;
 import com.tth.commonlibrary.dto.response.product.ProductListResponse;
-import com.tth.commonlibrary.dto.response.user.UserResponse;
 import com.tth.commonlibrary.enums.OrderStatus;
 import com.tth.commonlibrary.enums.OrderType;
 import com.tth.order.entity.Inventory;
@@ -117,7 +117,7 @@ public class AppInitializerConfigs {
         List<InventoryDetails> inventoryDetails = inventoryDetailsRepository.findAll();
         List<InventoryDetailsResponse> inventoryDetailsResponses = new ArrayList<>(inventoryDetails
                 .stream().map(inventoryMapper::toInventoryDetailsResponse).toList());
-        List<UserResponse> users = identityClient.getAllUser().getResult();
+        List<UserResponse> users = identityClient.listUsers().getResult();
         Random random = new Random();
 
         users.forEach(user -> IntStream.range(0, 10).forEach(index -> {

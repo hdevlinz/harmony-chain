@@ -5,10 +5,7 @@ import com.tth.identity.entity.User;
 import com.tth.identity.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,8 +18,13 @@ public class InternalAPIUserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<?> getAllUser() {
+    public ResponseEntity<?> listUsers() {
         return ResponseEntity.ok(APIResponse.<List<User>>builder().result(this.userService.findAll()).build());
+    }
+
+    @GetMapping(path = "{userId}")
+    public ResponseEntity<?> getUser(@PathVariable String userId) {
+        return ResponseEntity.ok(APIResponse.<User>builder().result(this.userService.findById(userId)).build());
     }
 
 }

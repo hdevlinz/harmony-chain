@@ -19,11 +19,11 @@ import java.math.BigDecimal;
 @Document(collection = "rating")
 public class Rating extends BaseEntity implements Serializable {
 
-    @Field(name = "supplier_id")
-    private String supplierId;
-
     @Field(name = "user_id")
     private String userId;
+
+    @Field(name = "supplier_id")
+    private String supplierId;
 
     @Builder.Default
     @NotNull(message = "{rating.notNull}")

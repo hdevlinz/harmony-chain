@@ -51,6 +51,11 @@ public class UserServiceImpl implements UserService {
     private final UserProfileClient userProfileClient;
 
     @Override
+    public User findById(String id) {
+        return this.userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    @Override
     public boolean existsByUsername(String username) {
         return this.userRepository.existsByUsername(username);
     }
