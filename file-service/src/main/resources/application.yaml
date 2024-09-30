@@ -19,7 +19,7 @@ spring:
 
 # AWS configuration
 aws:
-   access-key-id: ${AWS_ACCESS_KEY_ID:AKIA6K5V7JXAJRAGPNOP}
-   secret-access-key: ${AWS_SECRET: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}
+   access-key-id: ${AWS_ACCESS_KEY_ID}
+   secret-access-key: ${AWS_SECRET}
    s3:
-      bucket-name: ${S3_BUCKET_NAME:harmony-supply-chain}
+      bucket-name: ${S3_BUCKET_NAME}

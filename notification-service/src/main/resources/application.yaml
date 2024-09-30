@@ -13,7 +13,7 @@ app:
    services:
       email:
          url: ${EMAIL_SERVICE_URL:https://api.brevo.com}
-   mail-api-key: ${MAIL_API_KEY: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}
+   mail-api-key: ${MAIL_API_KEY}
 
 # Spring configuration
 spring:

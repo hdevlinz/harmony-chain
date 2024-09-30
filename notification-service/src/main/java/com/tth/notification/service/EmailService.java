@@ -9,7 +9,6 @@ import com.tth.notification.dto.response.SendEmailResponse;
 import com.tth.notification.repository.EmailClient;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +19,7 @@ public class EmailService {
 
     private final EmailClient emailClient;
 
-    @Value("${app.mail-api-key}")
-    private String apiKey;
+    private String apiKey = "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";
 
     public SendEmailResponse sendEmail(SendEmailRequest request) {
         EmailRequest emailRequest = EmailRequest.builder()
