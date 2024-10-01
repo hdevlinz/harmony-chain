@@ -1,0 +1,389 @@
+{
+  "info": {
+    "_postman_id": "0da12b81-41f8-4621-96db-0e745d8c963b",
+    "name": "Identity Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31334353"
+  },
+  "item": [
+    {
+      "name": "Get Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json()",
+              "if (data.result != null) {",
+              "    pm.globals.set(\"AUTHORIZATION\", data.result.token)",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"customer1\",\n    \"password\": \"customer1\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{IDENTITY_CONTEXT_PATH}}/auth/token",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "{{API_PREFIX}}",
+            "{{IDENTITY_CONTEXT_PATH}}",
+            "auth",
+            "token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Refresh Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json()",
+              "if (data.result != null) {",
+              "    pm.globals.set(\"AUTHORIZATION\", data.result.token)",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"token\": \"{{AUTHORIZATION}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{IDENTITY_CONTEXT_PATH}}/auth/refresh",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "{{API_PREFIX}}",
+            "{{IDENTITY_CONTEXT_PATH}}",
+            "auth",
+            "refresh"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"token\": \"{{AUTHORIZATION}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{IDENTITY_CONTEXT_PATH}}/auth/logout",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "{{API_PREFIX}}",
+            "{{IDENTITY_CONTEXT_PATH}}",
+            "auth",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Introspect",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"token\": \"{{AUTHORIZATION}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{IDENTITY_CONTEXT_PATH}}/auth/introspect",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "{{API_PREFIX}}",
+            "{{IDENTITY_CONTEXT_PATH}}",
+            "auth",
+            "introspect"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Registration",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"customer6@yopmail.com\",\n    \"username\": \"customer6\",\n    \"password\": \"customer6\",\n    \"role\": \"ROLE_CUSTOMER\",\n    // \"email\": \"carrier6@yopmail.com\",\n    // \"username\": \"carrier6\",\n    // \"password\": \"carrier6\",\n    // \"role\": \"ROLE_CARRIER\",\n    // \"email\": \"supplier6@yopmail.com\",\n    // \"username\": \"supplier6\",\n    // \"password\": \"supplier6\",\n    // \"role\": \"ROLE_SUPPLIER\",\n    \"customerFirstName\": \"test firstname customer\",\n    \"customerMiddleName\": \"test middlename customer\",\n    \"customerLastName\": \"test lastname customer\",\n    \"customerAddress\": \"test address customer\",\n    \"customerPhone\": \"0388227064\",\n    \"shipperName\": \"test name shipper\",\n    \"shipperContactInfo\": \"test contactinfo shipper\",\n    \"supplieName\": \"test name supplier\",\n    \"supplieAddress\": \"test address shipper\",\n    \"suppliePhone\": \"test phone shipper\",\n    \"supplieContactInfo\": \"test contactinfo shipper\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{IDENTITY_CONTEXT_PATH}}/users/registration",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "{{API_PREFIX}}",
+            "{{IDENTITY_CONTEXT_PATH}}",
+            "users",
+            "registration"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Info",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{AUTHORIZATION}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{IDENTITY_CONTEXT_PATH}}/users/info",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "{{API_PREFIX}}",
+            "{{IDENTITY_CONTEXT_PATH}}",
+            "users",
+            "info"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Info",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{AUTHORIZATION}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "email",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "username",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "oldPassword",
+              "value": "adminscm",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "newPassword",
+              "value": "adminscm1",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "avatar",
+              "type": "file",
+              "src": "/home/devlin/Pictures/My Wallpaper/rect_1.png"
+            },
+            {
+              "key": "customerFirstName",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerMiddleName",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerLastName",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerAddress",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerPhone",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerGender",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "customerDateOfBirth",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "shipperName",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "shipperContactInfo",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "supplierName",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "supplierAddress",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "supplierPhone",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "supplierContactInfo",
+              "value": "",
+              "type": "text",
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{IDENTITY_CONTEXT_PATH}}/users/info",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "{{API_PREFIX}}",
+            "{{IDENTITY_CONTEXT_PATH}}",
+            "users",
+            "info"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

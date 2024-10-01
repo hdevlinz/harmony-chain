@@ -1,0 +1,213 @@
+{
+  "info": {
+    "_postman_id": "b036d502-dd2a-4e8f-9dd6-4e6134d47cda",
+    "name": "Profile Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31334353"
+  },
+  "item": [
+    {
+      "name": "Carrier",
+      "item": [
+        {
+          "name": "Carriers List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{PROFILE_CONTEXT_PATH}}/carriers",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{PROFILE_CONTEXT_PATH}}",
+                "carriers"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "name",
+                  "value": "Carrier 1",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Carrier Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{PROFILE_CONTEXT_PATH}}/carriers/61d85de2-b292-4f2b-82da-97ae30df0606",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{PROFILE_CONTEXT_PATH}}",
+                "carriers",
+                "61d85de2-b292-4f2b-82da-97ae30df0606"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Customer",
+      "item": [
+        {
+          "name": "Customers List",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{PROFILE_CONTEXT_PATH}}/customers",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{PROFILE_CONTEXT_PATH}}",
+                "customers"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": null,
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": null,
+                  "disabled": true
+                },
+                {
+                  "key": "name",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Customer Details",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{PROFILE_CONTEXT_PATH}}/customers/d6649e7d-dc4f-4ce5-9459-865c38564c43",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{PROFILE_CONTEXT_PATH}}",
+                "customers",
+                "d6649e7d-dc4f-4ce5-9459-865c38564c43"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Supplier",
+      "item": [
+        {
+          "name": "Suppliers List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{PROFILE_CONTEXT_PATH}}/suppliers",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{PROFILE_CONTEXT_PATH}}",
+                "suppliers"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "name",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Supplier Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{PROFILE_CONTEXT_PATH}}/suppliers/afb8cde3-eb88-4169-bb1e-e54229a1b7b2",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{PROFILE_CONTEXT_PATH}}",
+                "suppliers",
+                "afb8cde3-eb88-4169-bb1e-e54229a1b7b2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

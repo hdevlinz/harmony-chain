@@ -1,0 +1,153 @@
+{
+  "info": {
+    "_postman_id": "2a665fb7-b97b-4384-93a8-db2fe9451377",
+    "name": "Rating Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31334353"
+  },
+  "item": [
+    {
+      "name": "Ratings List of Supplier",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{RATING_CONTEXT_PATH}}/ratings?supplierId=afb8cde3-eb88-4169-bb1e-e54229a1b7b2",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "{{API_PREFIX}}",
+            "{{RATING_CONTEXT_PATH}}",
+            "ratings"
+          ],
+          "query": [
+            {
+              "key": "supplierId",
+              "value": "afb8cde3-eb88-4169-bb1e-e54229a1b7b2"
+            },
+            {
+              "key": "page",
+              "value": null,
+              "disabled": true
+            },
+            {
+              "key": "size",
+              "value": null,
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Rating for Supplier",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{AUTHORIZATION}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"supplierId\": \"afb8cde3-eb88-4169-bb1e-e54229a1b7b2\",\n    \"rating\": 3,\n    \"content\": \"good\",\n    \"criteria\": \"COST\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{RATING_CONTEXT_PATH}}/ratings/add",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "{{API_PREFIX}}",
+            "{{RATING_CONTEXT_PATH}}",
+            "ratings",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Rating of User",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{AUTHORIZATION}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 5,\n    \"content\": \"aaaaaa\"\n    // \"criteria\": \"COST\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{RATING_CONTEXT_PATH}}/ratings/66fae1cb56a71f23e26f6432",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "{{API_PREFIX}}",
+            "{{RATING_CONTEXT_PATH}}",
+            "ratings",
+            "66fae1cb56a71f23e26f6432"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Rating of User",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{AUTHORIZATION}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{RATING_CONTEXT_PATH}}/ratings/66fae13c344f736524158de6",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "{{API_PREFIX}}",
+            "{{RATING_CONTEXT_PATH}}",
+            "ratings",
+            "66fae13c344f736524158de6"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

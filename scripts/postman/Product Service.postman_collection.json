@@ -1,0 +1,199 @@
+{
+  "info": {
+    "_postman_id": "6d9cc6fc-ee56-4cf4-bd37-087e8d9fd356",
+    "name": "Product Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31334353"
+  },
+  "item": [
+    {
+      "name": "Category",
+      "item": [
+        {
+          "name": "Categories List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{PRODUCT_CONTEXT_PATH}}/categories",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{PRODUCT_CONTEXT_PATH}}",
+                "categories"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": null,
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tag",
+      "item": [
+        {
+          "name": "Tags List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{PRODUCT_CONTEXT_PATH}}/tags",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{PRODUCT_CONTEXT_PATH}}",
+                "tags"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": null,
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Unit",
+      "item": [
+        {
+          "name": "Units List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{PRODUCT_CONTEXT_PATH}}/units",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{PRODUCT_CONTEXT_PATH}}",
+                "units"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": null,
+                  "disabled": true
+                },
+                {
+                  "key": "abbreviation",
+                  "value": null,
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "Products List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{PRODUCT_CONTEXT_PATH}}/products",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{PRODUCT_CONTEXT_PATH}}",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": null,
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": null,
+                  "disabled": true
+                },
+                {
+                  "key": "supplier",
+                  "value": null,
+                  "disabled": true
+                },
+                {
+                  "key": "name",
+                  "value": null,
+                  "disabled": true
+                },
+                {
+                  "key": "fromPrice",
+                  "value": null,
+                  "disabled": true
+                },
+                {
+                  "key": "toPrice",
+                  "value": null,
+                  "disabled": true
+                },
+                {
+                  "key": "category",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "unit",
+                  "value": null,
+                  "disabled": true
+                },
+                {
+                  "key": "tags",
+                  "value": null,
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Product Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{PRODUCT_CONTEXT_PATH}}/products/66fa105c8a1d282b2b123a37",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{PRODUCT_CONTEXT_PATH}}",
+                "products",
+                "66fa105c8a1d282b2b123a37"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

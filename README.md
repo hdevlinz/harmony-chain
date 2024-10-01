@@ -1,5 +1,17 @@
 # Harmony Supply Chain | Microservice Architecture
 
+## Tentative technologies and frameworks
+
+- Java 21
+- Spring boot 3.3.4
+- Next.js
+- Keycloak
+- Kafka
+- Elasticsearch
+- SonarCloud
+- OpenTelemetry
+- Grafana, Loki, Prometheus, Tempo
+
 ## Install dependencies from **docker-compose.yml** file
 
 ```bash

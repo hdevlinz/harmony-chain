@@ -1,0 +1,300 @@
+{
+  "info": {
+    "_postman_id": "e1a0e168-3d9e-4d98-ad4a-f0a220fc194a",
+    "name": "Order Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31334353"
+  },
+  "item": [
+    {
+      "name": "Tax",
+      "item": [
+        {
+          "name": "Taxes List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/taxes",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{ORDER_CONTEXT_PATH}}",
+                "taxes"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Invoice",
+      "item": [
+        {
+          "name": "Invoices List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/invoices/4b63c2ea-3a45-4a7b-8543-f2fc3a3ad1ac",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{ORDER_CONTEXT_PATH}}",
+                "invoices",
+                "4b63c2ea-3a45-4a7b-8543-f2fc3a3ad1ac"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Invoice by InvoiceNumber",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/invoices",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{ORDER_CONTEXT_PATH}}",
+                "invoices"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "item": [
+        {
+          "name": "Orders List",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{ORDER_CONTEXT_PATH}}",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order by OrderNumber",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders/4b63c2ea-3a45-4a7b-8543-f2fc3a3ad1ac",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{ORDER_CONTEXT_PATH}}",
+                "orders",
+                "4b63c2ea-3a45-4a7b-8543-f2fc3a3ad1ac"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Checkout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"type\": \"OUTBOUND\",\n    \"orderDetails\": [\n        {\n            \"productId\": \"002035c1-25d4-4717-81eb-2501eed5d416\",\n            \"quantity\": 16\n        },\n        {\n            \"productId\": \"00fbfc9f-e7e5-49b8-a346-1dec3dc0b1ab\",\n            \"quantity\": 49\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders/checkout",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{ORDER_CONTEXT_PATH}}",
+                "orders",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Checkin",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"type\": \"INBOUND\",\n    \"inventoryId\": \"04e59c67-ec9d-490c-a9bd-195cd653f5de\",\n    \"orderDetails\": [\n        {\n            \"productId\": \"002035c1-25d4-4717-81eb-2501eed5d416\",\n            \"quantity\": 1\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders/checkin",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{ORDER_CONTEXT_PATH}}",
+                "orders",
+                "checkin"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders/2579a8a8-4b72-47eb-9f13-6222480fe503/cancel",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{ORDER_CONTEXT_PATH}}",
+                "orders",
+                "2579a8a8-4b72-47eb-9f13-6222480fe503",
+                "cancel"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"CANCELLED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders/2579a8a8-4b72-47eb-9f13-6222480fe503/status",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{ORDER_CONTEXT_PATH}}",
+                "orders",
+                "2579a8a8-4b72-47eb-9f13-6222480fe503",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
