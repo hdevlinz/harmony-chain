@@ -2,7 +2,7 @@ package com.tth.inventory.configuration;
 
 import com.tth.commonlibrary.dto.response.product.ProductListResponse;
 import com.tth.inventory.entity.Inventory;
-import com.tth.inventory.entity.InventoryDetails;
+import com.tth.inventory.entity.InventoryItem;
 import com.tth.inventory.entity.Warehouse;
 import com.tth.inventory.repository.InventoryRepository;
 import com.tth.inventory.repository.WarehouseRepository;
@@ -10,7 +10,6 @@ import com.tth.inventory.repository.httpclient.ProductClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,12 +28,7 @@ import java.util.stream.IntStream;
 public class AppInitilizerConfigs {
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring", value = "datasource.driverClassName", havingValue = "com.mysql.cj.jdbc.Driver")
-    public ApplicationRunner applicationRunner(
-            WarehouseRepository warehouseRepository,
-            InventoryRepository inventoryRepository,
-            ProductClient productClient
-    ) {
+    public ApplicationRunner applicationRunner(WarehouseRepository warehouseRepository, InventoryRepository inventoryRepository, ProductClient productClient) {
         return args -> {
             log.info("Initializing application.....");
 
@@ -76,15 +70,15 @@ public class AppInitilizerConfigs {
             int numberOfProductsToReturn = 50 + new Random().nextInt(100 - 50 + 1);
             List<ProductListResponse> randomProducts = products.parallelStream().limit(numberOfProductsToReturn).toList();
 
-            Set<InventoryDetails> inventoryDetailsSet = randomProducts.parallelStream()
-                    .map(product -> InventoryDetails.builder()
+            Set<InventoryItem> inventoryItemSet = randomProducts.parallelStream()
+                    .map(product -> InventoryItem.builder()
                             .quantity(5000 + (random.nextFloat() * (10000 - 100)))
                             .productId(product.getId())
                             .inventory(inventory)
                             .build())
                     .collect(Collectors.toSet());
 
-            inventory.setInventoryDetails(inventoryDetailsSet);
+            inventory.setInventoryItems(inventoryItemSet);
             inventoryRepository.save(inventory);
 
             count.getAndIncrement();

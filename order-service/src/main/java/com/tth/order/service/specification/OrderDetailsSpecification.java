@@ -1,6 +1,6 @@
 package com.tth.order.service.specification;
 
-import com.tth.order.entity.OrderDetails;
+import com.tth.order.entity.OrderItem;
 import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,7 +13,7 @@ import java.util.Map;
 @Slf4j
 public class OrderDetailsSpecification {
 
-    public static Specification<OrderDetails> filter(Map<String, String> params) {
+    public static Specification<OrderItem> filter(Map<String, String> params) {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(builder.equal(root.get("active"), true));

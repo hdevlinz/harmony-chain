@@ -30,6 +30,17 @@ public class InventoryServiceImpl implements InventoryService {
     private final InventoryMapper inventoryMapper;
 
     @Override
+    public PageResponse<InventoryResponse> findAll(Map<String, String> params, int page, int size) {
+        Specification<Inventory> spec = InventorySpecification.filter(params);
+
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<InventoryResponse> result = this.inventoryRepository.findAll(spec, pageable)
+                .map(this.inventoryMapper::toInventoryResponse);
+
+        return PageResponse.of(result);
+    }
+
+    @Override
     public InventoryResponse findById(String inventoryId) {
         Inventory inventory = this.inventoryRepository.findById(inventoryId)
                 .orElseThrow(() -> new AppException(ErrorCode.INVENTORY_NOT_FOUND));
@@ -59,17 +70,6 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public void delete(String inventoryId) {
         this.inventoryRepository.deleteById(inventoryId);
-    }
-
-    @Override
-    public PageResponse<InventoryResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
-        Specification<Inventory> spec = InventorySpecification.filter(params);
-
-        Pageable pageable = PageRequest.of(page - 1, size);
-        Page<InventoryResponse> result = this.inventoryRepository.findAll(spec, pageable)
-                .map(this.inventoryMapper::toInventoryResponse);
-
-        return PageResponse.of(result);
     }
 
 }

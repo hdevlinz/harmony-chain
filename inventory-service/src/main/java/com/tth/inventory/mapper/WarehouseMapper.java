@@ -2,7 +2,7 @@ package com.tth.inventory.mapper;
 
 import com.tth.commonlibrary.dto.request.warehouse.WarehouseRequestCreate;
 import com.tth.commonlibrary.dto.request.warehouse.WarehouseRequestUpdate;
-import com.tth.commonlibrary.dto.response.inventory.warehouse.WarehouseResponse;
+import com.tth.commonlibrary.dto.response.warehouse.WarehouseResponse;
 import com.tth.inventory.entity.Warehouse;
 import org.mapstruct.*;
 

@@ -1,18 +1,30 @@
 package com.tth.order.service.impl;
 
 import com.tth.commonlibrary.dto.PageResponse;
-import com.tth.commonlibrary.dto.request.order.OrderDetailsRequest;
+import com.tth.commonlibrary.dto.request.inventory.InventoryItemRequestCreate;
+import com.tth.commonlibrary.dto.request.inventory.InventoryItemRequestUpdate;
+import com.tth.commonlibrary.dto.request.order.OrderItemRequest;
 import com.tth.commonlibrary.dto.request.order.OrderRequest;
+import com.tth.commonlibrary.dto.response.identity.user.UserResponse;
+import com.tth.commonlibrary.dto.response.inventory.InventoryItemResponse;
+import com.tth.commonlibrary.dto.response.inventory.InventoryResponse;
 import com.tth.commonlibrary.dto.response.order.OrderResponse;
 import com.tth.commonlibrary.dto.response.product.ProductListResponse;
-import com.tth.commonlibrary.dto.response.user.UserResponse;
 import com.tth.commonlibrary.enums.ErrorCode;
 import com.tth.commonlibrary.enums.OrderStatus;
 import com.tth.commonlibrary.enums.OrderType;
 import com.tth.commonlibrary.exception.AppException;
-import com.tth.order.entity.*;
+import com.tth.order.entity.Invoice;
+import com.tth.order.entity.Order;
+import com.tth.order.entity.OrderItem;
+import com.tth.order.entity.Tax;
 import com.tth.order.mapper.OrderMapper;
-import com.tth.order.repository.*;
+import com.tth.order.repository.InvoiceRepository;
+import com.tth.order.repository.OrderItemRepository;
+import com.tth.order.repository.OrderRepository;
+import com.tth.order.repository.TaxRepository;
+import com.tth.order.repository.httpclient.InventoryClient;
+import com.tth.order.repository.httpclient.InventoryItemClient;
 import com.tth.order.repository.httpclient.ProductClient;
 import com.tth.order.service.OrderService;
 import com.tth.order.service.specification.OrderSpecification;
@@ -39,14 +51,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
+    private final InvoiceRepository invoiceRepository;
+    private final TaxRepository taxRepository;
     private final OrderMapper orderMapper;
     private final ProductClient productClient;
-    private final TaxRepository taxRepository;
-    private final OrderRepository orderRepository;
-    private final InvoiceRepository invoiceRepository;
-    private final InventoryRepository inventoryRepository;
-    private final OrderDetailsRepository orderDetailsRepository;
-    private final InventoryDetailsRepository inventoryDetailsRepository;
+    private final InventoryClient inventoryClient;
+    private final InventoryItemClient inventoryItemClient;
 
     @Override
     public OrderResponse findByOrderNumber(String orderNumber) {
@@ -67,20 +79,16 @@ public class OrderServiceImpl implements OrderService {
         }
 
         if (orderRequest.getType() == OrderType.OUTBOUND) {
-            // Tập hợp tất cả các productId từ danh sách OrderDetails
-            Set<String> productIds = orderRequest.getOrderDetails().stream()
-                    .map(OrderDetailsRequest::getProductId).collect(Collectors.toSet());
-
-            // Gọi một lần để lấy thông tin của tất cả các sản phẩm trong productIds
+            // Lấy danh sách các sản phẩm trong đơn hàng
+            Set<String> productIds = orderRequest.getOrderItems().stream()
+                    .map(OrderItemRequest::getProductId).collect(Collectors.toSet());
             List<ProductListResponse> products = this.productClient.getProductsInBatch(productIds).getResult();
-
-            // Tạo một map để tra cứu sản phẩm nhanh chóng
-            Map<String, ProductListResponse> productMap = products.stream()
+            Map<String, ProductListResponse> productsMap = products.stream()
                     .collect(Collectors.toMap(ProductListResponse::getId, product -> product));
 
             // Nhóm các sản phẩm theo nhà cung cấp
-            Map<String, Set<OrderDetailsRequest>> groupedBySupplier = orderRequest.getOrderDetails().stream()
-                    .collect(Collectors.groupingBy(odr -> productMap.get(odr.getProductId()).getSupplier().getId(), Collectors.toSet()));
+            Map<String, Set<OrderItemRequest>> groupedBySupplier = orderRequest.getOrderItems().stream()
+                    .collect(Collectors.groupingBy(odr -> productsMap.get(odr.getProductId()).getSupplier().getId(), Collectors.toSet()));
 
             // Tạo đơn hàng mới
             Order order = Order.builder()
@@ -96,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
             final BigDecimal[][] totalAmount = {{BigDecimal.ZERO}};
             groupedBySupplier.forEach((supplier, orderDetailsList) -> {
                 // Tính toán tổng giá trị của đơn hàng
-                totalAmount[0] = this.getTotalAmountOfOrder(order, orderDetailsList, productMap);
+                totalAmount[0] = this.getTotalAmountOfOrder(order, orderDetailsList, productsMap);
             });
 
             // Tạo hóa đơn cho đơn hàng
@@ -104,21 +112,24 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private BigDecimal[] getTotalAmountOfOrder(Order order, Set<OrderDetailsRequest> orderDetailsRequests, Map<String, ProductListResponse> productMap) {
+    private BigDecimal[] getTotalAmountOfOrder(Order order, Set<OrderItemRequest> orderDetailsRequests, Map<String, ProductListResponse> productMap) {
         final BigDecimal[] totalAmount = {BigDecimal.ZERO};
 
         // Duyệt danh sách các sản phẩm trong đơn hàng
         orderDetailsRequests.forEach(odr -> {
             if (odr.getQuantity() > 0) {
                 // Tìm kiếm và kiểm tra tồn kho nào còn hàng không
-                InventoryDetails inventoryDetails = this.checkQuantityOfInventory(productMap.get(odr.getProductId()), odr.getQuantity());
+                InventoryItemResponse inventoryItem = this.checkQuantityOfInventory(productMap.get(odr.getProductId()), odr.getQuantity());
 
                 // Nếu có hàng trong kho và đủ số lượng khách yêu cầu thì cập nhật lại số lượng tồn kho
-                inventoryDetails.setQuantity(inventoryDetails.getQuantity() - odr.getQuantity());
-                this.inventoryDetailsRepository.save(inventoryDetails);
+                inventoryItem.setQuantity(inventoryItem.getQuantity() - odr.getQuantity());
+                InventoryItemRequestUpdate request = InventoryItemRequestUpdate.builder()
+                        .quantity(inventoryItem.getQuantity())
+                        .build();
+                this.inventoryItemClient.updateInventoryItem(inventoryItem.getId(), request);
 
                 // Tạo chi tiết đơn hàng
-                this.createOrderDetails(order, productMap.get(odr.getProductId()), inventoryDetails, odr);
+                this.createOrderDetails(order, productMap.get(odr.getProductId()), inventoryItem, odr);
 
                 totalAmount[0] = totalAmount[0].add(productMap.get(odr.getProductId()).getPrice().multiply(BigDecimal.valueOf(odr.getQuantity())));
             }
@@ -127,10 +138,10 @@ public class OrderServiceImpl implements OrderService {
         return totalAmount;
     }
 
-    private InventoryDetails checkQuantityOfInventory(ProductListResponse product, Float orderQuantity) {
-        List<InventoryDetails> currentInventoryDetails = this.inventoryDetailsRepository.findByProductId(product.getId());
+    private InventoryItemResponse checkQuantityOfInventory(ProductListResponse product, Float orderQuantity) {
+        List<InventoryItemResponse> inventoryItemList = this.inventoryItemClient.listInventoryItems(Map.of("product", product.getId())).getResult();
 
-        for (InventoryDetails details : currentInventoryDetails) {
+        for (InventoryItemResponse details : inventoryItemList) {
             if (details.getQuantity() >= orderQuantity) {
                 return details;
             }
@@ -150,23 +161,18 @@ public class OrderServiceImpl implements OrderService {
 
         if (orderRequest.getType() == OrderType.INBOUND) {
             // Tìm kiếm tồn kho cần nhập hàng, nếu không tìm thấy thì báo lỗi
-            Inventory inventory = this.inventoryRepository.findById(orderRequest.getInventoryId())
-                    .orElseThrow(() -> new AppException(ErrorCode.INVENTORY_NOT_FOUND));
+            InventoryResponse inventory = this.inventoryClient.getInventory(orderRequest.getInventoryId()).getResult();
 
-            // Tập hợp tất cả các productId từ danh sách InventoryDetails
-            Set<String> productIds = orderRequest.getOrderDetails().stream()
-                    .map(OrderDetailsRequest::getProductId).collect(Collectors.toSet());
-
-            // Gọi một lần để lấy thông tin của tất cả các sản phẩm trong productIds
+            // Lấy danh sách các sản phẩm trong đơn hàng
+            Set<String> productIds = orderRequest.getOrderItems().stream()
+                    .map(OrderItemRequest::getProductId).collect(Collectors.toSet());
             List<ProductListResponse> products = this.productClient.getProductsInBatch(productIds).getResult();
-
-            // Tạo một map để tra cứu sản phẩm nhanh chóng
-            Map<String, ProductListResponse> productMap = products.stream()
+            Map<String, ProductListResponse> productsMap = products.stream()
                     .collect(Collectors.toMap(ProductListResponse::getId, product -> product));
 
             // Nhóm các sản phẩm theo nhà cung cấp
-            Map<String, Set<OrderDetailsRequest>> groupedBySupplier = orderRequest.getOrderDetails().stream()
-                    .collect(Collectors.groupingBy(odr -> productMap.get(odr.getProductId()).getSupplier().getId(), Collectors.toSet()));
+            Map<String, Set<OrderItemRequest>> groupedBySupplier = orderRequest.getOrderItems().stream()
+                    .collect(Collectors.groupingBy(odr -> productsMap.get(odr.getProductId()).getSupplier().getId(), Collectors.toSet()));
 
             // Tạo đơn hàng mới
             Order order = Order.builder()
@@ -181,10 +187,10 @@ public class OrderServiceImpl implements OrderService {
             // Tạo đơn hàng cho mỗi nhà cung cấp
             final BigDecimal[][] totalAmount = {{BigDecimal.ZERO}};
             groupedBySupplier.forEach((supplier, orderDetailsList) -> {
-                this.checkCapacityOfWarehouse(inventory, orderRequest.getOrderDetails());
+                this.checkCapacityOfWarehouse(inventory, orderRequest.getOrderItems());
 
                 // Nếu không vượt quá sức chứa thì tính toán tổng giá trị của đơn hàng
-                totalAmount[0] = this.getTotalAmountOfOrder(inventory, order, orderRequest.getOrderDetails(), productMap);
+                totalAmount[0] = this.getTotalAmountOfOrder(inventory, order, orderRequest.getOrderItems(), productsMap);
             });
 
             // Tạo hóa đơn cho đơn hàng
@@ -192,13 +198,14 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private void checkCapacityOfWarehouse(Inventory inventory, Set<OrderDetailsRequest> orderDetailsRequests) {
+    private void checkCapacityOfWarehouse(InventoryResponse inventory, Set<OrderItemRequest> orderDetailsRequests) {
         // Tính tổng số lượng sản phẩm hiện tại của tất cả tồn kho trong kho hàng
-        Float totalCurrentQuantity = this.inventoryDetailsRepository.getTotalQuantityByWarehouseId(inventory.getWarehouse().getId());
+        Float totalCurrentQuantity = this.inventoryItemClient.getTotalQuantityByWarehouseId(inventory.getWarehouse().getId())
+                .getResult().get("totalQuantity");
 
         // Tính tổng số lượng sản phẩm trong đơn hàng
         Float totalOrderQuantity = orderDetailsRequests.stream()
-                .map(OrderDetailsRequest::getQuantity)
+                .map(OrderItemRequest::getQuantity)
                 .reduce(0F, Float::sum);
 
         // Tính tổng số lượng sản phẩm sau khi nhập hàng
@@ -210,31 +217,40 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private BigDecimal[] getTotalAmountOfOrder(Inventory inventory, Order order, Set<OrderDetailsRequest> orderDetailsRequests, Map<String, ProductListResponse> productMap) {
+    private BigDecimal[] getTotalAmountOfOrder(
+            InventoryResponse inventory,
+            Order order,
+            Set<OrderItemRequest> orderDetailsRequests,
+            Map<String, ProductListResponse> productMap
+    ) {
         final BigDecimal[] totalAmount = {BigDecimal.ZERO};
 
         // Duyệt danh sách các sản phẩm trong đơn hàng
         orderDetailsRequests.forEach(odr -> {
             if (odr.getQuantity() > 0) {
                 // Tìm tồn kho hiện tại của sản phẩm
-                InventoryDetails inventoryDetails = this.inventoryDetailsRepository
-                        .findByInventoryIdAndProductId(inventory.getId(), odr.getProductId())
-                        .orElseGet(() -> {
-                            InventoryDetails newInventoryDetails = InventoryDetails.builder()
-                                    .inventory(inventory)
-                                    .productId(odr.getProductId())
-                                    .quantity(0F)
-                                    .build();
-                            this.inventoryDetailsRepository.save(newInventoryDetails);
-                            return newInventoryDetails;
-                        });
+                InventoryItemResponse inventoryItem = this.inventoryItemClient.listInventoryItems(
+                        Map.of("inventory", inventory.getId(), "product", odr.getProductId())
+                ).getResult().getFirst();
+
+                if (inventoryItem == null) {
+                    InventoryItemRequestCreate request = InventoryItemRequestCreate.builder()
+                            .inventoryId(inventory.getId())
+                            .productId(odr.getProductId())
+                            .quantity(0F)
+                            .build();
+                    inventoryItem = this.inventoryItemClient.createInventoryItem(request).getResult();
+                }
 
                 // Sau khi tìm hoặc tạo mới tồn kho thì cập nhật lại số lượng tồn kho
-                inventoryDetails.setQuantity(inventoryDetails.getQuantity() + odr.getQuantity());
-                this.inventoryDetailsRepository.save(inventoryDetails);
+                inventoryItem.setQuantity(inventoryItem.getQuantity() + odr.getQuantity());
+                InventoryItemRequestUpdate request = InventoryItemRequestUpdate.builder()
+                        .quantity(inventoryItem.getQuantity())
+                        .build();
+                this.inventoryItemClient.updateInventoryItem(inventoryItem.getId(), request);
 
                 // Tạo chi tiết đơn hàng
-                this.createOrderDetails(order, productMap.get(odr.getProductId()), inventoryDetails, odr);
+                this.createOrderDetails(order, productMap.get(odr.getProductId()), inventoryItem, odr);
 
                 totalAmount[0] = totalAmount[0].add(productMap.get(odr.getProductId()).getPrice().multiply(BigDecimal.valueOf(odr.getQuantity())));
             }
@@ -264,10 +280,19 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.CANCELLED);
         this.orderRepository.save(order);
 
-        order.getOrderDetails().forEach(od -> {
-            InventoryDetails inventoryDetails = od.getInventoryDetails();
-            inventoryDetails.setQuantity(inventoryDetails.getQuantity() + od.getQuantity());
-            this.inventoryDetailsRepository.save(inventoryDetails);
+        List<String> inventoryItemIds = order.getOrderItems().stream().map(OrderItem::getInventoryItemId).toList();
+        List<InventoryItemResponse> inventoryItems = this.inventoryItemClient.listInventoryItemsInBatch(inventoryItemIds).getResult();
+        Map<String, InventoryItemResponse> inventoryItemMap = inventoryItems.stream()
+                .collect(Collectors.toMap(InventoryItemResponse::getId, inventoryItem -> inventoryItem));
+
+        order.getOrderItems().forEach(od -> {
+            InventoryItemResponse inventoryItem = inventoryItemMap.get(od.getInventoryItemId());
+            inventoryItem.setQuantity(inventoryItem.getQuantity() + od.getQuantity());
+
+            InventoryItemRequestUpdate request = InventoryItemRequestUpdate.builder()
+                    .quantity(inventoryItem.getQuantity())
+                    .build();
+            this.inventoryItemClient.updateInventoryItem(inventoryItem.getId(), request);
         });
 
         this.invoiceRepository.findByOrderId(orderNumber).ifPresent(invoice -> {
@@ -297,20 +322,32 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalStateException("Đơn hàng đã ở trạng thái " + orderStatus.getDisplayName());
         }
 
+        List<String> inventoryItemIds = order.getOrderItems().stream().map(OrderItem::getInventoryItemId).toList();
+        List<InventoryItemResponse> inventoryItems = this.inventoryItemClient.listInventoryItemsInBatch(inventoryItemIds).getResult();
+        Map<String, InventoryItemResponse> inventoryItemMap = inventoryItems.stream()
+                .collect(Collectors.toMap(InventoryItemResponse::getId, inventoryItem -> inventoryItem));
         switch (orderStatus) {
             case CANCELLED:
             case RETURNED:
                 if (order.getType() == OrderType.OUTBOUND) {
-                    order.getOrderDetails().forEach(od -> {
-                        InventoryDetails inventoryDetails = od.getInventoryDetails();
-                        inventoryDetails.setQuantity(inventoryDetails.getQuantity() + od.getQuantity());
-                        this.inventoryDetailsRepository.save(inventoryDetails);
+                    order.getOrderItems().forEach(od -> {
+                        InventoryItemResponse inventoryItem = inventoryItemMap.get(od.getInventoryItemId());
+                        inventoryItem.setQuantity(inventoryItem.getQuantity() + od.getQuantity());
+
+                        InventoryItemRequestUpdate request = InventoryItemRequestUpdate.builder()
+                                .quantity(inventoryItem.getQuantity())
+                                .build();
+                        this.inventoryItemClient.updateInventoryItem(inventoryItem.getId(), request);
                     });
                 } else if (order.getType() == OrderType.INBOUND) {
-                    order.getOrderDetails().forEach(od -> {
-                        InventoryDetails inventoryDetails = od.getInventoryDetails();
-                        inventoryDetails.setQuantity(inventoryDetails.getQuantity() - od.getQuantity());
-                        this.inventoryDetailsRepository.save(inventoryDetails);
+                    order.getOrderItems().forEach(od -> {
+                        InventoryItemResponse inventoryItem = inventoryItemMap.get(od.getInventoryItemId());
+                        inventoryItem.setQuantity(inventoryItem.getQuantity() - od.getQuantity());
+
+                        InventoryItemRequestUpdate request = InventoryItemRequestUpdate.builder()
+                                .quantity(inventoryItem.getQuantity())
+                                .build();
+                        this.inventoryItemClient.updateInventoryItem(inventoryItem.getId(), request);
                     });
                 }
                 break;
@@ -321,58 +358,27 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderResponse> findRecentlyOrders() {
-        return this.orderRepository.findRecentOrders().stream().map(this.orderMapper::toOrderResponse).collect(Collectors.toList());
-    }
-
-    @Override
-    public PageResponse<Order> findAllByParams(Map<String, String> params, int page, int size) {
-        Specification<Order> specification = OrderSpecification.filterByParams(params);
-        Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Order> orders = this.orderRepository.findAll(specification, pageable);
-
-        return PageResponse.of(orders);
-    }
-
-    @Override
-    public PageResponse<Order> findByShipmentId(String deliveryScheduleId, int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Order> orders = this.orderRepository.findByShipmentId(deliveryScheduleId, pageable);
-
-        return PageResponse.of(orders);
-    }
-
-    @Override
-    public PageResponse<OrderResponse> findAllOrderOfAuthenticated(Map<String, String> params, int page, int size) {
+    public PageResponse<OrderResponse> findAllOfAuthenticated(Map<String, String> params, int page, int size) {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        params.put("userId", user.getName());
+        params.put("user", user.getName());
 
-        Specification<Order> specification = OrderSpecification.filterByParams(params);
+        Specification<Order> specification = OrderSpecification.filter(params);
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<OrderResponse> invoices = this.orderRepository.findAll(specification, pageable)
+        Page<OrderResponse> orders = this.orderRepository.findAll(specification, pageable)
                 .map(this.orderMapper::toOrderResponse);
 
-        return PageResponse.of(invoices);
-    }
-
-    @Override
-    public PageResponse<Order> findAllBySupplierId(String supplierId, Map<String, String> params, int page, int size) {
-        Specification<Order> specification = OrderSpecification.filterBySupplierId(supplierId, params);
-        Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Order> orders = this.orderRepository.findAll(specification, pageable);
-
         return PageResponse.of(orders);
     }
 
-    private void createOrderDetails(Order order, ProductListResponse product, InventoryDetails inventoryDetails, OrderDetailsRequest odr) {
-        OrderDetails orderDetails = OrderDetails.builder()
+    private void createOrderDetails(Order order, ProductListResponse product, InventoryItemResponse inventoryItem, OrderItemRequest odr) {
+        OrderItem orderItem = OrderItem.builder()
                 .order(order)
                 .productId(product.getId())
-                .inventoryDetails(inventoryDetails)
+                .inventoryItemId(inventoryItem.getId())
                 .quantity(odr.getQuantity())
                 .unitPrice(product.getPrice())
                 .build();
-        this.orderDetailsRepository.save(orderDetails);
+        this.orderItemRepository.save(orderItem);
     }
 
     private void createInvoice(String userId, Order order, OrderRequest orderRequest, BigDecimal[] totalAmount) {

@@ -56,7 +56,6 @@ public class SecurityConfigs {
                         UserRole.ROLE_DISTRIBUTOR.alias(),
                         UserRole.ROLE_MANUFACTURER.alias()
                 )
-                .requestMatchers("/carts/**").authenticated()
                 .requestMatchers("/orders/**").authenticated()
                 .requestMatchers("/invoices/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()

@@ -9,6 +9,7 @@ import com.tth.notification.dto.response.SendEmailResponse;
 import com.tth.notification.repository.EmailClient;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,9 @@ import java.util.List;
 public class EmailService {
 
     private final EmailClient emailClient;
+
+    @Value("${app.mail-api-key}")
+    private String apiKey;
 
     public SendEmailResponse sendEmail(SendEmailRequest request) {
         EmailRequest emailRequest = EmailRequest.builder()
@@ -30,8 +34,7 @@ public class EmailService {
                 .subject(request.getSubject())
                 .build();
         try {
-            String secretAccessKey = "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";
-            return this.emailClient.sendEmail(secretAccessKey, emailRequest);
+            return this.emailClient.sendEmail(this.apiKey, emailRequest);
         } catch (FeignException e) {
             throw new AppException(ErrorCode.CANNOT_SEND_EMAIL);
         }

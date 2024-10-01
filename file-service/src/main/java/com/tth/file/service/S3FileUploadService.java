@@ -3,6 +3,7 @@ package com.tth.file.service;
 import com.tth.commonlibrary.enums.FileCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -25,7 +26,8 @@ public class S3FileUploadService {
 
     private final S3Client s3Client;
 
-    private final String bucketName = "harmony-supply-chain";
+    @Value("${app.services.aws.s3.bucket-name}")
+    private String bucketName;
 
     public List<String> uploadMultiFiles(List<MultipartFile> files, String category) {
         List<String> fileURLS = new ArrayList<>();

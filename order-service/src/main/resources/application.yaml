@@ -8,14 +8,6 @@ server:
          enabled: true
          force: true
 
-# Application configuration
-app:
-   services:
-      identity:
-         url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
-      product:
-         url: ${PRODUCT_SERVICE_URL:http://localhost:8082/product}
-
 # Spring configuration
 spring:
    application:
@@ -39,5 +31,14 @@ spring:
          max-file-size: 10MB
          max-request-size: 10MB
 
-stripe:
-   secret-key: ${STRIPE_SECRET_KEY:sk_test_51O41qGBy1BulLKF8u3JAYr4tDLkAXiR3UpjDbyJn3QR5Jfr84h62AVXmU9RPKgwjtIIUSKPKIlvsOZJeTUHfdzZu0013X6szi0}
+# Application configuration
+app:
+   services:
+      stripe:
+         secret-key: ${STRIPE_SECRET_KEY:sk_test_51O41qGBy1BulLKF8u3JAYr4tDLkAXiR3UpjDbyJn3QR5Jfr84h62AVXmU9RPKgwjtIIUSKPKIlvsOZJeTUHfdzZu0013X6szi0}
+      identity:
+         url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
+      product:
+         url: ${PRODUCT_SERVICE_URL:http://localhost:8082/product}
+      inventory:
+         url: ${INVENTORY_SERVICE_URL:http://localhost:8087/inventory}

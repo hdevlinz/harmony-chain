@@ -8,14 +8,6 @@ server:
          enabled: true
          force: true
 
-# Application configuration
-app:
-   services:
-      identity:
-         url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
-      product:
-         url: ${PRODUCT_SERVICE_URL:http://localhost:8082/product}
-
 # Spring configuration
 spring:
    application:
@@ -28,7 +20,9 @@ spring:
       producer:
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-   servlet:
-      multipart:
-         max-file-size: 10MB
-         max-request-size: 10MB
+
+# Application configuration
+app:
+   services:
+      product:
+         url: ${PRODUCT_SERVICE_URL:http://localhost:8082/product}

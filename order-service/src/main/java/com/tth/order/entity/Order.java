@@ -58,6 +58,6 @@ public class Order extends BaseEntity implements Serializable {
     private Invoice invoice;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private Set<OrderDetails> orderDetails;
+    private Set<OrderItem> orderItems;
 
 }

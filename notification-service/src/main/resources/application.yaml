@@ -8,13 +8,6 @@ server:
          enabled: true
          force: true
 
-# Application configuration
-app:
-   services:
-      email:
-         url: ${EMAIL_SERVICE_URL:https://api.brevo.com}
-   mail-api-key: ${MAIL_API_KEY}
-
 # Spring configuration
 spring:
    application:
@@ -32,3 +25,10 @@ spring:
          properties:
             spring.json.trusted.packages: "*"
             spring.json.value.default.type: "com.tth.event.dto.NotificationEvent"
+
+# Application configuration
+app:
+   services:
+      email:
+         url: ${EMAIL_SERVICE_URL:https://api.brevo.com}
+   mail-api-key: ${MAIL_API_KEY}

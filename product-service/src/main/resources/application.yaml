@@ -8,12 +8,6 @@ server:
          enabled: true
          force: true
 
-# Application configuration
-app:
-   services:
-      profile:
-         url: ${PROFILE_SERVICE_URL:http://localhost:8083/profile}
-
 # Spring configuration
 spring:
    application:
@@ -30,3 +24,9 @@ spring:
       multipart:
          max-file-size: 10MB
          max-request-size: 10MB
+
+# Application configuration
+app:
+   services:
+      profile:
+         url: ${PROFILE_SERVICE_URL:http://localhost:8083/profile}

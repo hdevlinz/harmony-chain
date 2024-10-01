@@ -24,7 +24,7 @@ public class OrderRequest {
     private OrderStatus status;
 
     @Valid
-    private Set<OrderDetailsRequest> orderDetails;
+    private Set<OrderItemRequest> orderItems;
 
     private LocalDateTime createdAt;
 

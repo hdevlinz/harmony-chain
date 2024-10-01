@@ -1,5 +1,9 @@
 # Harmony Supply Chain | Microservice Architecture
 
+## Development Architecture
+
+![Development Architecture](https://raw.githubusercontent.com/hiepthanhtran/harmony-supply-chain/main/development-architecture.png)
+
 ## Install Docker on ubuntu
 
 ### Add Docker's official GPG key:

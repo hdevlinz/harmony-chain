@@ -1,6 +1,6 @@
 package com.tth.commonlibrary.dto.response.inventory;
 
-import com.tth.commonlibrary.dto.response.inventory.warehouse.WarehouseResponse;
+import com.tth.commonlibrary.dto.response.warehouse.WarehouseResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +20,6 @@ public class InventoryResponse {
 
     private WarehouseResponse warehouse;
 
-    private Set<InventoryDetailsResponse> inventoryDetails;
+    private Set<InventoryItemResponse> inventoryItems;
 
 }

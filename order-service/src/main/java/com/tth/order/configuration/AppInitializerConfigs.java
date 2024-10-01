@@ -1,21 +1,18 @@
 package com.tth.order.configuration;
 
-import com.tth.commonlibrary.dto.request.order.OrderDetailsRequest;
+import com.tth.commonlibrary.dto.request.order.OrderItemRequest;
 import com.tth.commonlibrary.dto.request.order.OrderRequest;
 import com.tth.commonlibrary.dto.response.identity.user.UserResponse;
-import com.tth.commonlibrary.dto.response.inventory.InventoryDetailsResponse;
+import com.tth.commonlibrary.dto.response.inventory.InventoryItemResponse;
+import com.tth.commonlibrary.dto.response.inventory.InventoryResponse;
 import com.tth.commonlibrary.dto.response.product.ProductListResponse;
 import com.tth.commonlibrary.enums.OrderStatus;
 import com.tth.commonlibrary.enums.OrderType;
-import com.tth.order.entity.Inventory;
-import com.tth.order.entity.InventoryDetails;
-import com.tth.order.entity.Warehouse;
-import com.tth.order.mapper.InventoryMapper;
-import com.tth.order.repository.InventoryDetailsRepository;
-import com.tth.order.repository.InventoryRepository;
-import com.tth.order.repository.WarehouseRepository;
+import com.tth.order.entity.Tax;
+import com.tth.order.repository.OrderRepository;
+import com.tth.order.repository.TaxRepository;
 import com.tth.order.repository.httpclient.IdentityClient;
-import com.tth.order.repository.httpclient.ProductClient;
+import com.tth.order.repository.httpclient.InventoryClient;
 import com.tth.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +26,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -39,94 +35,50 @@ import java.util.stream.IntStream;
 public class AppInitializerConfigs {
 
     @Bean
-    public ApplicationRunner applicationRunner(
-            InventoryDetailsRepository inventoryDetailsRepository,
-            WarehouseRepository warehouseRepository,
-            InventoryRepository inventoryRepository,
-            OrderService orderService,
-            ProductClient productClient,
-            IdentityClient identityClient,
-            InventoryMapper inventoryMapper
-    ) {
+    public ApplicationRunner applicationRunner(OrderService orderService, TaxRepository taxRepository, OrderRepository orderRepository, IdentityClient identityClient,
+                                               InventoryClient inventoryClient) {
         return args -> {
             log.info("Initializing application.....");
 
-            if (warehouseRepository.count() == 0) {
-                log.info("Creating warehouses.....");
-                this.createWarehouse(warehouseRepository);
-
-                log.info("Creating inventories.....");
-                this.createInventory(warehouseRepository, inventoryRepository, productClient);
+            if (orderRepository.count() == 0) {
+                log.info("Creating taxes.....");
+                this.createTax(taxRepository);
 
                 log.info("Creating orders.....");
-                this.createOrder(inventoryDetailsRepository, orderService, identityClient, inventoryMapper);
+                this.createOrder(orderService, identityClient, inventoryClient);
             }
 
             log.info("Application initialization completed.....");
         };
     }
 
-    private void createWarehouse(WarehouseRepository warehouseRepository) {
-        warehouseRepository.saveAll(List.of(
-                Warehouse.builder().name("Warehouse 1").location("TPHCM").capacity(50000000.0F).cost(new BigDecimal(100000)).build(),
-                Warehouse.builder().name("Warehouse 2").location("Hà Nội").capacity(100000000.0F).cost(new BigDecimal(200000)).build(),
-                Warehouse.builder().name("Warehouse 3").location("Đà Nẵng").capacity(150000000.0F).cost(new BigDecimal(300000)).build(),
-                Warehouse.builder().name("Warehouse 4").location("Cần Thơ").capacity(200000000.0F).cost(new BigDecimal(400000)).build(),
-                Warehouse.builder().name("Warehouse 5").location("Hải Phòng").capacity(250000000.0F).cost(new BigDecimal(500000)).build()
+    void createTax(TaxRepository taxRepository) {
+        taxRepository.saveAll(List.of(
+                Tax.builder().rate(BigDecimal.valueOf(0.01)).region("VN").build(),
+                Tax.builder().rate(BigDecimal.valueOf(0.05)).region("US").build(),
+                Tax.builder().rate(BigDecimal.valueOf(0.20)).region("EU").build(),
+                Tax.builder().rate(BigDecimal.valueOf(0.10)).region("APAC").build(),
+                Tax.builder().rate(BigDecimal.valueOf(0.15)).region("LATAM").build(),
+                Tax.builder().rate(BigDecimal.valueOf(0.08)).region("MEA").build()
         ));
     }
 
-    private void createInventory(WarehouseRepository warehouseRepository, InventoryRepository inventoryRepository, ProductClient productClient) {
-        List<ProductListResponse> products = productClient.listProducts(null, 1, 10).getData();
-        List<Warehouse> warehouses = warehouseRepository.findAll();
-        AtomicInteger count = new AtomicInteger(1);
-        Random random = new Random();
-
-        warehouses.forEach(warehouse -> IntStream.range(0, 10).forEach(index -> {
-            Inventory inventory = Inventory.builder()
-                    .name("Inventory " + count)
-                    .warehouse(warehouse)
-                    .build();
-
-            Collections.shuffle(products, new Random());
-            int numberOfProductsToReturn = 50 + new Random().nextInt(100 - 50 + 1);
-            List<ProductListResponse> randomProducts = products.parallelStream().limit(numberOfProductsToReturn).toList();
-
-            Set<InventoryDetails> inventoryDetailsSet = randomProducts.parallelStream()
-                    .map(product -> InventoryDetails.builder()
-                            .quantity(5000 + (random.nextFloat() * (10000 - 100)))
-                            .productId(product.getId())
-                            .inventory(inventory)
-                            .build())
-                    .collect(Collectors.toSet());
-
-            inventory.setInventoryDetails(inventoryDetailsSet);
-            inventoryRepository.save(inventory);
-
-            count.getAndIncrement();
-        }));
-    }
-
-    private void createOrder(
-            InventoryDetailsRepository inventoryDetailsRepository,
-            OrderService orderService,
-            IdentityClient identityClient,
-            InventoryMapper inventoryMapper
-
-    ) {
-        List<InventoryDetails> inventoryDetails = inventoryDetailsRepository.findAll();
-        List<InventoryDetailsResponse> inventoryDetailsResponses = new ArrayList<>(inventoryDetails
-                .stream().map(inventoryMapper::toInventoryDetailsResponse).toList());
+    private void createOrder(OrderService orderService, IdentityClient identityClient, InventoryClient inventoryClient) {
         List<UserResponse> users = identityClient.listUsers().getResult();
+        List<InventoryResponse> inventories = inventoryClient.listInventories(null, 1, 100).getData();
+        List<InventoryItemResponse> inventoryItems = new ArrayList<>(inventories.stream()
+                .map(InventoryResponse::getInventoryItems)
+                .flatMap(Collection::stream)
+                .toList());
         Random random = new Random();
 
         users.forEach(user -> IntStream.range(0, 10).forEach(index -> {
-            Collections.shuffle(inventoryDetailsResponses, random);
-            List<ProductListResponse> randomProducts = inventoryDetailsResponses.stream()
-                    .map(InventoryDetailsResponse::getProduct).limit(3).toList();
+            Collections.shuffle(inventoryItems, random);
+            List<ProductListResponse> randomProducts = inventoryItems.stream()
+                    .map(InventoryItemResponse::getProduct).limit(3).toList();
 
-            Set<OrderDetailsRequest> orderDetails = randomProducts.stream()
-                    .map(product -> OrderDetailsRequest.builder()
+            Set<OrderItemRequest> orderItems = randomProducts.stream()
+                    .map(product -> OrderItemRequest.builder()
                             .productId(product.getId())
                             .quantity(3F)
                             .build())
@@ -136,8 +88,8 @@ public class AppInitializerConfigs {
                     .type(OrderType.values()[random.nextInt(OrderType.values().length)])
                     .status(OrderStatus.DELIVERED)
                     .paid(true)
-                    .inventoryId(inventoryDetails.getFirst().getInventory().getId())
-                    .orderDetails(orderDetails)
+                    .inventoryId(inventories.getFirst().getId())
+                    .orderItems(orderItems)
                     .createdAt(this.getRandomDateTimeInYear())
                     .build();
 

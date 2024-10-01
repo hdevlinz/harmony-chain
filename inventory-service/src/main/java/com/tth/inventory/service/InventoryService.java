@@ -9,6 +9,8 @@ import java.util.Map;
 
 public interface InventoryService {
 
+    PageResponse<InventoryResponse> findAll(Map<String, String> params, int page, int size);
+
     InventoryResponse findById(String id);
 
     InventoryResponse create(InventoryRequestCreate request);
@@ -16,7 +18,5 @@ public interface InventoryService {
     InventoryResponse update(String inventoryId, InventoryRequestUpdate request);
 
     void delete(String inventoryId);
-
-    PageResponse<InventoryResponse> findAllWithFilter(Map<String, String> params, int page, int size);
 
 }

@@ -18,17 +18,10 @@ public class InventorySpecification {
             predicates.add(builder.equal(root.get("active"), true));
 
             params.forEach((key, value) -> {
-                if (value != null && !value.isEmpty()) {
-                    switch (key) {
-                        case "name":
-                            predicates.add(builder.like(root.get("name"), String.format("%%%s%%", value)));
-                            break;
-                        case "warehouse":
-                            predicates.add(builder.equal(root.get("warehouse").get("id"), value));
-                            break;
-                        default:
-                            log.warn("Unknown filter key: {}", key);
-                    }
+                switch (key) {
+                    case "name" -> predicates.add(builder.like(root.get("name"), String.format("%%%s%%", value)));
+                    case "warehouse" -> predicates.add(builder.equal(root.get("warehouse").get("id"), value));
+                    default -> log.warn("Unknown filter key: {}", key);
                 }
             });
 

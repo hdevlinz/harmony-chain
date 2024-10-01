@@ -24,7 +24,7 @@ public class APIInventoryController {
     public ResponseEntity<?> listInventories(@RequestParam(required = false, defaultValue = "") Map<String, String> params,
                                              @RequestParam(required = false, defaultValue = "1") int page,
                                              @RequestParam(required = false, defaultValue = "5") int size) {
-        return ResponseEntity.ok(this.inventoryService.findAllWithFilter(params, page, size));
+        return ResponseEntity.ok(this.inventoryService.findAll(params, page, size));
     }
 
     @PostMapping

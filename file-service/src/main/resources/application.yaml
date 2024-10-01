@@ -17,9 +17,11 @@ spring:
          max-file-size: 10MB
          max-request-size: 10MB
 
-# AWS configuration
-aws:
-   access-key-id: ${AWS_ACCESS_KEY_ID}
-   secret-access-key: ${AWS_SECRET}
-   s3:
-      bucket-name: ${S3_BUCKET_NAME}
+# Application configuration
+app:
+   services:
+      aws:
+         access-key-id: ${AWS_ACCESS_KEY_ID:AKIA6K5V7JXAJRAGPNOP}
+         secret-access-key: ${AWS_SECRET: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}
+         s3:
+            bucket-name: ${S3_BUCKET_NAME:harmony-supply-chain}

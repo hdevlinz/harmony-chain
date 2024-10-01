@@ -18,17 +18,10 @@ public class WarehouseSpecification {
             predicates.add(builder.equal(root.get("active"), true));
 
             params.forEach((key, value) -> {
-                if (value != null && !value.isEmpty()) {
-                    switch (key) {
-                        case "name":
-                            predicates.add(builder.like(root.get("name"), String.format("%%%s%%", value)));
-                            break;
-                        case "location":
-                            predicates.add(builder.like(root.get("location"), String.format("%%%s%%", value)));
-                            break;
-                        default:
-                            log.warn("Unknown filter key: {}", key);
-                    }
+                switch (key) {
+                    case "name" -> predicates.add(builder.like(root.get("name"), String.format("%%%s%%", value)));
+                    case "location" -> predicates.add(builder.like(root.get("location"), String.format("%%%s%%", value)));
+                    default -> log.warn("Unknown filter key: {}", key);
                 }
             });
 

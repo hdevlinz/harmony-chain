@@ -3,7 +3,7 @@ package com.tth.inventory.controller;
 import com.tth.commonlibrary.dto.APIResponse;
 import com.tth.commonlibrary.dto.request.warehouse.WarehouseRequestCreate;
 import com.tth.commonlibrary.dto.request.warehouse.WarehouseRequestUpdate;
-import com.tth.commonlibrary.dto.response.inventory.warehouse.WarehouseResponse;
+import com.tth.commonlibrary.dto.response.warehouse.WarehouseResponse;
 import com.tth.inventory.service.WarehouseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class APIWarehouseController {
     public ResponseEntity<?> listWarehouses(@RequestParam(required = false, defaultValue = "") Map<String, String> params,
                                             @RequestParam(required = false, defaultValue = "1") int page,
                                             @RequestParam(required = false, defaultValue = "10") int size) {
-        return ResponseEntity.ok(this.warehouseService.findAllWithFilter(params, page, size));
+        return ResponseEntity.ok(this.warehouseService.findAll(params, page, size));
     }
 
     @PostMapping

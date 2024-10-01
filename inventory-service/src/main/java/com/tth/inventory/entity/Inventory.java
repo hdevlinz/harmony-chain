@@ -28,6 +28,6 @@ public class Inventory extends BaseEntity implements Serializable {
     private Warehouse warehouse;
 
     @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL)
-    private Set<InventoryDetails> inventoryDetails;
+    private Set<InventoryItem> inventoryItems;
 
 }

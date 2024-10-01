@@ -8,12 +8,6 @@ server:
          enabled: true
          force: true
 
-# Application configuration
-app:
-   services:
-      identity:
-         url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
-
 # Spring configuration
 spring:
    application:
@@ -28,3 +22,7 @@ spring:
       producer:
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+# Application configuration
+app:
+   services:

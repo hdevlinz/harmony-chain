@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatusCode;
 @AllArgsConstructor
 public enum ErrorCode {
     PRODUCT_NOT_EXISTS_IN_CART(1404, "Sản phẩm không tồn tại trong giỏ hàng.", HttpStatus.NOT_FOUND),
-    INVENTORY_DETAILS_NOT_FOUND(1404, "Chi tiết tồn kho không tồn tại.", HttpStatus.NOT_FOUND),
+    INVENTORY_ITEM_NOT_FOUND(1404, "Chi tiết tồn kho không tồn tại.", HttpStatus.NOT_FOUND),
     SHIPPED_NOT_FOUND(1404, "Đối tác vận chuyển không tồn tại.", HttpStatus.NOT_FOUND),
     SUPPLIER_NOT_FOUND(1404, "Nhà cung cấp không tồn tại.", HttpStatus.NOT_FOUND),
     CUSTOMER_NOT_FOUND(1404, "Khách hàng không tồn tại.", HttpStatus.NOT_FOUND),

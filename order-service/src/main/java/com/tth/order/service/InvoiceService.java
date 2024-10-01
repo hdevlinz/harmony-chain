@@ -1,7 +1,7 @@
 package com.tth.order.service;
 
 import com.tth.commonlibrary.dto.PageResponse;
-import com.tth.commonlibrary.dto.response.invoice.InvoiceResponse;
+import com.tth.commonlibrary.dto.response.order.invoice.InvoiceResponse;
 import com.tth.order.entity.Invoice;
 
 import java.util.Map;

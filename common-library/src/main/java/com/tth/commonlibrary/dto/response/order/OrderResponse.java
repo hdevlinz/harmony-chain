@@ -34,6 +34,6 @@ public class OrderResponse {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate expectedDelivery;
 
-    private Set<OrderDetailsReponse> orderDetails;
+    private Set<OrderItemResponse> orderItems;
 
 }
