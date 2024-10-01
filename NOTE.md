@@ -21,6 +21,26 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo docker run hello-world
 ```
 
+## Install Keycloak from Quay.io
+
+```bash
+docker pull quay.io/keycloak/keycloak:25.0.0
+```
+
+```bash
+docker run -d --name keycloak-25.0.0 -p 8180:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:25.0.0 start-dev
+```
+
+## Install Kafka from Docker Hub
+
+```bash
+docker pull bitnami/kafka:3.7.0
+```
+
+```bash
+docker run -d --name kafka-3.7.0 -p 9094:9094 bitnami/kafka:3.7.0
+```
+
 ## Install MySQL from Docker Hub
 
 ```bash
@@ -49,14 +69,4 @@ docker pull neo4j:latest
 
 ```bash
 docker run --name neo4j-latest --publish=7474:7474 --publish=7687:7687 -e 'NEO4J_AUTH=neo4j/admin@123' neo4j:latest
-```
-
-## Install Kafka from Docker Hub
-
-```bash
-docker pull bitnami/kafka:3.7.0
-```
-
-```bash
-docker run -d --name kafka-3.7.0 -p 9094:9094 bitnami/kafka:3.7.0
 ```

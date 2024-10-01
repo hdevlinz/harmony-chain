@@ -4,11 +4,12 @@ import com.tth.commonlibrary.dto.response.order.OrderItemResponse;
 import com.tth.commonlibrary.dto.response.order.OrderResponse;
 import com.tth.order.entity.Order;
 import com.tth.order.entity.OrderItem;
+import com.tth.order.mapper.helper.MappingHelper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {MappingHelper.class})
 public interface OrderMapper {
 
     @Named("toOrderResponse")
@@ -18,6 +19,7 @@ public interface OrderMapper {
     OrderResponse toOrderResponse(Order order);
 
     @Named("toOrderItemResponse")
+    @Mapping(target = "product", source = "productId", qualifiedByName = "getProductById")
     OrderItemResponse toOrderItemResponse(OrderItem orderItem);
 
 }

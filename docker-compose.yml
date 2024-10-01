@@ -1,6 +1,29 @@
 name: harmony
 version: "3"
 services:
+   #   keycloak:
+   #     image: 'quay.io/keycloak/keycloak:25.0.0'
+   #     container_name: keycloak-25.0.0
+   #     hostname: keycloak
+   #     ports:
+   #          - '8180:8080'
+   #     environment:
+   #          - KEYCLOAK_ADMIN=admin
+   #          - KEYCLOAK_ADMIN_PASSWORD=admin
+   kafka:
+      image: 'bitnami/kafka:3.7.0'
+      container_name: kafka-3.7.0
+      hostname: kafka
+      ports:
+         - '9094:9094'
+      environment:
+         - KAFKA_CFG_NODE_ID=0
+         - KAFKA_CFG_PROCESS_ROLES=controller,broker
+         - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+         - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+         - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+         - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+         - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
    mysql:
       image: 'mysql:8.0.39-debian'
       container_name: mysql-8.0.39-debian
@@ -27,17 +50,3 @@ services:
          - '7687:7687'
       environment:
          - NEO4J_AUTH=neo4j/admin@123
-   kafka:
-      image: 'bitnami/kafka:3.7.0'
-      container_name: kafka-3.7.0
-      hostname: kafka
-      ports:
-         - '9094:9094'
-      environment:
-         - KAFKA_CFG_NODE_ID=0
-         - KAFKA_CFG_PROCESS_ROLES=controller,broker
-         - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
-         - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
-         - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
-         - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
-         - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER

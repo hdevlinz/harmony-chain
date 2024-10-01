@@ -18,7 +18,7 @@ public class ShipmentServiceImpl implements ShipmentService {
     private final ShipmentRepository shipmentRepository;
 
     @Override
-    public PageResponse<Shipment> findAllWithFilter(Map<String, String> params, int page, int size) {
+    public PageResponse<Shipment> findAll(Map<String, String> params, int page, int size) {
         return null;
     }
 

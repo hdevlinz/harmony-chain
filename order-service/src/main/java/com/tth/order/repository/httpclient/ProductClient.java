@@ -20,7 +20,7 @@ public interface ProductClient {
                                                    @RequestParam(required = false, defaultValue = "10") int size);
 
     @PostMapping(path = "/products/batch")
-    APIResponse<List<ProductListResponse>> getProductsInBatch(@RequestBody Set<String> productIds);
+    APIResponse<List<ProductListResponse>> listProductsInBatch(@RequestBody Set<String> productIds);
 
     @GetMapping("/products/{productId}")
     APIResponse<ProductDetailsResponse> getProduct(@PathVariable String productId);

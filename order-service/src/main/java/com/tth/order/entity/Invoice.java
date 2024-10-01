@@ -1,5 +1,6 @@
 package com.tth.order.entity;
 
+import com.tth.commonlibrary.utils.GeneratorUtils;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -7,7 +8,6 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Setter
 @Getter
@@ -23,11 +23,10 @@ public class Invoice extends BaseEntity implements Serializable {
     @Column(name = "user_id", nullable = false)
     private String userId;
 
-    @Builder.Default
     @NotBlank(message = "{invoice.invoiceNumber.notNull}")
     @NotNull(message = "{invoice.invoiceNumber.notNull}")
     @Column(name = "invoice_number", nullable = false, unique = true, length = 36, updatable = false)
-    private String invoiceNumber = String.valueOf(UUID.randomUUID());
+    private String invoiceNumber;
 
     @Builder.Default
     @NotNull(message = "{invoice.isPaid.notNull}")
@@ -46,5 +45,13 @@ public class Invoice extends BaseEntity implements Serializable {
     @OneToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
     private Order order;
+
+    public void prePersist() {
+        super.prePersist();
+
+        if (this.invoiceNumber == null) {
+            this.invoiceNumber = GeneratorUtils.generateInvoiceNumber();
+        }
+    }
 
 }

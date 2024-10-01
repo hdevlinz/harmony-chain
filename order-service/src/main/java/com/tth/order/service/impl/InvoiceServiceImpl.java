@@ -31,27 +31,22 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public InvoiceResponse findByInvoiceNumber(String invoiceNumber) {
-        return this.invoiceRepository.findByInvoiceNumber(invoiceNumber)
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+
+        return this.invoiceRepository.findByUserIdAndInvoiceNumber(user.getName(), invoiceNumber)
                 .map(invoiceMapper::toInvoiceResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
     }
 
     @Override
-    public PageResponse<Invoice> findAllWithFilter(Map<String, String> params, int page, int size) {
-        Specification<Invoice> specification = InvoiceSpecification.filter(params);
-        Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Invoice> invoices = this.invoiceRepository.findAll(specification, pageable);
-
-        return PageResponse.of(invoices);
-    }
-
-    @Override
-    public PageResponse<Invoice> findAllInvoiceOfAuthenticated(Map<String, String> params, int page, int size) {
+    public PageResponse<InvoiceResponse> findAllInvoiceOfAuthenticated(Map<String, String> params, int page, int size) {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        params.put("user", user.getName());
 
         Specification<Invoice> specification = InvoiceSpecification.filter(params);
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Invoice> invoices = this.invoiceRepository.findAllByUserId(user.getName(), specification, pageable);
+        Page<InvoiceResponse> invoices = this.invoiceRepository.findAll(specification, pageable)
+                .map(invoiceMapper::toInvoiceResponse);
 
         return PageResponse.of(invoices);
     }

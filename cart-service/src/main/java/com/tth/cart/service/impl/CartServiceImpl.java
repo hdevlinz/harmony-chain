@@ -12,7 +12,7 @@ import com.tth.commonlibrary.dto.response.cart.CartItemResponse;
 import com.tth.commonlibrary.dto.response.product.ProductDetailsResponse;
 import com.tth.commonlibrary.enums.ErrorCode;
 import com.tth.commonlibrary.exception.AppException;
-import com.tth.commonlibrary.util.Utils;
+import com.tth.commonlibrary.utils.ConverterUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -84,7 +84,7 @@ public class CartServiceImpl implements CartService {
                 Field cartItemField = CartItem.class.getDeclaredField(key);
                 cartItemField.setAccessible(true);
 
-                Object convertedValue = Utils.convertValue(cartItemField.getType(), value);
+                Object convertedValue = ConverterUtils.convertValue(cartItemField.getType(), value);
                 cartItemField.set(cartItem, convertedValue);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 log.error(e.getMessage(), e);

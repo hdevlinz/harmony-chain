@@ -1,7 +1,7 @@
 package com.tth.identity.service.specification;
 
 import com.tth.commonlibrary.enums.UserRole;
-import com.tth.commonlibrary.util.Utils;
+import com.tth.commonlibrary.utils.ConverterUtils;
 import com.tth.identity.entity.User;
 import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class UserSpecification {
                 if (value != null && !value.isEmpty()) {
                     switch (key) {
                         case "isConfirm":
-                            predicates.add(builder.equal(root.get("isConfirm"), Utils.parseBoolean(value)));
+                            predicates.add(builder.equal(root.get("isConfirm"), ConverterUtils.parseBoolean(value)));
                             break;
                         case "role":
                             try {

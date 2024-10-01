@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tth.commonlibrary.enums.OrderStatus;
 import com.tth.commonlibrary.enums.OrderType;
+import com.tth.commonlibrary.utils.GeneratorUtils;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -12,7 +13,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
-import java.util.UUID;
 
 @Setter
 @Getter
@@ -31,10 +31,9 @@ public class Order extends BaseEntity implements Serializable {
     @Column(name = "shipment_id")
     private String shipmentId;
 
-    @Builder.Default
     @NotNull(message = "{order.orderNumber.notNull}")
     @Column(name = "order_number", nullable = false, unique = true, length = 36, updatable = false)
-    private String orderNumber = String.valueOf(UUID.randomUUID());
+    private String orderNumber;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -59,5 +58,13 @@ public class Order extends BaseEntity implements Serializable {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
+
+    public void prePersist() {
+        super.prePersist();
+
+        if (this.orderNumber == null) {
+            this.orderNumber = GeneratorUtils.generateOrderNumber();
+        }
+    }
 
 }

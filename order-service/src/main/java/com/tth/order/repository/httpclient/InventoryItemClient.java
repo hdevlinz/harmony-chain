@@ -14,7 +14,7 @@ import java.util.Map;
 @FeignClient(name = "inventory-item-client", url = "${app.services.inventory.url}")
 public interface InventoryItemClient {
 
-    @GetMapping(path = "/items/batch")
+    @PostMapping(path = "/items/batch")
     APIResponse<List<InventoryItemResponse>> listInventoryItemsInBatch(@RequestBody List<String> inventoryItemIds);
 
     @GetMapping(path = "/items")

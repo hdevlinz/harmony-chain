@@ -82,13 +82,20 @@ public class OrderServiceImpl implements OrderService {
             // Lấy danh sách các sản phẩm trong đơn hàng
             Set<String> productIds = orderRequest.getOrderItems().stream()
                     .map(OrderItemRequest::getProductId).collect(Collectors.toSet());
-            List<ProductListResponse> products = this.productClient.getProductsInBatch(productIds).getResult();
+            List<ProductListResponse> products = this.productClient.listProductsInBatch(productIds).getResult();
             Map<String, ProductListResponse> productsMap = products.stream()
                     .collect(Collectors.toMap(ProductListResponse::getId, product -> product));
 
             // Nhóm các sản phẩm theo nhà cung cấp
             Map<String, Set<OrderItemRequest>> groupedBySupplier = orderRequest.getOrderItems().stream()
-                    .collect(Collectors.groupingBy(odr -> productsMap.get(odr.getProductId()).getSupplier().getId(), Collectors.toSet()));
+                    .collect(Collectors.groupingBy(odr -> {
+                        ProductListResponse product = productsMap.get(odr.getProductId());
+                        if (product == null) {
+                            throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
+                        }
+
+                        return product.getSupplier().getId();
+                    }, Collectors.toSet()));
 
             // Tạo đơn hàng mới
             Order order = Order.builder()
@@ -166,7 +173,7 @@ public class OrderServiceImpl implements OrderService {
             // Lấy danh sách các sản phẩm trong đơn hàng
             Set<String> productIds = orderRequest.getOrderItems().stream()
                     .map(OrderItemRequest::getProductId).collect(Collectors.toSet());
-            List<ProductListResponse> products = this.productClient.getProductsInBatch(productIds).getResult();
+            List<ProductListResponse> products = this.productClient.listProductsInBatch(productIds).getResult();
             Map<String, ProductListResponse> productsMap = products.stream()
                     .collect(Collectors.toMap(ProductListResponse::getId, product -> product));
 

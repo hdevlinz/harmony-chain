@@ -9,13 +9,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ProductMappingHelper {
+public class MappingHelper {
 
     private final UserProfileClient userProfileClient;
 
-    @Named("getSupplier")
-    public SupplierResponse getSupplier(String supplierId) {
-        APIResponse<SupplierResponse> response = userProfileClient.getSupplier(supplierId);
+    @Named("getSupplierById")
+    public SupplierResponse getSupplierById(String supplierId) {
+        APIResponse<SupplierResponse> response = this.userProfileClient.getSupplier(supplierId);
+
         return response != null ? response.getResult() : null;
     }
 

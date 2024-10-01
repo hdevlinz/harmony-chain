@@ -1,6 +1,6 @@
 package com.tth.order.service.specification;
 
-import com.tth.commonlibrary.util.Utils;
+import com.tth.commonlibrary.utils.ConverterUtils;
 import com.tth.order.entity.Invoice;
 import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +25,13 @@ public class InvoiceSpecification {
                             predicates.add(builder.equal(root.get("userId"), value));
                             break;
                         case "isPaid":
-                            predicates.add(builder.equal(root.get("paid"), Utils.parseBoolean(value)));
+                            predicates.add(builder.equal(root.get("paid"), ConverterUtils.parseBoolean(value)));
                             break;
                         case "fromCreatedAt":
-                            predicates.add(builder.greaterThanOrEqualTo(root.get("createdAt"), Utils.parseLocalDateTime(value)));
+                            predicates.add(builder.greaterThanOrEqualTo(root.get("createdAt"), ConverterUtils.parseLocalDateTime(value)));
                             break;
                         case "toCreatedAt":
-                            predicates.add(builder.lessThanOrEqualTo(root.get("createdAt"), Utils.parseLocalDateTime(value)));
+                            predicates.add(builder.lessThanOrEqualTo(root.get("createdAt"), ConverterUtils.parseLocalDateTime(value)));
                             break;
                         case "tax":
                             predicates.add(builder.equal(root.get("tax").get("id"), value));

@@ -18,7 +18,7 @@ public class DeliveryScheduleServiceImpl implements DeliveryScheduleService {
     private final DeliveryScheduleRepository deliveryScheduleRepository;
 
     @Override
-    public PageResponse<DeliverySchedule> findAllWithFilter(Map<String, String> params, int page, int size) {
+    public PageResponse<DeliverySchedule> findAll(Map<String, String> params, int page, int size) {
         return null;
     }
 

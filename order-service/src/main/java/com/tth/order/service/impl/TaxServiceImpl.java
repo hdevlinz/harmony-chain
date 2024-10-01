@@ -25,7 +25,7 @@ public class TaxServiceImpl implements TaxService {
     @Override
     public PageResponse<Tax> findAllWithFilter(Map<String, String> params, int page, int size) {
         Specification<Tax> specification = TaxSpecification.filter(params);
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
         Page<Tax> taxes = taxRepository.findAll(specification, pageable);
 
         return PageResponse.of(taxes);

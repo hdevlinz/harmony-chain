@@ -7,6 +7,6 @@ import java.util.Map;
 
 public interface DeliveryScheduleService {
 
-    PageResponse<DeliverySchedule> findAllWithFilter(Map<String, String> params, int page, int size);
+    PageResponse<DeliverySchedule> findAll(Map<String, String> params, int page, int size);
 
 }

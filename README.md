@@ -1,5 +1,7 @@
 # Harmony Supply Chain | Microservice Architecture
 
+![SCMS](https://raw.githubusercontent.com/hiepthanhtran/harmony-supply-chain/main/images/scms.png)
+
 ## Tentative technologies and frameworks
 
 - Java 21
@@ -20,4 +22,4 @@ docker compose up -d
 
 ## Development Architecture
 
-![Development Architecture](https://raw.githubusercontent.com/hiepthanhtran/harmony-supply-chain/main/development-architecture.png)
+![Development Architecture](https://raw.githubusercontent.com/hiepthanhtran/harmony-supply-chain/main/images/architecture.png)

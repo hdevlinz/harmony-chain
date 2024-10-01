@@ -7,6 +7,6 @@ import java.util.Map;
 
 public interface ShipmentService {
 
-    PageResponse<Shipment> findAllWithFilter(Map<String, String> params, int page, int size);
+    PageResponse<Shipment> findAll(Map<String, String> params, int page, int size);
 
 }

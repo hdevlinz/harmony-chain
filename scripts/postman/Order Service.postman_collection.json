@@ -36,26 +36,16 @@
         {
           "name": "Invoices List",
           "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/invoices/4b63c2ea-3a45-4a7b-8543-f2fc3a3ad1ac",
-              "host": [
-                "{{BASE_URL}}"
-              ],
-              "path": [
-                "{{API_PREFIX}}",
-                "{{ORDER_CONTEXT_PATH}}",
-                "invoices",
-                "4b63c2ea-3a45-4a7b-8543-f2fc3a3ad1ac"
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
               ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get Invoice by InvoiceNumber",
-          "request": {
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -67,6 +57,36 @@
                 "{{API_PREFIX}}",
                 "{{ORDER_CONTEXT_PATH}}",
                 "invoices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Invoice by InvoiceNumber",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{AUTHORIZATION}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/invoices/INV-202410-00062",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "{{API_PREFIX}}",
+                "{{ORDER_CONTEXT_PATH}}",
+                "invoices",
+                "INV-202410-00062"
               ]
             }
           },
@@ -122,7 +142,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders/4b63c2ea-3a45-4a7b-8543-f2fc3a3ad1ac",
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders/ORD-g8cbd-20241001",
               "host": [
                 "{{BASE_URL}}"
               ],
@@ -130,7 +150,7 @@
                 "{{API_PREFIX}}",
                 "{{ORDER_CONTEXT_PATH}}",
                 "orders",
-                "4b63c2ea-3a45-4a7b-8543-f2fc3a3ad1ac"
+                "ORD-g8cbd-20241001"
               ]
             }
           },
@@ -153,7 +173,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"type\": \"OUTBOUND\",\n    \"orderDetails\": [\n        {\n            \"productId\": \"002035c1-25d4-4717-81eb-2501eed5d416\",\n            \"quantity\": 16\n        },\n        {\n            \"productId\": \"00fbfc9f-e7e5-49b8-a346-1dec3dc0b1ab\",\n            \"quantity\": 49\n        }\n    ]\n}",
+              "raw": "{\n    \"type\": \"OUTBOUND\",\n    \"orderItems\": [\n        {\n            \"productId\": \"66fb9ba9e0e67611dd930037\",\n            \"quantity\": 16\n        },\n        {\n            \"productId\": \"66fb9ba9e0e67611dd930038\",\n            \"quantity\": 49\n        }\n    ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -192,7 +212,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"type\": \"INBOUND\",\n    \"inventoryId\": \"04e59c67-ec9d-490c-a9bd-195cd653f5de\",\n    \"orderDetails\": [\n        {\n            \"productId\": \"002035c1-25d4-4717-81eb-2501eed5d416\",\n            \"quantity\": 1\n        }\n    ]\n}",
+              "raw": "{\n    \"type\": \"INBOUND\",\n    \"inventoryId\": \"03e6d6ca-e3fd-4b82-ad5d-dcd103f1012a\",\n    \"orderItems\": [\n        {\n            \"productId\": \"66fb9ba9e0e67611dd930037\",\n            \"quantity\": 1\n        }\n    ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -239,7 +259,7 @@
               }
             },
             "url": {
-              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders/2579a8a8-4b72-47eb-9f13-6222480fe503/cancel",
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders/ORD-4GSD8-20241001/cancel",
               "host": [
                 "{{BASE_URL}}"
               ],
@@ -247,7 +267,7 @@
                 "{{API_PREFIX}}",
                 "{{ORDER_CONTEXT_PATH}}",
                 "orders",
-                "2579a8a8-4b72-47eb-9f13-6222480fe503",
+                "ORD-4GSD8-20241001",
                 "cancel"
               ]
             }
@@ -279,7 +299,7 @@
               }
             },
             "url": {
-              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders/2579a8a8-4b72-47eb-9f13-6222480fe503/status",
+              "raw": "{{BASE_URL}}/{{API_PREFIX}}/{{ORDER_CONTEXT_PATH}}/orders/ORD-4GSD8-20241001/status",
               "host": [
                 "{{BASE_URL}}"
               ],
@@ -287,7 +307,7 @@
                 "{{API_PREFIX}}",
                 "{{ORDER_CONTEXT_PATH}}",
                 "orders",
-                "2579a8a8-4b72-47eb-9f13-6222480fe503",
+                "ORD-4GSD8-20241001",
                 "status"
               ]
             }

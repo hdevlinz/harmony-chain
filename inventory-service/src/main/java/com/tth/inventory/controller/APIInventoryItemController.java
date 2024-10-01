@@ -21,7 +21,7 @@ public class APIInventoryItemController {
 
     private final InventoryItemService inventoryItemService;
 
-    @GetMapping(path = "/batch")
+    @PostMapping(path = "/batch")
     public ResponseEntity<?> listInventoryItemsInBatch(@RequestBody List<String> inventoryItemIds) {
         List<InventoryItemResponse> inventoryItems = this.inventoryItemService.findAllInBatch(inventoryItemIds);
 
