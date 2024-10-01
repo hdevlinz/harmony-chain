@@ -29,6 +29,11 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
+    public List<ProductListResponse> findAllInBatch(Set<String> productIds) {
+        return this.productRepository.findAllById(productIds).stream().map(this.productMapper::toProductListResponse).toList();
+    }
+
+    @Override
     public ProductDetailsResponse findById(String id) {
         Product product = this.productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
@@ -36,12 +41,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductListResponse> findAllInBatch(Set<String> productIds) {
-        return this.productRepository.findAllById(productIds).stream().map(this.productMapper::toProductListResponse).toList();
-    }
-
-    @Override
-    public PageResponse<ProductListResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
+    public PageResponse<ProductListResponse> findAll(Map<String, String> params, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<ProductListResponse> result = this.productRepository.filter(params, pageable).map(this.productMapper::toProductListResponse);
 

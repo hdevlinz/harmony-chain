@@ -3,6 +3,7 @@ package com.tth.profile.repository.specification.impl;
 import com.tth.profile.entity.Carrier;
 import com.tth.profile.repository.specification.CarrierSpecification;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.types.TypeSystem;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class CarrierSpecificationImpl implements CarrierSpecification {
@@ -27,19 +29,16 @@ public class CarrierSpecificationImpl implements CarrierSpecification {
         Map<String, Object> queryParams = new HashMap<>();
 
         params.forEach((key, value) -> {
-            if (value != null && !value.isEmpty()) {
-                switch (key) {
-                    case "name":
-                        queryBuilder.append(" AND c.name CONTAINS $name");
-                        queryParams.put("name", value);
-                        break;
-                    case "contactInfo":
-                        queryBuilder.append(" AND c.contactInfo CONTAINS $contactInfo");
-                        queryParams.put("contactInfo", value);
-                        break;
-                    default:
-                        break;
+            switch (key) {
+                case "name" -> {
+                    queryBuilder.append(" AND c.name CONTAINS $name");
+                    queryParams.put("name", value);
                 }
+                case "contactInfo" -> {
+                    queryBuilder.append(" AND c.contactInfo CONTAINS $contactInfo");
+                    queryParams.put("contactInfo", value);
+                }
+                default -> log.warn("Unknown filter key: {}", key);
             }
         });
 

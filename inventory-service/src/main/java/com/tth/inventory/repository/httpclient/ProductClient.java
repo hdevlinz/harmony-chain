@@ -16,12 +16,12 @@ import java.util.Set;
 @FeignClient(name = "product-client", url = "${app.services.product.url}")
 public interface ProductClient {
 
+    @PostMapping(path = "/internal/products/batch")
+    APIResponse<List<ProductListResponse>> listProductsInBatch(@RequestBody Set<String> productIds);
+
     @GetMapping(value = "/products")
     PageResponse<ProductListResponse> listProducts(@RequestParam(required = false, defaultValue = "") Map<String, String> params,
                                                    @RequestParam(required = false, defaultValue = "1") int page,
                                                    @RequestParam(required = false, defaultValue = "10") int size);
-
-    @PostMapping(path = "/products/batch")
-    APIResponse<List<ProductListResponse>> listProductsInBatch(@RequestBody Set<String> productIds);
 
 }

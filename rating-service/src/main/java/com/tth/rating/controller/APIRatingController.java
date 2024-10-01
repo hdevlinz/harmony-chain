@@ -22,7 +22,7 @@ public class APIRatingController {
     public ResponseEntity<?> listRatingsOfSupplier(@RequestParam String supplierId,
                                                    @RequestParam(required = false, defaultValue = "1") int page,
                                                    @RequestParam(required = false, defaultValue = "5") int size) {
-        return ResponseEntity.ok(this.ratingService.getRatingsBySupplierId(supplierId, page, size));
+        return ResponseEntity.ok(this.ratingService.findRatingsBySupplierId(supplierId, page, size));
     }
 
     @PostMapping("/add")

@@ -10,10 +10,10 @@ import java.util.Set;
 
 public interface ProductService {
 
-    ProductDetailsResponse findById(String id);
-
     List<ProductListResponse> findAllInBatch(Set<String> productIds);
 
-    PageResponse<ProductListResponse> findAllWithFilter(Map<String, String> params, int page, int size);
+    ProductDetailsResponse findById(String id);
+
+    PageResponse<ProductListResponse> findAll(Map<String, String> params, int page, int size);
 
 }

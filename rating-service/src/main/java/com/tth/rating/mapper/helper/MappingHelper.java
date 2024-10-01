@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
-public class RatingMappingHelper {
+public class MappingHelper {
 
     private final IdentityClient identityClient;
     private final UserProfileClient profileClient;
 
-    @Named("getUserResponse")
-    public UserResponse getUserResponse(String userId) {
+    @Named("getUserResponseByUserId")
+    public UserResponse getUserResponseByUserId(String userId) {
         com.tth.commonlibrary.dto.response.identity.user.UserResponse userResponse = this.identityClient.getUser(userId).getResult();
 
         LocalDateTime lastLogin = null;
@@ -36,8 +36,8 @@ public class RatingMappingHelper {
                 .build();
     }
 
-    @Named("getSupplierResponse")
-    public SupplierResponse getSupplierResponse(String supplierId) {
+    @Named("getSupplierResponseBySupplierId")
+    public SupplierResponse getSupplierResponseBySupplierId(String supplierId) {
         return this.profileClient.getSupplier(supplierId).getResult();
     }
 

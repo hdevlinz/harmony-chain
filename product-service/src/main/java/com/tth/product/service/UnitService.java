@@ -7,6 +7,6 @@ import java.util.Map;
 
 public interface UnitService {
 
-    PageResponse<UnitResponse> findAllWithFilter(Map<String, String> params, int page, int size);
+    PageResponse<UnitResponse> findAll(Map<String, String> params, int page, int size);
 
 }

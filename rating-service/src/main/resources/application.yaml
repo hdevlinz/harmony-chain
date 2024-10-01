@@ -25,6 +25,6 @@ spring:
 app:
    services:
       identity:
-         url: ${IDENTITY_SERVICE_URL:http://localhost:8080/identity}
+         url: ${IDENTITY_SERVICE_URL:http://localhost:8083/identity}
       profile:
-         url: ${PROFILE_SERVICE_URL:http://localhost:8083/profile}
+         url: ${PROFILE_SERVICE_URL:http://localhost:8082/profile}

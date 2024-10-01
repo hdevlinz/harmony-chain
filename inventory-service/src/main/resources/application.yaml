@@ -1,6 +1,6 @@
 # Server configuration
 server:
-   port: 8087
+   port: 8086
    servlet:
       context-path: /inventory
       encoding:
@@ -31,4 +31,4 @@ spring:
 app:
    services:
       product:
-         url: ${PRODUCT_SERVICE_URL:http://localhost:8082/product}
+         url: ${PRODUCT_SERVICE_URL:http://localhost:8084/product}

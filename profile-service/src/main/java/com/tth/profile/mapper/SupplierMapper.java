@@ -4,27 +4,26 @@ import com.tth.commonlibrary.dto.request.profile.supplier.SupplierRequestCreate;
 import com.tth.commonlibrary.dto.request.profile.supplier.SupplierRequestUpdate;
 import com.tth.commonlibrary.dto.response.profile.supplier.SupplierResponse;
 import com.tth.profile.entity.Supplier;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
-import java.util.List;
-
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+        nullValueIterableMappingStrategy = NullValueMappingStrategy.RETURN_NULL,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+)
 public interface SupplierMapper {
 
+    @Named("toSupplier")
     @Mapping(target = "name", source = "supplierName")
     @Mapping(target = "address", source = "supplierAddress")
     @Mapping(target = "phone", source = "supplierPhone")
     @Mapping(target = "contactInfo", source = "supplierContactInfo")
     Supplier toSupplier(SupplierRequestCreate request);
 
-    @Named("mapSupplierToResponse")
+    @Named("toSupplierResponse")
     SupplierResponse toSupplierResponse(Supplier supplier);
 
-    List<SupplierResponse> toSupplierResponse(List<Supplier> suppliers);
-
+    @Named("updateSupplier")
     @Mapping(target = "name", source = "supplierName")
     @Mapping(target = "address", source = "supplierAddress")
     @Mapping(target = "phone", source = "supplierPhone")

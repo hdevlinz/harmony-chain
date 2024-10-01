@@ -37,7 +37,7 @@ public class APIInvoiceController {
     }
 
     @GetMapping(path = "/{invoiceNumber}")
-    public ResponseEntity<?> findInvoiceByInvoiceNumber(@PathVariable String invoiceNumber) {
+    public ResponseEntity<?> getInvoiceByInvoiceNumber(@PathVariable String invoiceNumber) {
         InvoiceResponse invoice = this.invoiceService.findByInvoiceNumber(invoiceNumber);
 
         return ResponseEntity.ok(APIResponse.<InvoiceResponse>builder().result(invoice).build());

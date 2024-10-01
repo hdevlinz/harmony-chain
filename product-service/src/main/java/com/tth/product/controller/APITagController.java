@@ -19,7 +19,7 @@ public class APITagController {
     public ResponseEntity<?> listTags(@RequestParam(required = false, defaultValue = "") Map<String, String> params,
                                       @RequestParam(required = false, defaultValue = "1") int page,
                                       @RequestParam(required = false, defaultValue = "10") int size) {
-        return ResponseEntity.ok(this.tagService.findAllWithFilter(params, page, size));
+        return ResponseEntity.ok(this.tagService.findAll(params, page, size));
     }
 
 }

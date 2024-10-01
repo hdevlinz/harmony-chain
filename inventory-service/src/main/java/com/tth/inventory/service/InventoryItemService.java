@@ -19,6 +19,8 @@ public interface InventoryItemService {
 
     InventoryItemResponse update(String inventoryItemId, InventoryItemRequestUpdate request);
 
+    void delete(String inventoryItemId);
+
     Map<String, Float> getTotalQuantityByWarehouseId(String warehouseId);
 
 }

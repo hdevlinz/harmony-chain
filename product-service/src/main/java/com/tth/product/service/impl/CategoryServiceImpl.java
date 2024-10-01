@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public PageResponse<CategoryResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
+    public PageResponse<CategoryResponse> findAll(Map<String, String> params, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<CategoryResponse> result = this.categoryRepository.filter(params, pageable).map(this.categoryMapper::toCategoryResponse);
 

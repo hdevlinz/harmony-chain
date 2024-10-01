@@ -19,26 +19,13 @@ public class InvoiceSpecification {
             predicates.add(builder.equal(root.get("active"), true));
 
             params.forEach((key, value) -> {
-                if (value != null && !value.isEmpty()) {
-                    switch (key) {
-                        case "user":
-                            predicates.add(builder.equal(root.get("userId"), value));
-                            break;
-                        case "isPaid":
-                            predicates.add(builder.equal(root.get("paid"), ConverterUtils.parseBoolean(value)));
-                            break;
-                        case "fromCreatedAt":
-                            predicates.add(builder.greaterThanOrEqualTo(root.get("createdAt"), ConverterUtils.parseLocalDateTime(value)));
-                            break;
-                        case "toCreatedAt":
-                            predicates.add(builder.lessThanOrEqualTo(root.get("createdAt"), ConverterUtils.parseLocalDateTime(value)));
-                            break;
-                        case "tax":
-                            predicates.add(builder.equal(root.get("tax").get("id"), value));
-                            break;
-                        default:
-                            log.warn("Unknown filter key: {}", key);
-                    }
+                switch (key) {
+                    case "user" -> predicates.add(builder.equal(root.get("userId"), value));
+                    case "isPaid" -> predicates.add(builder.equal(root.get("paid"), ConverterUtils.parseBoolean(value)));
+                    case "fromCreatedAt" -> predicates.add(builder.greaterThanOrEqualTo(root.get("createdAt"), ConverterUtils.parseLocalDateTime(value)));
+                    case "toCreatedAt" -> predicates.add(builder.lessThanOrEqualTo(root.get("createdAt"), ConverterUtils.parseLocalDateTime(value)));
+                    case "tax" -> predicates.add(builder.equal(root.get("tax").get("id"), value));
+                    default -> log.warn("Unknown filter key: {}", key);
                 }
             });
 

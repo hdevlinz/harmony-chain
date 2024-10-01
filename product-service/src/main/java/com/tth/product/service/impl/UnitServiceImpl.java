@@ -23,7 +23,7 @@ public class UnitServiceImpl implements UnitService {
     private final UnitMapper unitMapper;
 
     @Override
-    public PageResponse<UnitResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
+    public PageResponse<UnitResponse> findAll(Map<String, String> params, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<UnitResponse> result = this.unitRepository.filter(params, pageable).map(this.unitMapper::toUnitResponse);
 

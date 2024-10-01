@@ -21,13 +21,6 @@ public class APIInventoryItemController {
 
     private final InventoryItemService inventoryItemService;
 
-    @PostMapping(path = "/batch")
-    public ResponseEntity<?> listInventoryItemsInBatch(@RequestBody List<String> inventoryItemIds) {
-        List<InventoryItemResponse> inventoryItems = this.inventoryItemService.findAllInBatch(inventoryItemIds);
-
-        return ResponseEntity.ok(APIResponse.<List<InventoryItemResponse>>builder().result(inventoryItems).build());
-    }
-
     @GetMapping
     public ResponseEntity<?> listInventoryItems(@RequestParam Map<String, String> params) {
         List<InventoryItemResponse> inventoryItems = this.inventoryItemService.findAll(params);
@@ -56,11 +49,11 @@ public class APIInventoryItemController {
         return ResponseEntity.ok(APIResponse.<InventoryItemResponse>builder().result(updatedInventoryItem).build());
     }
 
-    @GetMapping(path = "/total-quantity")
-    public ResponseEntity<?> getTotalQuantityByWarehouseId(@RequestParam String warehouseId) {
-        Map<String, Float> result = this.inventoryItemService.getTotalQuantityByWarehouseId(warehouseId);
+    @DeleteMapping(path = "/{inventoryItemId}")
+    public ResponseEntity<?> deleteInventory(@PathVariable String inventoryItemId) {
+        this.inventoryItemService.delete(inventoryItemId);
 
-        return ResponseEntity.ok(APIResponse.<Map<String, Float>>builder().result(result).build());
+        return ResponseEntity.noContent().build();
     }
 
 }

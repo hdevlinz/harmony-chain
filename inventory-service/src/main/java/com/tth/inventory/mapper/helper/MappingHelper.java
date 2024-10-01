@@ -50,21 +50,17 @@ public class MappingHelper {
             return null;
         }
 
-        // Tập hợp tất cả các productId từ danh sách InventoryDetails
         Set<String> productIds = inventoryDetails.stream().map(InventoryItem::getProductId).collect(Collectors.toSet());
 
-        // Gọi một lần để lấy thông tin của tất cả các sản phẩm trong productIds
         List<ProductListResponse> products = this.productClient.listProductsInBatch(productIds).getResult();
 
-        // Tạo một map để tra cứu sản phẩm nhanh chóng
         Map<String, ProductListResponse> productMap = products.stream()
                 .collect(Collectors.toMap(ProductListResponse::getId, product -> product));
 
-        // Duyệt qua từng InventoryDetails và ánh xạ đến sản phẩm tương ứng từ productMap
         return inventoryDetails.stream().map(inventoryDetail -> {
             InventoryItemResponse response = new InventoryItemResponse();
             response.setQuantity(inventoryDetail.getQuantity());
-            response.setProduct(productMap.get(inventoryDetail.getProductId())); // Ánh xạ sản phẩm từ productMap
+            response.setProduct(productMap.get(inventoryDetail.getProductId()));
             return response;
         }).collect(Collectors.toSet());
     }

@@ -7,6 +7,6 @@ import java.util.Map;
 
 public interface TagService {
 
-    PageResponse<TagResponse> findAllWithFilter(Map<String, String> params, int page, int size);
+    PageResponse<TagResponse> findAll(Map<String, String> params, int page, int size);
 
 }

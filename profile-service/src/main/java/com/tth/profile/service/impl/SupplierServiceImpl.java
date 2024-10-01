@@ -34,9 +34,10 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public PageResponse<SupplierResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
+    public PageResponse<SupplierResponse> findAll(Map<String, String> params, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<SupplierResponse> result = this.supplierRepository.filter(params, pageable).map(this.supplierMapper::toSupplierResponse);
+        Page<SupplierResponse> result = this.supplierRepository.filter(params, pageable)
+                .map(this.supplierMapper::toSupplierResponse);
 
         return PageResponse.of(result);
     }

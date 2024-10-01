@@ -9,6 +9,6 @@ public interface CustomerService {
 
     CustomerResponse findById(String id);
 
-    PageResponse<CustomerResponse> findAllWithFilter(Map<String, String> params, int page, int size);
+    PageResponse<CustomerResponse> findAll(Map<String, String> params, int page, int size);
 
 }

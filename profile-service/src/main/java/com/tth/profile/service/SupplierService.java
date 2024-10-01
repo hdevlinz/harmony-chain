@@ -9,6 +9,6 @@ public interface SupplierService {
 
     SupplierResponse findById(String supplierId);
 
-    PageResponse<SupplierResponse> findAllWithFilter(Map<String, String> params, int page, int size);
+    PageResponse<SupplierResponse> findAll(Map<String, String> params, int page, int size);
 
 }

@@ -27,17 +27,10 @@ public class CategorySpecificationImpl implements CategorySpecification {
         Query query = new Query();
 
         params.forEach((key, value) -> {
-            if (value != null && !value.isEmpty()) {
-                switch (key) {
-                    case "name":
-                        query.addCriteria(Criteria.where("name").regex(value, "i"));
-                        break;
-                    case "description":
-                        query.addCriteria(Criteria.where("description").regex(value, "i"));
-                        break;
-                    default:
-                        log.warn("Unknown filter key: {}", key);
-                }
+            switch (key) {
+                case "name" -> query.addCriteria(Criteria.where("name").regex(value, "i"));
+                case "description" -> query.addCriteria(Criteria.where("description").regex(value, "i"));
+                default -> log.warn("Unknown filter key: {}", key);
             }
         });
 

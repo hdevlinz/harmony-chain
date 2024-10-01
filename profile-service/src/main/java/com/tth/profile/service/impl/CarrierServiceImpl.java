@@ -34,9 +34,10 @@ public class CarrierServiceImpl implements CarrierService {
     }
 
     @Override
-    public PageResponse<CarrierResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
+    public PageResponse<CarrierResponse> findAll(Map<String, String> params, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<CarrierResponse> result = this.carrierRepository.filter(params, pageable).map(this.carrierMapper::toCarrierResponse);
+        Page<CarrierResponse> result = this.carrierRepository.filter(params, pageable)
+                .map(this.carrierMapper::toCarrierResponse);
 
         return PageResponse.of(result);
     }

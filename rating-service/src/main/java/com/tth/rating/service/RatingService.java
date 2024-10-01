@@ -7,7 +7,7 @@ import com.tth.commonlibrary.dto.response.rating.RatingResponse;
 
 public interface RatingService {
 
-    PageResponse<RatingResponse> getRatingsBySupplierId(String supplierId, int page, int size);
+    PageResponse<RatingResponse> findRatingsBySupplierId(String supplierId, int page, int size);
 
     RatingResponse createRating(RatingRequestCreate request);
 

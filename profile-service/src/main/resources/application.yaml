@@ -1,6 +1,6 @@
 # Server configuration
 server:
-   port: 8083
+   port: 8082
    servlet:
       context-path: /profile
       encoding:
@@ -22,7 +22,3 @@ spring:
       producer:
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-
-# Application configuration
-app:
-   services:

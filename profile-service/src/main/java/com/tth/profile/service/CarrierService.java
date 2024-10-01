@@ -9,6 +9,6 @@ public interface CarrierService {
 
     CarrierResponse findById(String carrierId);
 
-    PageResponse<CarrierResponse> findAllWithFilter(Map<String, String> params, int page, int size);
+    PageResponse<CarrierResponse> findAll(Map<String, String> params, int page, int size);
 
 }

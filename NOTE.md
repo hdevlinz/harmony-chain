@@ -1,4 +1,4 @@
-## Install Docker on ubuntu
+## Install Docker on Ubuntu
 
 ### Add Docker's official GPG key:
 

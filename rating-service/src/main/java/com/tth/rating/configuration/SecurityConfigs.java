@@ -54,11 +54,6 @@ public class SecurityConfigs {
                 .requestMatchers(HttpMethod.PATCH, "/ratings/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/ratings/**").authenticated()
                 .requestMatchers("/ratings/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/**").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/**").authenticated()
-                .requestMatchers(HttpMethod.PATCH, "/**").authenticated()
-                .requestMatchers(HttpMethod.DELETE, "/**").authenticated()
         );
 
         httpSecurity.exceptionHandling(exceptionHandling -> exceptionHandling

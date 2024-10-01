@@ -19,7 +19,7 @@ public class APITaxController {
     public ResponseEntity<?> getTaxes(@RequestParam(required = false, defaultValue = "") Map<String, String> params,
                                       @RequestParam(required = false, defaultValue = "1") int page,
                                       @RequestParam(required = false, defaultValue = "10") int size) {
-        return ResponseEntity.ok(this.taxService.findAllWithFilter(params, page, size));
+        return ResponseEntity.ok(this.taxService.findAll(params, page, size));
     }
 
 }

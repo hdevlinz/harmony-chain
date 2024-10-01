@@ -22,7 +22,7 @@ public class CartMappingHelper {
         }
 
         Set<String> productIds = Set.of(productId);
-        List<ProductListResponse> products = productClient.getProductsInBatch(productIds).getResult();
+        List<ProductListResponse> products = productClient.listProductsInBatch(productIds).getResult();
 
         if (products.isEmpty()) {
             return null;

@@ -14,7 +14,7 @@ import java.util.Map;
 @FeignClient(name = "inventory-item-client", url = "${app.services.inventory.url}")
 public interface InventoryItemClient {
 
-    @PostMapping(path = "/items/batch")
+    @PostMapping(path = "/internal/items/batch")
     APIResponse<List<InventoryItemResponse>> listInventoryItemsInBatch(@RequestBody List<String> inventoryItemIds);
 
     @GetMapping(path = "/items")
@@ -29,7 +29,7 @@ public interface InventoryItemClient {
     @PutMapping(path = "/items/{inventoryItemId}")
     APIResponse<InventoryItemResponse> updateInventoryItem(@PathVariable String inventoryItemId, @RequestBody @Valid InventoryItemRequestUpdate request);
 
-    @GetMapping(path = "/items/total-quantity")
+    @GetMapping(path = "/internal/items/total-quantity")
     APIResponse<Map<String, Float>> getTotalQuantityByWarehouseId(@RequestParam String warehouseId);
 
 }

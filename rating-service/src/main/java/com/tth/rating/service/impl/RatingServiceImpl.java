@@ -31,8 +31,7 @@ public class RatingServiceImpl implements RatingService {
     private final UserProfileClient profileClient;
 
     @Override
-    public PageResponse<RatingResponse> getRatingsBySupplierId(String supplierId, int page, int size) {
-        System.out.println("TEST.............................................");
+    public PageResponse<RatingResponse> findRatingsBySupplierId(String supplierId, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<RatingResponse> results = this.ratingRepository.findAllBySupplierId(supplierId, pageable)
                 .map(this.ratingMapper::toRatingResponse);

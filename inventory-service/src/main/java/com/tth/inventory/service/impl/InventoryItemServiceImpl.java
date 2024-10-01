@@ -68,6 +68,14 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     }
 
     @Override
+    public void delete(String inventoryItemId) {
+        InventoryItem inventoryItem = this.inventoryItemRepository.findById(inventoryItemId)
+                .orElseThrow(() -> new AppException(ErrorCode.INVENTORY_ITEM_NOT_FOUND));
+
+        this.inventoryItemRepository.delete(inventoryItem);
+    }
+
+    @Override
     public Map<String, Float> getTotalQuantityByWarehouseId(String warehouseId) {
         Float totalQuantity = this.inventoryItemRepository.getTotalQuantityByWarehouseId(warehouseId);
 

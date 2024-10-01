@@ -48,12 +48,7 @@ public class SecurityConfigs {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         httpSecurity.authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-//                .requestMatchers(HttpMethod.GET, "/**").permitAll()
-//                .requestMatchers(HttpMethod.POST, "/**").permitAll()
-//                .requestMatchers(HttpMethod.PUT, "/**").authenticated()
-//                .requestMatchers(HttpMethod.PATCH, "/**").authenticated()
-//                .requestMatchers(HttpMethod.DELETE, "/**").authenticated()
+                .anyRequest().permitAll()
         );
 
         httpSecurity.exceptionHandling(exceptionHandling -> exceptionHandling

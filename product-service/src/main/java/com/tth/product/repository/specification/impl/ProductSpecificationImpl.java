@@ -28,36 +28,23 @@ public class ProductSpecificationImpl implements ProductSpecification {
         Query query = new Query();
 
         params.forEach((key, value) -> {
-            if (value != null && !value.isEmpty()) {
-                switch (key) {
-                    case "supplier":
-                        query.addCriteria(Criteria.where("supplierId").is(value));
-                        break;
-                    case "name":
-                        query.addCriteria(Criteria.where("name").regex(value, "i"));
-                        break;
-                    case "fromPrice":
-                        query.addCriteria(Criteria.where("price").gte(new BigDecimal(value)));
-                        break;
-                    case "toPrice":
-                        query.addCriteria(Criteria.where("price").lte(new BigDecimal(value)));
-                        break;
-                    case "category":
-                        query.addCriteria(Criteria.where("category.id").is(value));
-                        break;
-                    case "units":
-                        List<String> unitIdList = List.of(value.split(","));
+            switch (key) {
+                case "supplier" -> query.addCriteria(Criteria.where("supplierId").is(value));
+                case "name" -> query.addCriteria(Criteria.where("name").regex(value, "i"));
+                case "fromPrice" -> query.addCriteria(Criteria.where("price").gte(new BigDecimal(value)));
+                case "toPrice" -> query.addCriteria(Criteria.where("price").lte(new BigDecimal(value)));
+                case "category" -> query.addCriteria(Criteria.where("category.id").is(value));
+                case "units" -> {
+                    List<String> unitIdList = List.of(value.split(","));
 
-                        query.addCriteria(Criteria.where("units.id").in(unitIdList));
-                        break;
-                    case "tags":
-                        List<String> tagIdList = List.of(value.split(","));
-
-                        query.addCriteria(Criteria.where("tags.id").in(tagIdList));
-                        break;
-                    default:
-                        log.warn("Unknown filter key: {}", key);
+                    query.addCriteria(Criteria.where("units.id").in(unitIdList));
                 }
+                case "tags" -> {
+                    List<String> tagIdList = List.of(value.split(","));
+
+                    query.addCriteria(Criteria.where("tags.id").in(tagIdList));
+                }
+                default -> log.warn("Unknown filter key: {}", key);
             }
         });
 

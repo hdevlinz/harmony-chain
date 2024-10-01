@@ -22,36 +22,27 @@ public class OrderSpecification {
 
             if (params != null && !params.isEmpty()) {
                 params.forEach((key, value) -> {
-                    if (value != null && !value.isEmpty()) {
-                        switch (key) {
-                            case "user":
-                                predicates.add(builder.equal(root.get("userId"), value));
-                                break;
-                            case "shipment":
-                                predicates.add(builder.equal(root.get("shipmentId"), value));
-                                break;
-                            case "type":
-                                try {
-                                    OrderType type = OrderType.valueOf(value.toUpperCase(Locale.getDefault()));
-                                    predicates.add(builder.equal(root.get("type"), type));
-                                } catch (IllegalArgumentException e) {
-                                    log.error("Error parsing OrderType Enum", e);
-                                }
-                                break;
-                            case "status":
-                                try {
-                                    OrderStatus status = OrderStatus.valueOf(value.toUpperCase(Locale.getDefault()));
-                                    predicates.add(builder.equal(root.get("status"), status));
-                                } catch (IllegalArgumentException e) {
-                                    log.error("Error parsing OrderStatus Enum", e);
-                                }
-                                break;
-                            case "invoice":
-                                predicates.add(builder.equal(root.get("invoice").get("id"), value));
-                                break;
-                            default:
-                                log.warn("Unknown filter key: {}", key);
+                    switch (key) {
+                        case "user" -> predicates.add(builder.equal(root.get("userId"), value));
+                        case "shipment" -> predicates.add(builder.equal(root.get("shipmentId"), value));
+                        case "invoice" -> predicates.add(builder.equal(root.get("invoice").get("id"), value));
+                        case "type" -> {
+                            try {
+                                OrderType type = OrderType.valueOf(value.toUpperCase(Locale.getDefault()));
+                                predicates.add(builder.equal(root.get("type"), type));
+                            } catch (IllegalArgumentException e) {
+                                log.error("Error parsing OrderType Enum", e);
+                            }
                         }
+                        case "status" -> {
+                            try {
+                                OrderStatus status = OrderStatus.valueOf(value.toUpperCase(Locale.getDefault()));
+                                predicates.add(builder.equal(root.get("status"), status));
+                            } catch (IllegalArgumentException e) {
+                                log.error("Error parsing OrderStatus Enum", e);
+                            }
+                        }
+                        default -> log.warn("Unknown filter key: {}", key);
                     }
                 });
             }

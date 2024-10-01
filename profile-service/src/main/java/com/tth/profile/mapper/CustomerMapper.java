@@ -4,16 +4,16 @@ import com.tth.commonlibrary.dto.request.profile.customer.CustomerRequestCreate;
 import com.tth.commonlibrary.dto.request.profile.customer.CustomerRequestUpdate;
 import com.tth.commonlibrary.dto.response.profile.customer.CustomerResponse;
 import com.tth.profile.entity.Customer;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
-import java.util.List;
-
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+        nullValueIterableMappingStrategy = NullValueMappingStrategy.RETURN_NULL,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+)
 public interface CustomerMapper {
 
+    @Named("toCustomer")
     @Mapping(target = "gender", ignore = true)
     @Mapping(target = "dateOfBirth", ignore = true)
     @Mapping(target = "firstName", source = "customerFirstName")
@@ -23,11 +23,10 @@ public interface CustomerMapper {
     @Mapping(target = "phone", source = "customerPhone")
     Customer toCustomer(CustomerRequestCreate request);
 
-    @Named("mapCustomerToResponse")
+    @Named("toCustomerResponse")
     CustomerResponse toCustomerResponse(Customer customer);
 
-    List<CustomerResponse> toCustomerResponse(List<Customer> customers);
-
+    @Named("updateCustomer")
     @Mapping(target = "firstName", source = "customerFirstName")
     @Mapping(target = "middleName", source = "customerMiddleName")
     @Mapping(target = "lastName", source = "customerLastName")

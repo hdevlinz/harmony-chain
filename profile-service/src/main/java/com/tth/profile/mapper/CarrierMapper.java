@@ -4,26 +4,25 @@ import com.tth.commonlibrary.dto.request.profile.carrier.CarrierRequestCreate;
 import com.tth.commonlibrary.dto.request.profile.carrier.CarrierRequestUpdate;
 import com.tth.commonlibrary.dto.response.profile.carrier.CarrierResponse;
 import com.tth.profile.entity.Carrier;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
-import java.util.List;
-
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+        nullValueIterableMappingStrategy = NullValueMappingStrategy.RETURN_NULL,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+)
 public interface CarrierMapper {
 
+    @Named("toCarrier")
     @Mapping(target = "rating", ignore = true)
     @Mapping(target = "name", source = "carrierName")
     @Mapping(target = "contactInfo", source = "carrierContactInfo")
     Carrier toCarrier(CarrierRequestCreate request);
 
-    @Named("mapCarrierToResponse")
+    @Named("toCarrierResponse")
     CarrierResponse toCarrierResponse(Carrier carrier);
 
-    List<CarrierResponse> toCarrierResponse(List<Carrier> carriers);
-
+    @Named("updateCarrier")
     @Mapping(target = "name", source = "carrierName")
     @Mapping(target = "contactInfo", source = "carrierContactInfo")
     void updateCarrier(@MappingTarget Carrier carrier, CarrierRequestUpdate request);

@@ -1,15 +1,15 @@
 package com.tth.order.mapper;
 
-import com.tth.commonlibrary.dto.response.order.OrderItemResponse;
 import com.tth.commonlibrary.dto.response.order.OrderResponse;
 import com.tth.order.entity.Order;
-import com.tth.order.entity.OrderItem;
 import com.tth.order.mapper.helper.MappingHelper;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring", uses = {MappingHelper.class})
+@Mapper(componentModel = "spring", uses = {MappingHelper.class, OrderItemMapper.class},
+        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+        nullValueIterableMappingStrategy = NullValueMappingStrategy.RETURN_NULL,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+)
 public interface OrderMapper {
 
     @Named("toOrderResponse")
@@ -17,9 +17,5 @@ public interface OrderMapper {
     @Mapping(target = "invoiceNumber", source = "invoice.invoiceNumber")
     @Mapping(target = "orderItems", source = "orderItems", qualifiedByName = "toOrderItemResponse")
     OrderResponse toOrderResponse(Order order);
-
-    @Named("toOrderItemResponse")
-    @Mapping(target = "product", source = "productId", qualifiedByName = "getProductById")
-    OrderItemResponse toOrderItemResponse(OrderItem orderItem);
 
 }

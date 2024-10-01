@@ -1,12 +1,12 @@
 package com.tth.order.service;
 
 import com.tth.commonlibrary.dto.PageResponse;
-import com.tth.order.entity.Tax;
+import com.tth.commonlibrary.dto.response.order.tax.TaxResponse;
 
 import java.util.Map;
 
 public interface TaxService {
 
-    PageResponse<Tax> findAllWithFilter(Map<String, String> params, int page, int size);
+    PageResponse<TaxResponse> findAll(Map<String, String> params, int page, int size);
 
 }

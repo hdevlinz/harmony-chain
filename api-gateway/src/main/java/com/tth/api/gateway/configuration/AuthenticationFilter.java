@@ -36,17 +36,27 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             "/identity/auth/.*",
             "/identity/users/.*",
 
-            "/inventory/.*",
+            "/inventory/inventories/.*",
+            "/inventory/items/.*",
+            "/inventory/warehouses/.*",
 
-            "/order/.*",
+            "/order/invoices/.*",
+            "/order/orders/.*",
+            "/order/taxes/.*",
 
-            "/product/.*",
+            "/product/categories/.*",
+            "/product/products/.*",
+            "/product/tags/.*",
+            "/product/units/.*",
 
-            "/profile/.*",
+            "/profile/carriers/.*",
+            "/profile/customers/.*",
+            "/profile/suppliers/.*",
 
-            "/rating/.*",
+            "/rating/ratings/.*",
 
-            "/shipping/.*"
+            "/shipping/schedules/.*",
+            "/shipping/shipments/.*"
     );
 
     private final ObjectMapper objectMapper;
@@ -66,12 +76,12 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        List<String> authToken = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
-        if (CollectionUtils.isEmpty(authToken)) {
+        List<String> authorization = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
+        if (CollectionUtils.isEmpty(authorization)) {
             return this.unauthenticated(exchange.getResponse());
         }
 
-        String token = authToken.getFirst().substring("Bearer ".length());
+        String token = authorization.getFirst().substring("Bearer ".length());
         return this.identityService.introspect(token).flatMap(response -> {
             if (response.getResult().isValid()) {
                 return chain.filter(exchange);

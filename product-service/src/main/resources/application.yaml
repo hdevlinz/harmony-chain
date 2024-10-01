@@ -1,6 +1,6 @@
 # Server configuration
 server:
-   port: 8082
+   port: 8084
    servlet:
       context-path: /product
       encoding:
@@ -29,4 +29,4 @@ spring:
 app:
    services:
       profile:
-         url: ${PROFILE_SERVICE_URL:http://localhost:8083/profile}
+         url: ${PROFILE_SERVICE_URL:http://localhost:8082/profile}

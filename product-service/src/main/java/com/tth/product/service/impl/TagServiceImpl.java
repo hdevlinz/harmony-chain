@@ -23,7 +23,7 @@ public class TagServiceImpl implements TagService {
     private final TagMapper tagMapper;
 
     @Override
-    public PageResponse<TagResponse> findAllWithFilter(Map<String, String> params, int page, int size) {
+    public PageResponse<TagResponse> findAll(Map<String, String> params, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<TagResponse> result = this.tagRepository.filter(params, pageable).map(this.tagMapper::toTagResponse);
 

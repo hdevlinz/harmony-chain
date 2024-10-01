@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -56,13 +55,9 @@ public class SecurityConfigs {
                         UserRole.ROLE_DISTRIBUTOR.alias(),
                         UserRole.ROLE_MANUFACTURER.alias()
                 )
-                .requestMatchers("/orders/**").authenticated()
                 .requestMatchers("/invoices/**").authenticated()
-                .requestMatchers(HttpMethod.GET, "/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/**").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/**").authenticated()
-                .requestMatchers(HttpMethod.PATCH, "/**").authenticated()
-                .requestMatchers(HttpMethod.DELETE, "/**").authenticated()
+                .requestMatchers("/orders/**").authenticated()
+                .requestMatchers("/taxes/**").permitAll()
         );
 
         httpSecurity.exceptionHandling(exceptionHandling -> exceptionHandling

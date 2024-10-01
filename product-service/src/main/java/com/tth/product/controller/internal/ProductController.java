@@ -21,7 +21,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/batch")
-    public ResponseEntity<?> getProductsInBatch(@RequestBody Set<String> productIds) {
+    public ResponseEntity<?> listProductsInBatch(@RequestBody Set<String> productIds) {
         List<ProductListResponse> products = this.productService.findAllInBatch(productIds);
 
         return ResponseEntity.ok(APIResponse.<List<ProductListResponse>>builder().result(products).build());

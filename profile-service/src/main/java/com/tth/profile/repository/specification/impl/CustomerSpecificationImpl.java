@@ -3,6 +3,7 @@ package com.tth.profile.repository.specification.impl;
 import com.tth.profile.entity.Customer;
 import com.tth.profile.repository.specification.CustomerSpecification;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class CustomerSpecificationImpl implements CustomerSpecification {
@@ -25,23 +27,20 @@ public class CustomerSpecificationImpl implements CustomerSpecification {
         Map<String, Object> queryParams = new HashMap<>();
 
         params.forEach((key, value) -> {
-            if (value != null && !value.isEmpty()) {
-                switch (key) {
-                    case "name":
-                        queryBuilder.append(" AND (c.firstName CONTAINS $name OR c.middleName CONTAINS $name OR c.lastName CONTAINS $name)");
-                        queryParams.put("name", value);
-                        break;
-                    case "address":
-                        queryBuilder.append(" AND c.address CONTAINS $address");
-                        queryParams.put("address", value);
-                        break;
-                    case "phone":
-                        queryBuilder.append(" AND c.phone CONTAINS $phone");
-                        queryParams.put("phone", value);
-                        break;
-                    default:
-                        break;
+            switch (key) {
+                case "name" -> {
+                    queryBuilder.append(" AND (c.firstName CONTAINS $name OR c.middleName CONTAINS $name OR c.lastName CONTAINS $name)");
+                    queryParams.put("name", value);
                 }
+                case "address" -> {
+                    queryBuilder.append(" AND c.address CONTAINS $address");
+                    queryParams.put("address", value);
+                }
+                case "phone" -> {
+                    queryBuilder.append(" AND c.phone CONTAINS $phone");
+                    queryParams.put("phone", value);
+                }
+                default -> log.warn("Unknown filter key: {}", key);
             }
         });
 
