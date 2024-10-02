@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.tth</groupId>
-    <artifactId>harmony-supply-chain</artifactId>
+    <artifactId>hscm</artifactId>
     <version>${revision}</version>
     <name>harmony-supply-chain</name>
     <packaging>pom</packaging>
