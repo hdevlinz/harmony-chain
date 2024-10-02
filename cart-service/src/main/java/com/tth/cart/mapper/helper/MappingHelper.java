@@ -1,7 +1,7 @@
-package com.tth.commonlibrary.mapper.helper;
+package com.tth.cart.mapper.helper;
 
+import com.tth.cart.repository.httpclient.ProductClient;
 import com.tth.commonlibrary.dto.response.product.ProductListResponse;
-import com.tth.commonlibrary.repository.httpclient.ProductClient;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class CartMappingHelper {
+public class MappingHelper {
 
     private final ProductClient productClient;
 

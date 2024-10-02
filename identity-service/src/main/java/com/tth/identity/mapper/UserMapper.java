@@ -7,11 +7,13 @@ import com.tth.commonlibrary.dto.request.profile.customer.CustomerRequestCreate;
 import com.tth.commonlibrary.dto.request.profile.supplier.SupplierRequestCreate;
 import com.tth.commonlibrary.dto.response.identity.UserResponse;
 import com.tth.identity.entity.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+        nullValueIterableMappingStrategy = NullValueMappingStrategy.RETURN_NULL,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+)
 public interface UserMapper {
 
     User toUser(RegisterRequest registerRequest);

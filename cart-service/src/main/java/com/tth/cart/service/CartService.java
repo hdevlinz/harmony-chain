@@ -1,8 +1,8 @@
-package com.tth.commonlibrary.service;
+package com.tth.cart.service;
 
+import com.tth.cart.entity.Cart;
 import com.tth.commonlibrary.dto.request.product.ProductRequestAddToCart;
 import com.tth.commonlibrary.dto.response.cart.CartItemResponse;
-import com.tth.commonlibrary.entity.Cart;
 
 import java.util.Map;
 

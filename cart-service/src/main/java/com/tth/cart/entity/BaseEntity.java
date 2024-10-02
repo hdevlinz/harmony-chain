@@ -1,4 +1,4 @@
-package com.tth.commonlibrary.entity;
+package com.tth.cart.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

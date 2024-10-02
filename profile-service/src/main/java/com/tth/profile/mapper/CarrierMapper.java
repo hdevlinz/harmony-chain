@@ -20,6 +20,9 @@ public interface CarrierMapper {
     Carrier toCarrier(CarrierRequestCreate request);
 
     @Named("toCarrierResponse")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", ignore = true)
+    @Mapping(target = "contactInfo", ignore = true)
     CarrierResponse toCarrierResponse(Carrier carrier);
 
     @Named("updateCarrier")

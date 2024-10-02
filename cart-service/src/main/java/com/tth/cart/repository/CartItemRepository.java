@@ -1,6 +1,6 @@
-package com.tth.commonlibrary.repository;
+package com.tth.cart.repository;
 
-import com.tth.commonlibrary.entity.CartItem;
+import com.tth.cart.entity.CartItem;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

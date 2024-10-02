@@ -1,4 +1,4 @@
-package com.tth.commonlibrary.configuration;
+package com.tth.cart.configuration;
 
 import com.nimbusds.jwt.SignedJWT;
 import lombok.RequiredArgsConstructor;

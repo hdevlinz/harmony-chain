@@ -1,11 +1,11 @@
-package com.tth.commonlibrary.mapper;
+package com.tth.cart.mapper;
 
+import com.tth.cart.entity.CartItem;
+import com.tth.cart.mapper.helper.MappingHelper;
 import com.tth.commonlibrary.dto.response.cart.CartItemResponse;
-import com.tth.commonlibrary.entity.CartItem;
-import com.tth.commonlibrary.mapper.helper.CartMappingHelper;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring", uses = {CartMappingHelper.class},
+@Mapper(componentModel = "spring", uses = {MappingHelper.class},
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
         nullValueIterableMappingStrategy = NullValueMappingStrategy.RETURN_NULL,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE

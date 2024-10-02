@@ -1,4 +1,4 @@
-package com.tth.commonlibrary.repository.httpclient;
+package com.tth.cart.repository.httpclient;
 
 import com.tth.commonlibrary.dto.APIResponse;
 import com.tth.commonlibrary.dto.response.product.ProductDetailsResponse;
