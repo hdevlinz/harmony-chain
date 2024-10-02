@@ -1,4 +1,4 @@
-package com.tth.cart.configuration;
+package com.tth.commonlibrary.configuration;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

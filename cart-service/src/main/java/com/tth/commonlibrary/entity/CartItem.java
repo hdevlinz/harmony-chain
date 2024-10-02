@@ -1,4 +1,4 @@
-package com.tth.cart.entity;
+package com.tth.commonlibrary.entity;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

@@ -1,8 +1,8 @@
-package com.tth.cart.mapper;
+package com.tth.commonlibrary.mapper;
 
-import com.tth.cart.entity.CartItem;
-import com.tth.cart.mapper.helper.CartMappingHelper;
 import com.tth.commonlibrary.dto.response.cart.CartItemResponse;
+import com.tth.commonlibrary.entity.CartItem;
+import com.tth.commonlibrary.mapper.helper.CartMappingHelper;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring", uses = {CartMappingHelper.class},

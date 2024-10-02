@@ -1,4 +1,4 @@
-package com.tth.cart.entity;
+package com.tth.commonlibrary.entity;
 
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;

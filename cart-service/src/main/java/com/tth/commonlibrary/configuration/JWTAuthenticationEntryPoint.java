@@ -1,4 +1,4 @@
-package com.tth.cart.configuration;
+package com.tth.commonlibrary.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tth.commonlibrary.dto.APIResponse;

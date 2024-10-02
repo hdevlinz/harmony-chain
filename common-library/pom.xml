@@ -62,4 +62,16 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>skip-spring-boot</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+            </properties>
+        </profile>
+    </profiles>
+
 </project>
