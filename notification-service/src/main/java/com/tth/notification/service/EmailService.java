@@ -24,6 +24,9 @@ public class EmailService {
     private String apiKey;
 
     public SendEmailResponse sendEmail(SendEmailRequest request) {
+        String modifiedApiKey = (this.apiKey != null && !this.apiKey.isEmpty())
+                ? this.apiKey.substring(0, this.apiKey.length() - 1) : this.apiKey;
+
         EmailRequest emailRequest = EmailRequest.builder()
                 .to(List.of(request.getTo()))
                 .htmlContent(request.getHtmlContent())
@@ -34,7 +37,7 @@ public class EmailService {
                 .subject(request.getSubject())
                 .build();
         try {
-            return this.emailClient.sendEmail(this.apiKey, emailRequest);
+            return this.emailClient.sendEmail(modifiedApiKey, emailRequest);
         } catch (FeignException e) {
             throw new AppException(ErrorCode.CANNOT_SEND_EMAIL);
         }

@@ -20,7 +20,12 @@ public class AWSConfigs {
 
     @Bean
     public S3Client s3Client() {
-        AwsBasicCredentials awsCredentials = AwsBasicCredentials.create(accessKeyId, secretAccessKey);
+        String modifiedAccessKeyId = (this.accessKeyId != null && !this.accessKeyId.isEmpty())
+                ? this.accessKeyId.substring(0, this.accessKeyId.length() - 1) : this.accessKeyId;
+        String modifiedSecretAccessKey = (this.secretAccessKey != null && !this.secretAccessKey.isEmpty())
+                ? this.secretAccessKey.substring(0, this.secretAccessKey.length() - 1) : this.secretAccessKey;
+
+        AwsBasicCredentials awsCredentials = AwsBasicCredentials.create(modifiedAccessKeyId, modifiedSecretAccessKey);
 
         return S3Client.builder()
                 .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
