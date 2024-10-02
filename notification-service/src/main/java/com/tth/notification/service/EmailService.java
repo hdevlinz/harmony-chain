@@ -26,12 +26,12 @@ public class EmailService {
     public SendEmailResponse sendEmail(SendEmailRequest request) {
         EmailRequest emailRequest = EmailRequest.builder()
                 .to(List.of(request.getTo()))
+                .subject(request.getSubject())
                 .htmlContent(request.getHtmlContent())
                 .sender(Sender.builder()
                         .email("hieptt.2003@gmail.com")
                         .name("Harmony SCMS")
                         .build())
-                .subject(request.getSubject())
                 .build();
         try {
             return this.emailClient.sendEmail(this.apiKey, emailRequest);

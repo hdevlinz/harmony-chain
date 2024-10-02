@@ -73,9 +73,9 @@ services:
          - hscm-network
    #   hscm-keycloak:
    #      image: 'quay.io/keycloak/keycloak:25.0.0'
-   #      command: [ 'start-dev --import-realm' ]
-   #      container_name: hscm-keycloak
    #      hostname: hscm-keycloak
+   #      container_name: hscm-keycloak
+   #      command: [ 'start-dev --import-realm' ]
    #      ports:
    #         - '8180:8080'
    #      environment:
@@ -83,199 +83,199 @@ services:
    #         - KEYCLOAK_ADMIN_PASSWORD=admin
    #      networks:
    #         - hscm-network
-#   hscm-cart:
-#      build: ./cart-service
-#      image: ghcr.io/hiepthanhtran/hscm-cart-service:latest
-#      container_name: hscm-cart
-#      ports:
-#         - '8081:8081'
-#      environment:
-#         - MONGODB_URI=mongodb://root:root@mongodb:27017/cart_service?authSource=admin
-#      #         - PRODUCT_SERVICE_URL
-#      depends_on:
-#         - mongodb
-#      networks:
-#         - hscm-network
-#   hscm-profile:
-#      build: ./profile-service
-#      image: ghcr.io/hiepthanhtran/hscm-profile-service:latest
-#      container_name: hscm-profile
-#      ports:
-#         - '8082:8082'
-#      #      environment:
-#      #         - NEO4J_URI
-#      #         - NEO4J_USERNAME
-#      #         - NEO4J_PASSWORD
-#      depends_on:
-#         - neo4j
-#         - hscm-cart
-#      networks:
-#         - hscm-network
-#   hscm-identity:
-#      build: ./identity-service
-#      image: ghcr.io/hiepthanhtran/hscm-identity-service:latest
-#      container_name: hscm-identity
-#      ports:
-#         - '8083:8083'
-#      environment:
-#         - DBMS_URL=jdbc:mysql://mysql:3306/identity_service
-#      #         - DBMS_USERNAME
-#      #         - DBMS_PASSWORD
-#      #         - JWT_SIGNER_KEY
-#      #         - JWT_VALID_DURATION
-#      #         - JWT_REFRESHABLE_DURATION
-#      #         - IDENTITY_CLIENT_ID
-#      #         - IDENTITY_CLIENT_SECRET
-#      #         - IDENTITY_REDIRECT_URI
-#      #         - PROFILE_SERVICE_URL
-#      #         - FILE_SERVICE_URL
-#      depends_on:
-#         - mysql
-#         - hscm-cart
-#         - hscm-profile
-#      networks:
-#         - hscm-network
-#   hscm-product:
-#      build: ./product-service
-#      image: ghcr.io/hiepthanhtran/hscm-product-service:latest
-#      container_name: hscm-product
-#      ports:
-#         - '8084:8084'
-#      environment:
-#         - MONGODB_URI=mongodb://root:root@mongodb:27017/product_service?authSource=admin
-#      #         - PROFILE_SERVICE_URL
-#      depends_on:
-#         - mongodb
-#         - hscm-cart
-#         - hscm-profile
-#         - hscm-identity
-#      networks:
-#         - hscm-network
-#   hscm-rating:
-#      build: ./rating-service
-#      image: ghcr.io/hiepthanhtran/hscm-rating-service:latest
-#      container_name: hscm-rating
-#      ports:
-#         - '8085:8085'
-#      environment:
-#         - MONGODB_URI=mongodb://root:root@mongodb:27017/rating_service?authSource=admin
-#      #         - IDENTITY_SERVICE_URL
-#      #         - PROFILE_SERVICE_URL
-#      depends_on:
-#         - mongodb
-#         - hscm-cart
-#         - hscm-profile
-#         - hscm-identity
-#         - hscm-product
-#      networks:
-#         - hscm-network
-#   hscm-inventory:
-#      build: ./inventory-service
-#      image: ghcr.io/hiepthanhtran/hscm-inventory-service:latest
-#      container_name: hscm-inventory
-#      ports:
-#         - '8086:8086'
-#      environment:
-#         - DBMS_URL=jdbc:mysql://mysql:3306/inventory_service
-#      #         - DBMS_USERNAME
-#      #         - DBMS_PASSWORD
-#      #         - PRODUCT_SERVICE_URL
-#      depends_on:
-#         - mysql
-#         - hscm-cart
-#         - hscm-profile
-#         - hscm-identity
-#         - hscm-product
-#         - hscm-rating
-#      networks:
-#         - hscm-network
-#   hscm-order:
-#      build: ./order-service
-#      image: ghcr.io/hiepthanhtran/hscm-order-service:latest
-#      container_name: hscm-order
-#      ports:
-#         - '8087:8087'
-#      environment:
-#         - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-#         - DBMS_URL=jdbc:mysql://mysql:3306/order_service
-#      #         - DBMS_USERNAME
-#      #         - DBMS_PASSWORD
-#      #         - IDENTITY_SERVICE_URL
-#      #         - PRODUCT_SERVICE_URL
-#      #         - INVENTORY_SERVICE_URL
-#      depends_on:
-#         - mysql
-#         - hscm-cart
-#         - hscm-profile
-#         - hscm-identity
-#         - hscm-product
-#         - hscm-rating
-#         - hscm-inventory
-#      networks:
-#         - hscm-network
-#   hscm-shipping:
-#      build: ./shipping-service
-#      image: ghcr.io/hiepthanhtran/hscm-shipping-service:latest
-#      container_name: hscm-shipping
-#      ports:
-#         - '8088:8088'
-#      environment:
-#         - MONGODB_URI=mongodb://root:root@mongodb:27017/shipping_service?authSource=admin
-#         - IDENTITY_SERVICE_URL
-#      depends_on:
-#         - mysql
-#         - hscm-cart
-#         - hscm-profile
-#         - hscm-identity
-#         - hscm-product
-#         - hscm-rating
-#         - hscm-inventory
-#         - hscm-order
-#      networks:
-#         - hscm-network
-#   hscm-notification:
-#      build: ./notification-service
-#      image: ghcr.io/hiepthanhtran/hscm-notification-service:latest
-#      container_name: hscm-notification
-#      ports:
-#         - '8886:8886'
-#      environment:
-#         - MAIL_API_KEY=${MAIL_API_KEY}
-#         - MONGODB_URI=mongodb://root:root@mongodb:27017/notification_service?authSource=admin
-#      #         - EMAIL_SERVICE_URL
-#      depends_on:
-#         - mongodb
-#      networks:
-#         - hscm-network
-#   hscm-file:
-#      build: ./file-service
-#      image: ghcr.io/hiepthanhtran/hscm-file-service:latest
-#      container_name: hscm-file
-#      ports:
-#         - '8887:8887'
-#      environment:
-#         - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-#         - AWS_SECRET=${AWS_SECRET}
-#         - S3_BUCKET_NAME=${S3_BUCKET_NAME}
-#      networks:
-#         - hscm-network
-#   hscm-api-gateway:
-#      build: ./api-gateway
-#      image: ghcr.io/hiepthanhtran/hscm-api-gateway:latest
-#      container_name: hscm-api-gateway
-#      ports:
-#         - '8888:8888'
-#      #      environment:
-#      #         - IDENTITY_SERVICE_URL
-#      #         - FILE_SERVICE_URL
-#      #         - NOTIFICATION_SERVICE_URL
-#      #         - SHIPPING_SERVICE_URL
-#      #         - PROFILE_SERVICE_URL
-#      #         - IDENTITY_SERVICE_URL
-#      #         - PRODUCT_SERVICE_URL
-#      #         - SHIPPING_SERVICE_URL
-#      #         - SHIPPING_SERVICE_URL
-#      #         - ORDER_SERVICE_URL
-#      #         - SHIPPING_SERVICE_URL
-#      networks:
-#         - hscm-network
+   hscm-cart:
+      build: ./cart-service
+      image: ghcr.io/hiepthanhtran/hscm-cart-service:latest
+      container_name: hscm-cart
+      ports:
+         - '8081:8081'
+      environment:
+         - MONGODB_URI=mongodb://root:root@mongodb:27017/cart_service?authSource=admin
+      #         - PRODUCT_SERVICE_URL
+      depends_on:
+         - mongodb
+      networks:
+         - hscm-network
+   hscm-profile:
+      build: ./profile-service
+      image: ghcr.io/hiepthanhtran/hscm-profile-service:latest
+      container_name: hscm-profile
+      ports:
+         - '8082:8082'
+      #      environment:
+      #         - NEO4J_URI
+      #         - NEO4J_USERNAME
+      #         - NEO4J_PASSWORD
+      depends_on:
+         - neo4j
+         - hscm-cart
+      networks:
+         - hscm-network
+   hscm-identity:
+      build: ./identity-service
+      image: ghcr.io/hiepthanhtran/hscm-identity-service:latest
+      container_name: hscm-identity
+      ports:
+         - '8083:8083'
+      environment:
+         - DBMS_URL=jdbc:mysql://mysql:3306/identity_service
+      #         - DBMS_USERNAME
+      #         - DBMS_PASSWORD
+      #         - JWT_SIGNER_KEY
+      #         - JWT_VALID_DURATION
+      #         - JWT_REFRESHABLE_DURATION
+      #         - IDENTITY_CLIENT_ID
+      #         - IDENTITY_CLIENT_SECRET
+      #         - IDENTITY_REDIRECT_URI
+      #         - PROFILE_SERVICE_URL
+      #         - FILE_SERVICE_URL
+      depends_on:
+         - mysql
+         - hscm-cart
+         - hscm-profile
+      networks:
+         - hscm-network
+   hscm-product:
+      build: ./product-service
+      image: ghcr.io/hiepthanhtran/hscm-product-service:latest
+      container_name: hscm-product
+      ports:
+         - '8084:8084'
+      environment:
+         - MONGODB_URI=mongodb://root:root@mongodb:27017/product_service?authSource=admin
+      #         - PROFILE_SERVICE_URL
+      depends_on:
+         - mongodb
+         - hscm-cart
+         - hscm-profile
+         - hscm-identity
+      networks:
+         - hscm-network
+   hscm-rating:
+      build: ./rating-service
+      image: ghcr.io/hiepthanhtran/hscm-rating-service:latest
+      container_name: hscm-rating
+      ports:
+         - '8085:8085'
+      environment:
+         - MONGODB_URI=mongodb://root:root@mongodb:27017/rating_service?authSource=admin
+      #         - IDENTITY_SERVICE_URL
+      #         - PROFILE_SERVICE_URL
+      depends_on:
+         - mongodb
+         - hscm-cart
+         - hscm-profile
+         - hscm-identity
+         - hscm-product
+      networks:
+         - hscm-network
+   hscm-inventory:
+      build: ./inventory-service
+      image: ghcr.io/hiepthanhtran/hscm-inventory-service:latest
+      container_name: hscm-inventory
+      ports:
+         - '8086:8086'
+      environment:
+         - DBMS_URL=jdbc:mysql://mysql:3306/inventory_service
+      #         - DBMS_USERNAME
+      #         - DBMS_PASSWORD
+      #         - PRODUCT_SERVICE_URL
+      depends_on:
+         - mysql
+         - hscm-cart
+         - hscm-profile
+         - hscm-identity
+         - hscm-product
+         - hscm-rating
+      networks:
+         - hscm-network
+   hscm-order:
+      build: ./order-service
+      image: ghcr.io/hiepthanhtran/hscm-order-service:latest
+      container_name: hscm-order
+      ports:
+         - '8087:8087'
+      environment:
+         - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+         - DBMS_URL=jdbc:mysql://mysql:3306/order_service
+      #         - DBMS_USERNAME
+      #         - DBMS_PASSWORD
+      #         - IDENTITY_SERVICE_URL
+      #         - PRODUCT_SERVICE_URL
+      #         - INVENTORY_SERVICE_URL
+      depends_on:
+         - mysql
+         - hscm-cart
+         - hscm-profile
+         - hscm-identity
+         - hscm-product
+         - hscm-rating
+         - hscm-inventory
+      networks:
+         - hscm-network
+   hscm-shipping:
+      build: ./shipping-service
+      image: ghcr.io/hiepthanhtran/hscm-shipping-service:latest
+      container_name: hscm-shipping
+      ports:
+         - '8088:8088'
+      environment:
+         - MONGODB_URI=mongodb://root:root@mongodb:27017/shipping_service?authSource=admin
+         - IDENTITY_SERVICE_URL
+      depends_on:
+         - mysql
+         - hscm-cart
+         - hscm-profile
+         - hscm-identity
+         - hscm-product
+         - hscm-rating
+         - hscm-inventory
+         - hscm-order
+      networks:
+         - hscm-network
+   hscm-notification:
+      build: ./notification-service
+      image: ghcr.io/hiepthanhtran/hscm-notification-service:latest
+      container_name: hscm-notification
+      ports:
+         - '8886:8886'
+      environment:
+         - MAIL_API_KEY=${MAIL_API_KEY}
+         - MONGODB_URI=mongodb://root:root@mongodb:27017/notification_service?authSource=admin
+      #         - EMAIL_SERVICE_URL
+      depends_on:
+         - mongodb
+      networks:
+         - hscm-network
+   hscm-file:
+      build: ./file-service
+      image: ghcr.io/hiepthanhtran/hscm-file-service:latest
+      container_name: hscm-file
+      ports:
+         - '8887:8887'
+      environment:
+         - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+         - AWS_SECRET=${AWS_SECRET}
+         - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      networks:
+         - hscm-network
+   hscm-api-gateway:
+      build: ./api-gateway
+      image: ghcr.io/hiepthanhtran/hscm-api-gateway:latest
+      container_name: hscm-api-gateway
+      ports:
+         - '8888:8888'
+      #      environment:
+      #         - IDENTITY_SERVICE_URL
+      #         - FILE_SERVICE_URL
+      #         - NOTIFICATION_SERVICE_URL
+      #         - SHIPPING_SERVICE_URL
+      #         - PROFILE_SERVICE_URL
+      #         - IDENTITY_SERVICE_URL
+      #         - PRODUCT_SERVICE_URL
+      #         - SHIPPING_SERVICE_URL
+      #         - SHIPPING_SERVICE_URL
+      #         - ORDER_SERVICE_URL
+      #         - SHIPPING_SERVICE_URL
+      networks:
+         - hscm-network

@@ -17,6 +17,8 @@ spring:
          uri: ${MONGODB_URI:mongodb://root:root@localhost:27017/notification_service?authSource=admin}
    kafka:
       bootstrap-servers: localhost:9094
+      admin:
+         auto-create: on
       consumer:
          group-id: group-notification
          auto-offset-reset: earliest
