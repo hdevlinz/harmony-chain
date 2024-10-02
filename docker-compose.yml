@@ -231,10 +231,3 @@ services:
          - SHIPPING_SERVICE_URL
       networks:
          - hscm-network
-   hscm-common-library:
-      build:
-         context: ./common-library
-         dockerfile: Dockerfile
-      container_name: hscm-common-library
-      networks:
-         - hscm-network
