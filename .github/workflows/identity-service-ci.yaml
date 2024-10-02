@@ -42,4 +42,4 @@ jobs:
             with:
                context: ./identity-service
                push: true
-               tags: ghcr.io/nashtech-garage/yas-identity-service:latest
+               tags: ghcr.io/hiepthanhtran/hscm-identity-service:latest

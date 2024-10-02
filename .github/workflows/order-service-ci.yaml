@@ -42,4 +42,4 @@ jobs:
             with:
                context: ./order-service
                push: true
-               tags: ghcr.io/nashtech-garage/yas-order-service:latest
+               tags: ghcr.io/hiepthanhtran/hscm-order-service:latest

@@ -42,4 +42,4 @@ jobs:
             with:
                context: ./inventory-service
                push: true
-               tags: ghcr.io/nashtech-garage/yas-inventory-service:latest
+               tags: ghcr.io/hiepthanhtran/hscm-inventory-service:latest

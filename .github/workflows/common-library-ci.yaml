@@ -42,4 +42,4 @@ jobs:
             with:
                context: ./common-library
                push: true
-               tags: ghcr.io/nashtech-garage/yas-common-library:latest
+               tags: ghcr.io/hiepthanhtran/hscm-common-library:latest

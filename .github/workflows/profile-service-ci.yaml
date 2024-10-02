@@ -42,4 +42,4 @@ jobs:
             with:
                context: ./profile-service
                push: true
-               tags: ghcr.io/nashtech-garage/yas-profile-service:latest
+               tags: ghcr.io/hiepthanhtran/hscm-profile-service:latest

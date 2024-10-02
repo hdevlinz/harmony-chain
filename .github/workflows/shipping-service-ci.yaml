@@ -42,4 +42,4 @@ jobs:
             with:
                context: ./shipping-service
                push: true
-               tags: ghcr.io/nashtech-garage/yas-shipping-service:latest
+               tags: ghcr.io/hiepthanhtran/hscm-shipping-service:latest
