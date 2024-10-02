@@ -6,7 +6,7 @@
         <groupId>com.tth</groupId>
         <artifactId>hscm</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>common-library</artifactId>
     <version>${revision}</version>

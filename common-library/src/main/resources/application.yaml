@@ -2,10 +2,6 @@
 server:
    servlet:
       context-path: /common-library
-      encoding:
-         charset: UTF-8
-         enabled: true
-         force: true
 
 # Spring configuration
 spring:

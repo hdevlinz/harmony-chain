@@ -17,6 +17,7 @@
         <dependency>
             <groupId>com.tth</groupId>
             <artifactId>common-library</artifactId>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

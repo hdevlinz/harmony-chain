@@ -14,19 +14,6 @@
     <name>harmony-supply-chain</name>
     <packaging>pom</packaging>
     <description>Harmony Supply Chain System | Microservices Architecture</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
 
     <modules>
         <module>api-gateway</module>
@@ -65,11 +52,6 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.tth</groupId>
-                <artifactId>common-library</artifactId>
-                <version>${revision}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
