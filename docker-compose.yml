@@ -1,19 +1,28 @@
-name: harmony
-version: "3"
+name: hscm
+
+networks:
+   hscm-network:
+      external: true
+      driver: bridge
+      name: hscm-network
+
 services:
-   #   keycloak:
-   #     image: 'quay.io/keycloak/keycloak:25.0.0'
-   #     container_name: keycloak-25.0.0
-   #     hostname: keycloak
-   #     ports:
-   #          - '8180:8080'
-   #     environment:
-   #          - KEYCLOAK_ADMIN=admin
-   #          - KEYCLOAK_ADMIN_PASSWORD=admin
-   kafka:
+   hscm-nginx:
+      image: 'nginx:1.25.3'
+      container_name: hscm-nginx
+      hostname: hscm-nginx
+      restart: unless-stopped
+      volumes:
+         - ./nginx/templates:/etc/nginx/templates
+         - ./nginx/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
+      ports:
+         - "80:80"
+      networks:
+         - hscm-network
+   hscm-kafka:
       image: 'bitnami/kafka:3.7.0'
-      container_name: kafka-3.7.0
-      hostname: kafka
+      container_name: hscm-kafka
+      hostname: hscm-kafka
       ports:
          - '9094:9094'
       environment:
@@ -24,29 +33,208 @@ services:
          - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
          - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
          - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-   mysql:
+      networks:
+         - hscm-network
+   hscm-mysql:
       image: 'mysql:8.0.39-debian'
-      container_name: mysql-8.0.39-debian
-      hostname: mysql
+      container_name: hscm-mysql
+      hostname: hscm-mysql
       ports:
          - '3306:3306'
+      volumes:
+         - ./mysql-initial.sql:/docker-entrypoint-initdb.d/mysql-initial.sql
       environment:
          - MYSQL_ROOT_PASSWORD=root
-   mongodb:
+      networks:
+         - hscm-network
+   hscm-mongodb:
       image: 'bitnami/mongodb:7.0.11'
-      container_name: mongodb-7.0.11
-      hostname: mongo
+      container_name: hscm-mongodb
+      hostname: hscm-mongodb
       ports:
          - '27017:27017'
       environment:
          - MONGODB_ROOT_USER=root
          - MONGODB_ROOT_PASSWORD=root
-   neo4j:
+      networks:
+         - hscm-network
+   hscm-neo4j:
       image: 'neo4j:latest'
-      container_name: neo4j-latest
-      hostname: neo4j
+      container_name: hscm-neo4j
+      hostname: hscm-neo4j
       ports:
          - '7474:7474'
          - '7687:7687'
       environment:
          - NEO4J_AUTH=neo4j/admin@123
+      networks:
+         - hscm-network
+   #   hscm-keycloak:
+   #      image: 'quay.io/keycloak/keycloak:25.0.0'
+   #      command: [ 'start-dev --import-realm' ]
+   #      container_name: hscm-keycloak
+   #      hostname: hscm-keycloak
+   #      ports:
+   #         - '8180:8080'
+   #      environment:
+   #         - KEYCLOAK_ADMIN=admin
+   #         - KEYCLOAK_ADMIN_PASSWORD=admin
+   #      networks:
+   #         - hscm-network
+   hscm-cart:
+      build: ./cart-service
+      image: ghcr.io/hiepthanhtran/hscm-cart-service:latest
+      container_name: hscm-cart
+      ports:
+         - '8081:8081'
+      environment:
+         - MONGODB_URI=mongodb://root:root@hscm-mongodb:27017/cart_service?authSource=admin
+         - PRODUCT_SERVICE_URL
+      networks:
+         - hscm-network
+   hscm-profile:
+      build: ./profile-service
+      image: ghcr.io/hiepthanhtran/hscm-profile-service:latest
+      container_name: hscm-profile
+      ports:
+         - '8082:8082'
+      environment:
+         - NEO4J_URI
+         - NEO4J_USERNAME
+         - NEO4J_PASSWORD
+      networks:
+         - hscm-network
+   hscm-identity:
+      build: ./identity-service
+      image: ghcr.io/hiepthanhtran/hscm-identity-service:latest
+      container_name: hscm-identity
+      ports:
+         - '8083:8083'
+      environment:
+         - DBMS_URL=jdbc:mysql://hscm-mysql:3306/identity_service
+         - DBMS_USERNAME
+         - DBMS_PASSWORD
+         - JWT_SIGNER_KEY
+         - JWT_VALID_DURATION
+         - JWT_REFRESHABLE_DURATION
+         - IDENTITY_CLIENT_ID
+         - IDENTITY_CLIENT_SECRET
+         - IDENTITY_REDIRECT_URI
+         - PROFILE_SERVICE_URL
+         - FILE_SERVICE_URL
+      networks:
+         - hscm-network
+   hscm-product:
+      build: ./product-service
+      image: ghcr.io/hiepthanhtran/hscm-product-service:latest
+      container_name: hscm-product
+      ports:
+         - '8084:8084'
+      environment:
+         - MONGODB_URI=mongodb://root:root@hscm-mongodb:27017/product_service?authSource=admin
+         - PROFILE_SERVICE_URL
+      networks:
+         - hscm-network
+   hscm-rating:
+      build: ./rating-service
+      image: ghcr.io/hiepthanhtran/hscm-rating-service:latest
+      container_name: hscm-rating
+      ports:
+         - '8085:8085'
+      environment:
+         - MONGODB_URI=mongodb://root:root@hscm-mongodb:27017/rating_service?authSource=admin
+         - IDENTITY_SERVICE_URL
+         - PROFILE_SERVICE_URL
+      networks:
+         - hscm-network
+   hscm-inventory:
+      build: ./inventory-service
+      image: ghcr.io/hiepthanhtran/hscm-inventory-service:latest
+      container_name: hscm-inventory
+      ports:
+         - '8086:8086'
+      environment:
+         - DBMS_URL=jdbc:mysql://hscm-mysql:3306/inventory_service
+         - DBMS_USERNAME
+         - DBMS_PASSWORD
+         - PRODUCT_SERVICE_URL
+      networks:
+         - hscm-network
+   hscm-order:
+      build: ./order-service
+      image: ghcr.io/hiepthanhtran/hscm-order-service:latest
+      container_name: hscm-order
+      ports:
+         - '8087:8087'
+      environment:
+         - DBMS_URL=jdbc:mysql://hscm-mysql:3306/order_service
+         - DBMS_USERNAME
+         - DBMS_PASSWORD
+         - STRIPE_SECRET_KEY
+         - IDENTITY_SERVICE_URL
+         - PRODUCT_SERVICE_URL
+         - INVENTORY_SERVICE_URL
+      networks:
+         - hscm-network
+   hscm-shipping:
+      build: ./shipping-service
+      image: ghcr.io/hiepthanhtran/hscm-shipping-service:latest
+      container_name: hscm-shipping
+      ports:
+         - '8087:8087'
+      environment:
+         - MONGODB_URI=mongodb://root:root@hscm-mongodb:27017/shipping_service?authSource=admin
+         - IDENTITY_SERVICE_URL
+      networks:
+         - hscm-network
+   hscm-notification:
+      build: ./notification-service
+      image: ghcr.io/hiepthanhtran/hscm-notification-service:latest
+      container_name: hscm-notification
+      ports:
+         - '8886:8886'
+      environment:
+         - MONGODB_URI=mongodb://root:root@hscm-mongodb:27017/notification_service?authSource=admin
+         - EMAIL_SERVICE_URL
+         - MAIL_API_KEY
+      networks:
+         - hscm-network
+   hscm-file:
+      build: ./file-service
+      image: ghcr.io/hiepthanhtran/hscm-file-service:latest
+      container_name: hscm-file
+      ports:
+         - '8887:8887'
+      environment:
+         - AWS_ACCESS_KEY_ID
+         - AWS_SECRET
+         - S3_BUCKET_NAME
+      networks:
+         - hscm-network
+   hscm-api-gateway:
+      build: ./api-gateway
+      image: ghcr.io/hiepthanhtran/hscm-api-gateway:latest
+      container_name: hscm-api-gateway
+      ports:
+         - '8888:8888'
+      environment:
+         - IDENTITY_SERVICE_URL
+         - FILE_SERVICE_URL
+         - NOTIFICATION_SERVICE_URL
+         - SHIPPING_SERVICE_URL
+         - PROFILE_SERVICE_URL
+         - IDENTITY_SERVICE_URL
+         - PRODUCT_SERVICE_URL
+         - SHIPPING_SERVICE_URL
+         - SHIPPING_SERVICE_URL
+         - ORDER_SERVICE_URL
+         - SHIPPING_SERVICE_URL
+      networks:
+         - hscm-network
+   hscm-common-library:
+      build:
+         context: ./common-library
+         dockerfile: Dockerfile
+      container_name: hscm-common-library
+      networks:
+         - hscm-network

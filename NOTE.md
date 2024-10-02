@@ -1,4 +1,6 @@
-## Install Docker on Ubuntu
+[//]: # (1 cart -> 2 profile -> 3 identity -> 4 product -> 5 rating -> 6 inventory -> 7 order -> 8 shipping)
+
+## Docker Guideline
 
 ### Add Docker's official GPG key:
 
@@ -19,6 +21,12 @@ $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sou
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo docker run hello-world
+```
+
+### Create network:
+
+```bash
+docker network create hscm-network
 ```
 
 ## Install Keycloak from Quay.io
