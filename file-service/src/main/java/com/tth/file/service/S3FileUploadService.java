@@ -44,21 +44,18 @@ public class S3FileUploadService {
     }
 
     private String uploadFile(MultipartFile file, String category) throws IOException {
-        String modifiedBucketName = (this.bucketName != null && !this.bucketName.isEmpty())
-                ? this.bucketName.substring(0, this.bucketName.length() - 1) : this.bucketName;
-
         File convertedFile = this.convertMultiPartToFile(file);
         String fileName = this.generateFileName(file, category);
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                .bucket(modifiedBucketName)
+                .bucket(this.bucketName)
                 .key(fileName)
                 .cacheControl("public, max-age=31536000")
                 .build();
         this.s3Client.putObject(putObjectRequest, convertedFile.toPath());
 
         PutObjectAclRequest putObjectAclRequest = PutObjectAclRequest.builder()
-                .bucket(modifiedBucketName)
+                .bucket(this.bucketName)
                 .key(fileName)
                 .acl(ObjectCannedACL.PUBLIC_READ)
                 .build();
@@ -85,10 +82,7 @@ public class S3FileUploadService {
     }
 
     private String getFileUrl(String fileName) {
-        String modifiedBucketName = (this.bucketName != null && !this.bucketName.isEmpty())
-                ? this.bucketName.substring(0, this.bucketName.length() - 1) : this.bucketName;
-
-        return this.s3Client.utilities().getUrl(b -> b.bucket(modifiedBucketName).key(fileName)).toExternalForm();
+        return this.s3Client.utilities().getUrl(b -> b.bucket(this.bucketName).key(fileName)).toExternalForm();
     }
 
 }

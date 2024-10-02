@@ -9,22 +9,21 @@ volumes:
    mysql:
 
 services:
-   #   hscm-nginx:
+   #   nginx:
    #      image: 'nginx:1.25.3'
-   #      container_name: hscm-nginx
-   #      hostname: hscm-nginx
    #      restart: unless-stopped
+   #      container_name: hscm-nginx
    #      volumes:
-   #         - ./nginx/templates:/etc/nginx/templates
-   #         - ./nginx/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
+   #         - ./docker/server/templates:/etc/nginx/templates
+   #         - ./docker/server/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
    #      ports:
    #         - "80:80"
    #      networks:
    #         - hscm-network
    kafka:
       image: 'bitnami/kafka:3.7.0'
-      container_name: hscm-kafka
       hostname: kafka
+      container_name: hscm-kafka
       ports:
          - '9094:9094'
       environment:
@@ -39,12 +38,12 @@ services:
          - hscm-network
    mysql:
       image: 'mysql:8.0.39-debian'
-      container_name: hscm-mysql
       hostname: mysql
+      container_name: hscm-mysql
       ports:
          - '3306:3306'
       volumes:
-         - .docker/db/mysql_inital.sql:/docker-entrypoint-initdb.d/mysql_inital.sql
+         - ./docker/db/mysql_initial.sql:/docker-entrypoint-initdb.d/mysql_initial.sql
          - mysql:/var/lib/mysql
       environment:
          - MYSQL_ROOT_PASSWORD=root
@@ -52,8 +51,8 @@ services:
          - hscm-network
    mongodb:
       image: 'bitnami/mongodb:7.0.11'
-      container_name: hscm-mongodb
       hostname: mongodb
+      container_name: hscm-mongodb
       ports:
          - '27017:27017'
       environment:
@@ -63,8 +62,8 @@ services:
          - hscm-network
    neo4j:
       image: 'neo4j:latest'
-      container_name: hscm-neo4j
       hostname: neo4j
+      container_name: hscm-neo4j
       ports:
          - '7474:7474'
          - '7687:7687'
@@ -92,7 +91,7 @@ services:
          - '8081:8081'
       environment:
          - MONGODB_URI=mongodb://root:root@mongodb:27017/cart_service?authSource=admin
-         - PRODUCT_SERVICE_URL
+      #         - PRODUCT_SERVICE_URL
       depends_on:
          - mongodb
       networks:
@@ -103,10 +102,10 @@ services:
       container_name: hscm-profile
       ports:
          - '8082:8082'
-      environment:
-         - NEO4J_URI
-         - NEO4J_USERNAME
-         - NEO4J_PASSWORD
+      #      environment:
+      #         - NEO4J_URI
+      #         - NEO4J_USERNAME
+      #         - NEO4J_PASSWORD
       depends_on:
          - neo4j
          - hscm-cart
@@ -120,18 +119,19 @@ services:
          - '8083:8083'
       environment:
          - DBMS_URL=jdbc:mysql://mysql:3306/identity_service
-         - DBMS_USERNAME
-         - DBMS_PASSWORD
-         - JWT_SIGNER_KEY
-         - JWT_VALID_DURATION
-         - JWT_REFRESHABLE_DURATION
-         - IDENTITY_CLIENT_ID
-         - IDENTITY_CLIENT_SECRET
-         - IDENTITY_REDIRECT_URI
-         - PROFILE_SERVICE_URL
-         - FILE_SERVICE_URL
+      #         - DBMS_USERNAME
+      #         - DBMS_PASSWORD
+      #         - JWT_SIGNER_KEY
+      #         - JWT_VALID_DURATION
+      #         - JWT_REFRESHABLE_DURATION
+      #         - IDENTITY_CLIENT_ID
+      #         - IDENTITY_CLIENT_SECRET
+      #         - IDENTITY_REDIRECT_URI
+      #         - PROFILE_SERVICE_URL
+      #         - FILE_SERVICE_URL
       depends_on:
          - mysql
+         - hscm-cart
          - hscm-profile
       networks:
          - hscm-network
@@ -143,9 +143,11 @@ services:
          - '8084:8084'
       environment:
          - MONGODB_URI=mongodb://root:root@mongodb:27017/product_service?authSource=admin
-         - PROFILE_SERVICE_URL
+      #         - PROFILE_SERVICE_URL
       depends_on:
          - mongodb
+         - hscm-cart
+         - hscm-profile
          - hscm-identity
       networks:
          - hscm-network
@@ -157,10 +159,13 @@ services:
          - '8085:8085'
       environment:
          - MONGODB_URI=mongodb://root:root@mongodb:27017/rating_service?authSource=admin
-         - IDENTITY_SERVICE_URL
-         - PROFILE_SERVICE_URL
+      #         - IDENTITY_SERVICE_URL
+      #         - PROFILE_SERVICE_URL
       depends_on:
          - mongodb
+         - hscm-cart
+         - hscm-profile
+         - hscm-identity
          - hscm-product
       networks:
          - hscm-network
@@ -172,11 +177,15 @@ services:
          - '8086:8086'
       environment:
          - DBMS_URL=jdbc:mysql://mysql:3306/inventory_service
-         - DBMS_USERNAME
-         - DBMS_PASSWORD
-         - PRODUCT_SERVICE_URL
+      #         - DBMS_USERNAME
+      #         - DBMS_PASSWORD
+      #         - PRODUCT_SERVICE_URL
       depends_on:
          - mysql
+         - hscm-cart
+         - hscm-profile
+         - hscm-identity
+         - hscm-product
          - hscm-rating
       networks:
          - hscm-network
@@ -187,15 +196,20 @@ services:
       ports:
          - '8087:8087'
       environment:
-         - DBMS_URL=jdbc:mysql://mysql:3306/order_service
-         - DBMS_USERNAME
-         - DBMS_PASSWORD
          - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-         - IDENTITY_SERVICE_URL
-         - PRODUCT_SERVICE_URL
-         - INVENTORY_SERVICE_URL
+         - DBMS_URL=jdbc:mysql://mysql:3306/order_service
+      #         - DBMS_USERNAME
+      #         - DBMS_PASSWORD
+      #         - IDENTITY_SERVICE_URL
+      #         - PRODUCT_SERVICE_URL
+      #         - INVENTORY_SERVICE_URL
       depends_on:
          - mysql
+         - hscm-cart
+         - hscm-profile
+         - hscm-identity
+         - hscm-product
+         - hscm-rating
          - hscm-inventory
       networks:
          - hscm-network
@@ -210,6 +224,12 @@ services:
          - IDENTITY_SERVICE_URL
       depends_on:
          - mysql
+         - hscm-cart
+         - hscm-profile
+         - hscm-identity
+         - hscm-product
+         - hscm-rating
+         - hscm-inventory
          - hscm-order
       networks:
          - hscm-network
@@ -220,9 +240,9 @@ services:
       ports:
          - '8886:8886'
       environment:
-         - MONGODB_URI=mongodb://root:root@mongodb:27017/notification_service?authSource=admin
-         - EMAIL_SERVICE_URL
          - MAIL_API_KEY=${MAIL_API_KEY}
+         - MONGODB_URI=mongodb://root:root@mongodb:27017/notification_service?authSource=admin
+      #         - EMAIL_SERVICE_URL
       depends_on:
          - mongodb
       networks:
@@ -245,17 +265,17 @@ services:
       container_name: hscm-api-gateway
       ports:
          - '8888:8888'
-      environment:
-         - IDENTITY_SERVICE_URL
-         - FILE_SERVICE_URL
-         - NOTIFICATION_SERVICE_URL
-         - SHIPPING_SERVICE_URL
-         - PROFILE_SERVICE_URL
-         - IDENTITY_SERVICE_URL
-         - PRODUCT_SERVICE_URL
-         - SHIPPING_SERVICE_URL
-         - SHIPPING_SERVICE_URL
-         - ORDER_SERVICE_URL
-         - SHIPPING_SERVICE_URL
+      #      environment:
+      #         - IDENTITY_SERVICE_URL
+      #         - FILE_SERVICE_URL
+      #         - NOTIFICATION_SERVICE_URL
+      #         - SHIPPING_SERVICE_URL
+      #         - PROFILE_SERVICE_URL
+      #         - IDENTITY_SERVICE_URL
+      #         - PRODUCT_SERVICE_URL
+      #         - SHIPPING_SERVICE_URL
+      #         - SHIPPING_SERVICE_URL
+      #         - ORDER_SERVICE_URL
+      #         - SHIPPING_SERVICE_URL
       networks:
          - hscm-network

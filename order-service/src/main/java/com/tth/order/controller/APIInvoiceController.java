@@ -45,8 +45,7 @@ public class APIInvoiceController {
 
     @PostMapping(path = "/charge")
     public ResponseEntity<?> charge(@RequestBody @Valid ChargeRequest chargeRequest) throws StripeException {
-        Stripe.apiKey = (this.secretKey != null && !this.secretKey.isEmpty())
-                ? this.secretKey.substring(0, this.secretKey.length() - 1) : this.secretKey;
+        Stripe.apiKey = this.secretKey;
 
         Map<String, String> response = new HashMap<>();
         PaymentIntentCreateParams paymentIntentCreateParams = PaymentIntentCreateParams.builder()

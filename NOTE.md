@@ -23,6 +23,12 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo docker run hello-world
 ```
 
+## Docker Compose Guideline
+
+```bash
+docker compose down -v
+```
+
 ### Create network:
 
 ```bash
