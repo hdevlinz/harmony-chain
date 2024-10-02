@@ -2,6 +2,7 @@ package com.tth.identity.configuration;
 
 import com.tth.commonlibrary.dto.request.identity.RegisterRequest;
 import com.tth.commonlibrary.enums.UserRole;
+import com.tth.identity.repository.UserRepository;
 import com.tth.identity.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,20 +16,32 @@ import org.springframework.context.annotation.Configuration;
 public class AppInitializerConfigs {
 
     @Bean
-    public ApplicationRunner applicationRunner(UserService userService) {
+    public ApplicationRunner applicationRunner(UserService userService, UserRepository userRepository) {
         return args -> {
             log.info("Initializing application.....");
 
-            if (!userService.existsByUsername("adminscm")) {
+            if (userRepository.countByRole(UserRole.ROLE_ADMIN) == 0) {
+                log.info("Creating admin.....");
                 userService.registration(RegisterRequest.builder()
                         .email("admin@yopmail.com")
                         .username("adminscm")
                         .password("adminscm")
                         .role(UserRole.ROLE_ADMIN)
                         .build());
+            }
 
-                this.createCustomer(userService);
+            if (userRepository.countByRole(UserRole.ROLE_CARRIER) == 0) {
+                log.info("Creating carriers.....");
                 this.createCarrier(userService);
+            }
+
+            if (userRepository.countByRole(UserRole.ROLE_CUSTOMER) == 0) {
+                log.info("Creating customers.....");
+                this.createCustomer(userService);
+            }
+
+            if (userRepository.countByRole(UserRole.ROLE_SUPPLIER) == 0) {
+                log.info("Creating suppliers.....");
                 this.createSupplier(userService);
             }
 

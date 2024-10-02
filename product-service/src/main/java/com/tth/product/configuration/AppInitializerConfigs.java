@@ -41,16 +41,22 @@ public class AppInitializerConfigs {
         return args -> {
             log.info("Initializing application.....");
 
-            if (productRepository.count() == 0) {
+            if (categoryRepository.count() == 0) {
                 log.info("Creating categories.....");
                 this.createCategory(categoryRepository);
+            }
 
+            if (tagRepository.count() == 0) {
                 log.info("Creating tags.....");
                 this.createTag(tagRepository);
+            }
 
+            if (unitRepository.count() == 0) {
                 log.info("Creating units.....");
                 this.createUnit(unitRepository);
+            }
 
+            if (productRepository.count() == 0) {
                 log.info("Creating products.....");
                 this.createProduct(productRepository, categoryRepository, tagRepository, unitRepository, userProfileClient);
             }

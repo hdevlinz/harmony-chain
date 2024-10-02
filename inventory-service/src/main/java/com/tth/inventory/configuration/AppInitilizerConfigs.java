@@ -35,7 +35,9 @@ public class AppInitilizerConfigs {
             if (warehouseRepository.count() == 0) {
                 log.info("Creating warehouses.....");
                 this.createWarehouse(warehouseRepository);
+            }
 
+            if (inventoryRepository.count() == 0) {
                 log.info("Creating inventories.....");
                 this.createInventory(warehouseRepository, inventoryRepository, productClient);
             }

@@ -40,10 +40,12 @@ public class AppInitializerConfigs {
         return args -> {
             log.info("Initializing application.....");
 
-            if (orderRepository.count() == 0) {
+            if (taxRepository.count() == 0) {
                 log.info("Creating taxes.....");
                 this.createTax(taxRepository);
+            }
 
+            if (orderRepository.count() == 0) {
                 log.info("Creating orders.....");
                 this.createOrder(orderService, identityClient, inventoryClient);
             }
