@@ -16,21 +16,21 @@ spring:
       mongodb:
          uri: ${MONGODB_URI:mongodb://root:root@localhost:27017/notification_service?authSource=admin}
    kafka:
-      bootstrap-servers: localhost:9094
-      admin:
-         auto-create: on
+      bootstrap-servers: PLAINTEXT://kafka:9094
       consumer:
-         group-id: group-notification
          auto-offset-reset: earliest
+         group-id: group-notification
          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
          value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
          properties:
             spring.json.trusted.packages: "*"
             spring.json.value.default.type: "com.tth.event.dto.NotificationEvent"
+      listener:
+         missing-topics-fatal: false
 
 # Application configuration
 app:
    services:
       email:
          url: ${EMAIL_SERVICE_URL:https://api.brevo.com}
-   mail-api-key: ${MAIL_API_KEY}
+         mail-api-key: ${MAIL_API_KEY}

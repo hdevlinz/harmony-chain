@@ -20,7 +20,7 @@ public class EmailService {
 
     private final EmailClient emailClient;
 
-    @Value("${app.mail-api-key}")
+    @Value("${app.services.email.mail-api-key}")
     private String apiKey;
 
     public SendEmailResponse sendEmail(SendEmailRequest request) {

@@ -27,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -102,7 +104,16 @@ public class UserServiceImpl implements UserService {
                 .subject("Welcome to Harmony SCMS")
                 .body(String.format("Chào mừng bạn đến với Harmony Supply Chain, %s!", request.getUsername()))
                 .build();
-        this.kafkaTemplate.send("notification-delivery", notificationEvent);
+        CompletableFuture<SendResult<String, Object>> future = this.kafkaTemplate.send("notification-delivery", notificationEvent);
+        future.whenComplete((result, ex) -> {
+            if (ex != null) {
+                future.completeExceptionally(ex);
+            } else {
+                future.complete(result);
+            }
+            log.info("Message sent to Kafka: {}", result.getProducerRecord().value());
+            log.info("Task status send to Kafka topic : {}, {}: ", "notification-delivery", notificationEvent);
+        });
 
         UserResponse userResponse = this.userMapper.toUserResponse(user);
         userResponse.setProfile(profile);

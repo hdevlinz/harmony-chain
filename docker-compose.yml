@@ -20,31 +20,63 @@ services:
    #         - "80:80"
    #      networks:
    #         - hscm-network
+   #   zookeeper:
+   #      image: 'bitnami/zookeeper:3.7.0'
+   #      restart: always
+   #      hostname: zookeeper
+   #      container_name: hscm-zookeeper
+   #      ports:
+   #         - '2181:2181'
+   #      environment:
+   #         - ALLOW_ANONYMOUS_LOGIN=yes
+   #      networks:
+   #         - hscm-network
+   #   kafka:
+   #      image: 'bitnami/kafka:3.7.0'
+   #      hostname: kafka
+   #      container_name: hscm-kafka
+   #      ports:
+   #         - '9092:9092'
+   #         - '9094:9094'
+   #      environment:
+   #         - KAFKA_CFG_NODE_ID=0
+   #         - KAFKA_CFG_PROCESS_ROLES=controller,broker
+   #         - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+   #         - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+   #         - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+   #         - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+   #         - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+   #         - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+   #         - KAFKA_CFG_ZOOKEEPER_METADATA_MIGRATION_ENABLE=true
+   #      depends_on:
+   #         - zookeeper
+   #      networks:
+   #         - hscm-network
    zookeeper:
-      image: 'bitnami/zookeeper:3.7.0'
-      restart: always
-      hostname: zookeeper
+      image: 'confluentinc/cp-zookeeper:latest'
       container_name: hscm-zookeeper
+      environment:
+         ZOOKEEPER_SERVER_ID: 1
+         ZOOKEEPER_CLIENT_PORT: 2181
+         ZOOKEEPER_TICK_TIME: 2000
       ports:
-         - '2181:2181'
+         - "22181:2181"
       networks:
          - hscm-network
    kafka:
-      image: 'bitnami/kafka:3.7.0'
-      hostname: kafka
+      image: 'confluentinc/cp-kafka:latest'
       container_name: hscm-kafka
       ports:
-         - '9092:9092'
-         - '9094:9094'
+         - "9094:9094"
       environment:
-         - KAFKA_CFG_NODE_ID=0
-         - KAFKA_CFG_PROCESS_ROLES=controller,broker
-         - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
-         - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
-         - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
-         - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
-         - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-         - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+         KAFKA_BROKER_ID: 1
+         KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+         KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+         KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+         KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9090
+         KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+         KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+         KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       depends_on:
          - zookeeper
       networks:
@@ -106,6 +138,7 @@ services:
          - MONGODB_URI=mongodb://root:root@mongodb:27017/cart_service?authSource=admin
       #         - PRODUCT_SERVICE_URL
       depends_on:
+         - kafka
          - mongodb
       networks:
          - hscm-network
@@ -120,6 +153,7 @@ services:
       #         - NEO4J_USERNAME
       #         - NEO4J_PASSWORD
       depends_on:
+         - kafka
          - neo4j
          - hscm-cart
       networks:
@@ -143,6 +177,7 @@ services:
       #         - PROFILE_SERVICE_URL
       #         - FILE_SERVICE_URL
       depends_on:
+         - kafka
          - mysql
          - hscm-cart
          - hscm-profile
@@ -158,6 +193,7 @@ services:
          - MONGODB_URI=mongodb://root:root@mongodb:27017/product_service?authSource=admin
       #         - PROFILE_SERVICE_URL
       depends_on:
+         - kafka
          - mongodb
          - hscm-cart
          - hscm-profile
@@ -175,6 +211,7 @@ services:
       #         - IDENTITY_SERVICE_URL
       #         - PROFILE_SERVICE_URL
       depends_on:
+         - kafka
          - mongodb
          - hscm-cart
          - hscm-profile
@@ -194,6 +231,7 @@ services:
       #         - DBMS_PASSWORD
       #         - PRODUCT_SERVICE_URL
       depends_on:
+         - kafka
          - mysql
          - hscm-cart
          - hscm-profile
@@ -217,6 +255,7 @@ services:
       #         - PRODUCT_SERVICE_URL
       #         - INVENTORY_SERVICE_URL
       depends_on:
+         - kafka
          - mysql
          - hscm-cart
          - hscm-profile
@@ -236,6 +275,7 @@ services:
          - MONGODB_URI=mongodb://root:root@mongodb:27017/shipping_service?authSource=admin
          - IDENTITY_SERVICE_URL
       depends_on:
+         - kafka
          - mysql
          - hscm-cart
          - hscm-profile
@@ -257,6 +297,7 @@ services:
          - MONGODB_URI=mongodb://root:root@mongodb:27017/notification_service?authSource=admin
       #         - EMAIL_SERVICE_URL
       depends_on:
+         - kafka
          - mongodb
       networks:
          - hscm-network
@@ -270,6 +311,8 @@ services:
          - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
          - AWS_SECRET=${AWS_SECRET}
          - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      depends_on:
+         - kafka
       networks:
          - hscm-network
    hscm-api-gateway:
@@ -290,5 +333,7 @@ services:
       #         - SHIPPING_SERVICE_URL
       #         - ORDER_SERVICE_URL
       #         - SHIPPING_SERVICE_URL
+      depends_on:
+         - kafka
       networks:
          - hscm-network

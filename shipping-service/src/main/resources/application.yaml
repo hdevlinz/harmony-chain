@@ -16,7 +16,7 @@ spring:
       mongodb:
          uri: ${MONGODB_URI:mongodb://root:root@localhost:27017/shipping_service?authSource=admin}
    kafka:
-      bootstrap-servers: localhost:9094
+      bootstrap-servers: PLAINTEXT://kafka:9094
       producer:
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
