@@ -22,11 +22,11 @@ spring:
          ddl-auto: update
    kafka:
       producer:
-         bootstrap-servers: localhost:9094
+         bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       consumer:
-         bootstrap-servers: localhost:9094
+         bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
          auto-offset-reset: earliest
          group-id: identity-service-group
          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -48,12 +48,6 @@ jwt:
 # Application configuration
 app:
    services:
-      outbound:
-         identity:
-            client-id: ${IDENTITY_CLIENT_ID:<clientId>}
-            client-secret: ${IDENTITY_CLIENT_SECRET:<clientSecret>}
-            grant-type: "authorization_code"
-            redirect-uri: ${IDENTITY_REDIRECT_URI:http://localhost:8083/identity/login/oauth2/code/identity} # http://localhost:3000/authenticate
       profile:
          url: ${PROFILE_SERVICE_URL:http://localhost:8082/profile}
       file:

@@ -37,7 +37,7 @@ spring:
                   - StripPrefix=${app.strip-prefix}
 
             -  id: cart_service
-               uri: ${SHIPPING_SERVICE_URL:http://localhost:8081}
+               uri: ${CART_SERVICE_URL:http://localhost:8081}
                predicates:
                   - Path=${app.api-prefix}/cart/**
                filters:
@@ -65,14 +65,14 @@ spring:
                   - StripPrefix=${app.strip-prefix}
 
             -  id: rating_service
-               uri: ${SHIPPING_SERVICE_URL:http://localhost:8085}
+               uri: ${RATING_SERVICE_URL:http://localhost:8085}
                predicates:
                   - Path=${app.api-prefix}/rating/**
                filters:
                   - StripPrefix=${app.strip-prefix}
 
             -  id: inventory_service
-               uri: ${SHIPPING_SERVICE_URL:http://localhost:8086}
+               uri: ${INVENTORY_SERVICE_URL:http://localhost:8086}
                predicates:
                   - Path=${app.api-prefix}/inventory/**
                filters:

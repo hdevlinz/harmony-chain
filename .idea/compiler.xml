@@ -7,7 +7,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="sampledata" />
       </profile>
       <profile name="Annotation profile for harmony-supply-chain" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -26,20 +25,24 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
         </processorPath>
+        <module name="sampledata-service" />
         <module name="rating-service" />
         <module name="cart-service" />
-        <module name="inventory-service" />
-        <module name="api-gateway" />
         <module name="product-service" />
         <module name="profile-service" />
-        <module name="order-service" />
         <module name="common-library" />
         <module name="file-service" />
-        <module name="identity-service" />
         <module name="notification-service" />
+        <module name="inventory-service" />
+        <module name="api-gateway" />
+        <module name="order-service" />
+        <module name="identity-service" />
         <module name="shipping-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="sampledata" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -55,6 +58,7 @@
       <module name="profile-service" options="-parameters -Amapstruct.suppressGeneratorTimestamp=true -Amapstruct.defaultComponentModel=spring -Amapstruct.verbose=true" />
       <module name="rating-service" options="-parameters -Amapstruct.suppressGeneratorTimestamp=true -Amapstruct.defaultComponentModel=spring -Amapstruct.verbose=true" />
       <module name="sampledata" options="-parameters" />
+      <module name="sampledata-service" options="-parameters -Amapstruct.suppressGeneratorTimestamp=true -Amapstruct.defaultComponentModel=spring -Amapstruct.verbose=true" />
       <module name="scms" options="-parameters -Amapstruct.suppressGeneratorTimestamp=true -Amapstruct.defaultComponentModel=spring -Amapstruct.verbose=true" />
       <module name="shipping-service" options="-parameters -Amapstruct.suppressGeneratorTimestamp=true -Amapstruct.defaultComponentModel=spring -Amapstruct.verbose=true" />
     </option>

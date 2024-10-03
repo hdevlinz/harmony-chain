@@ -14,11 +14,11 @@ spring:
       name: file-service
    kafka:
       producer:
-         bootstrap-servers: localhost:9094
+         bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       consumer:
-         bootstrap-servers: localhost:9094
+         bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
          auto-offset-reset: earliest
          group-id: file-service-group
          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
