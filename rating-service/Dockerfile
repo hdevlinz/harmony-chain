@@ -10,4 +10,4 @@ RUN chmod +x wait-for-it.sh
 
 COPY target/*.jar app.jar
 
-ENTRYPOINT [ "./wait-for-it.sh", "hscm-product:8084", "--timeout=300", "--", "java", "-jar", "/app.jar" ]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
