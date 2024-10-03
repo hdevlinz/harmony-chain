@@ -140,7 +140,6 @@ services:
       depends_on:
          - kafka
          - neo4j
-         - hscm-cart
       networks:
          - hscm-network
    hscm-identity:
@@ -164,8 +163,6 @@ services:
       depends_on:
          - kafka
          - mysql
-         - hscm-cart
-         - hscm-profile
       networks:
          - hscm-network
    hscm-product:
@@ -180,9 +177,6 @@ services:
       depends_on:
          - kafka
          - mongodb
-         - hscm-cart
-         - hscm-profile
-         - hscm-identity
       networks:
          - hscm-network
    hscm-rating:
@@ -198,10 +192,6 @@ services:
       depends_on:
          - kafka
          - mongodb
-         - hscm-cart
-         - hscm-profile
-         - hscm-identity
-         - hscm-product
       networks:
          - hscm-network
    hscm-inventory:
@@ -218,11 +208,6 @@ services:
       depends_on:
          - kafka
          - mysql
-         - hscm-cart
-         - hscm-profile
-         - hscm-identity
-         - hscm-product
-         - hscm-rating
       networks:
          - hscm-network
    hscm-order:
@@ -242,12 +227,6 @@ services:
       depends_on:
          - kafka
          - mysql
-         - hscm-cart
-         - hscm-profile
-         - hscm-identity
-         - hscm-product
-         - hscm-rating
-         - hscm-inventory
       networks:
          - hscm-network
    hscm-shipping:
@@ -262,13 +241,6 @@ services:
       depends_on:
          - kafka
          - mysql
-         - hscm-cart
-         - hscm-profile
-         - hscm-identity
-         - hscm-product
-         - hscm-rating
-         - hscm-inventory
-         - hscm-order
       networks:
          - hscm-network
    hscm-notification:

@@ -11,8 +11,8 @@ import com.tth.commonlibrary.dto.response.profile.UserProfileResponse;
 import com.tth.commonlibrary.enums.ErrorCode;
 import com.tth.commonlibrary.enums.FileCategory;
 import com.tth.commonlibrary.enums.UserRole;
+import com.tth.commonlibrary.event.dto.NotificationEvent;
 import com.tth.commonlibrary.exception.AppException;
-import com.tth.event.dto.NotificationEvent;
 import com.tth.identity.entity.User;
 import com.tth.identity.mapper.UserMapper;
 import com.tth.identity.repository.UserRepository;
@@ -27,7 +27,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -104,16 +102,7 @@ public class UserServiceImpl implements UserService {
                 .subject("Welcome to Harmony SCMS")
                 .body(String.format("Chào mừng bạn đến với Harmony Supply Chain, %s!", request.getUsername()))
                 .build();
-        CompletableFuture<SendResult<String, Object>> future = this.kafkaTemplate.send("notification-delivery", notificationEvent);
-        future.whenComplete((result, ex) -> {
-            if (ex != null) {
-                future.completeExceptionally(ex);
-            } else {
-                future.complete(result);
-            }
-            log.info("Message sent to Kafka: {}", result.getProducerRecord().value());
-            log.info("Task status send to Kafka topic : {}, {}: ", "notification-delivery", notificationEvent);
-        });
+        this.kafkaTemplate.send("notification-delivery", notificationEvent);
 
         UserResponse userResponse = this.userMapper.toUserResponse(user);
         userResponse.setProfile(profile);

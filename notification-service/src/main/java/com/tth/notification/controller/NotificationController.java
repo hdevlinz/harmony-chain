@@ -1,6 +1,6 @@
 package com.tth.notification.controller;
 
-import com.tth.event.dto.NotificationEvent;
+import com.tth.commonlibrary.event.dto.NotificationEvent;
 import com.tth.notification.dto.request.Recipient;
 import com.tth.notification.dto.request.SendEmailRequest;
 import com.tth.notification.service.EmailService;
