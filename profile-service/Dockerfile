@@ -10,4 +10,4 @@ RUN chmod +x wait-for-it.sh
 
 COPY target/*.jar app.jar
 
-ENTRYPOINT [ "./wait-for-it.sh", "cart-service:8081", "--timeout=300", "--", "java", "-jar", "/app.jar" ]
+ENTRYPOINT [ "./wait-for-it.sh", "hscm-cart:8081", "--timeout=300", "--", "java", "-jar", "/app.jar" ]

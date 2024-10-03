@@ -10,4 +10,4 @@ RUN chmod +x wait-for-it.sh
 
 COPY target/*.jar app.jar
 
-ENTRYPOINT [ "./wait-for-it.sh", "profile-service:8082", "--timeout=300", "--", "java", "-jar", "/app.jar" ]
+ENTRYPOINT [ "./wait-for-it.sh", "hscm-profile:8082", "--timeout=300", "--", "java", "-jar", "/app.jar" ]
