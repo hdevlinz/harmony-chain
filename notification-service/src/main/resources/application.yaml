@@ -17,9 +17,12 @@ spring:
          uri: ${MONGODB_URI:mongodb://root:root@localhost:27017/notification_service?authSource=admin}
    kafka:
       bootstrap-servers: PLAINTEXT://kafka:9094
+      producer:
+         key-serializer: org.apache.kafka.common.serialization.StringSerializer
+         value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       consumer:
          auto-offset-reset: earliest
-         group-id: group-notification
+         group-id: notification-service-group
          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
          value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
          properties:
