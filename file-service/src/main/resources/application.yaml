@@ -24,7 +24,7 @@ spring:
          value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
          properties:
             spring.json.trusted.packages: "*"
-            spring.json.value.default.type: "com.tth.event.dto.NotificationEvent"
+            spring.json.value.default.type: "com.tth.commonlibrary.event.dto.NotificationEvent"
    servlet:
       multipart:
          max-file-size: 10MB
