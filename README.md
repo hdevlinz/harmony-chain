@@ -21,13 +21,13 @@
 - [x] Java 21
 - [x] Spring boot 3.3.4
 - [x] Next.js
-- [] Flutter (Soon)
+- [ ] Flutter (Soon)
 - [x] Kafka
-- [] Keycloak (Soon)
-- [] Elasticsearch (Soon)
-- [] SonarCloud (Soon)
-- [] OpenTelemetry (Soon)
-- [] Grafana, Loki, Prometheus, Tempo (Soon)
+- [ ] Keycloak (Soon)
+- [ ] Elasticsearch (Soon)
+- [ ] SonarCloud (Soon)
+- [ ] OpenTelemetry (Soon)
+- [ ] Grafana, Loki, Prometheus, Tempo (Soon)
 
 ## Development Architecture
 
