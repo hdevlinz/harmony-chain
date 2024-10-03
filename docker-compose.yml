@@ -9,6 +9,17 @@ volumes:
    mysql:
 
 services:
+   #   nginx:
+   #      image: 'nginx:1.25.3'
+   #      restart: unless-stopped
+   #      container_name: hscm-nginx
+   #      ports:
+   #         - "80:80"
+   #      volumes:
+   #         - ./docker/server/templates:/etc/nginx/templates
+   #         - ./docker/server/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
+   #      networks:
+   #         - hscm-network
    kafka:
       image: 'bitnami/kafka:3.7.0'
       container_name: hscm-kafka

@@ -4,27 +4,29 @@ import com.tth.commonlibrary.event.dto.NotificationEvent;
 import com.tth.commonlibrary.service.NotificationProducerService;
 import com.tth.identity.service.SampleDataService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Component
+@CrossOrigin
+@RestController
 @RequiredArgsConstructor
+@RequestMapping(path = "/internal/sampledata", produces = "application/json; charset=UTF-8")
 public class NotificationController {
 
     private final NotificationProducerService notificationProducerService;
     private final SampleDataService sampleDataService;
 
-    @KafkaListener(topics = "sample-data", groupId = "identity-service-group")
-    public void listenNotificationDelivery(NotificationEvent notificationEvent) {
-        if (notificationEvent.getRecipient().equals("IDENTITY_SERVICE")) {
-            this.sampleDataService.createSampleData();
+    @GetMapping
+    public void createSampleData() {
+        this.sampleDataService.createSampleData();
 
-            NotificationEvent event = NotificationEvent.builder()
-                    .chanel("SAMPLE_DATA")
-                    .recipient("PRODUCT_SERVICE")
-                    .build();
-            this.notificationProducerService.sendNotification("sample-data", event);
-        }
+        NotificationEvent event = NotificationEvent.builder()
+                .chanel("SAMPLE_DATA")
+                .recipient("PRODUCT_SERVICE")
+                .build();
+        this.notificationProducerService.sendNotification("sample-data", event);
     }
 
 }
