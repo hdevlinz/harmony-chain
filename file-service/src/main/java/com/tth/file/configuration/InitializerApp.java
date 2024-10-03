@@ -1,4 +1,4 @@
-package com.tth.profile.configuration;
+package com.tth.file.configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,14 +9,14 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class AppInitializerConfigs {
+public class InitializerApp {
 
     @Bean
     public ApplicationRunner applicationRunner() {
         return args -> {
             log.info("Initializing application.....");
 
-            // TODO: Implement the logic to create sample data
+            // TODO: Implement initialization logic here
 
             log.info("Application initialization completed.....");
         };

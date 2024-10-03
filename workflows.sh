@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WORKFLOW_TEMPLATE=$(cat .github/workflow-template.yaml)
-SERVICES=()
+SERVICES=() # Add your services here
 
 for SERVICE_NAME in "${SERVICES[@]}"; do
     echo "Generating workflow for ${SERVICE_NAME} service"

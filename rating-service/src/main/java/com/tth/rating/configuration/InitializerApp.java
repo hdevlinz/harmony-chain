@@ -1,4 +1,4 @@
-package com.tth.order.configuration;
+package com.tth.rating.configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class AppInitializerConfigs {
+public class InitializerApp {
 
     @Bean
     public ApplicationRunner applicationRunner() {
@@ -21,5 +21,6 @@ public class AppInitializerConfigs {
             log.info("Application initialization completed.....");
         };
     }
+
 
 }

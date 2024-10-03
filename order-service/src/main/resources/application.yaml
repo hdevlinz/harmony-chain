@@ -18,15 +18,15 @@ spring:
       username: ${DBMS_USERNAME:root}
       password: ${DBMS_PASSWORD:root}
    jpa:
-      open-in-view: false
       hibernate:
          ddl-auto: update
    kafka:
-      bootstrap-servers: PLAINTEXT://kafka:9094
       producer:
+         bootstrap-servers: localhost:9094
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       consumer:
+         bootstrap-servers: localhost:9094
          auto-offset-reset: earliest
          group-id: order-service-group
          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer

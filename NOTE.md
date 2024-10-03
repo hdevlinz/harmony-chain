@@ -23,12 +23,6 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo docker run hello-world
 ```
 
-## Docker Compose Guideline
-
-```bash
-docker compose down -v
-```
-
 ### Create network:
 
 ```bash
@@ -83,4 +77,10 @@ docker pull neo4j:latest
 
 ```bash
 docker run --name neo4j-latest --publish=7474:7474 --publish=7687:7687 -e 'NEO4J_AUTH=neo4j/admin@123' neo4j:latest
+```
+
+## Docker Compose Guideline
+
+```bash
+docker compose down -v
 ```

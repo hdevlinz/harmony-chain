@@ -18,11 +18,12 @@ spring:
          username: ${NEO4J_USERNAME:neo4j}
          password: ${NEO4J_PASSWORD:admin@123}
    kafka:
-      bootstrap-servers: PLAINTEXT://kafka:9094
       producer:
+         bootstrap-servers: localhost:9094
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       consumer:
+         bootstrap-servers: localhost:9094
          auto-offset-reset: earliest
          group-id: profile-service-group
          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer

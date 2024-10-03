@@ -2,6 +2,19 @@
 
 ![SCMS](https://raw.githubusercontent.com/hiepthanhtran/harmony-supply-chain/main/images/scms.png)
 
+![api-gateway-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/api-gateway-ci.yaml/badge.svg)
+![cart-service-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/cart-service-ci.yaml/badge.svg)
+![file-service-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/file-service-ci.yaml/badge.svg)
+![identity-service-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/identity-service-ci.yaml/badge.svg)
+![inventory-service-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/inventory-service-ci.yaml/badge.svg)
+![notification-service-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/notification-service-ci.yaml/badge.svg)
+![order-service-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/order-service-ci.yaml/badge.svg)
+![product-service-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/product-service-ci.yaml/badge.svg)
+![profile-service-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/profile-service-ci.yaml/badge.svg)
+![rating-service-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/rating-service-ci.yaml/badge.svg)
+![shipping-service-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/shipping-service-ci.yaml/badge.svg)
+![codeql-ci](https://github.com/hiepthanhtran/hscm/actions/workflows/codeql-ci.yaml/badge.svg)
+
 ## Tentative technologies and frameworks
 
 - Java 21
@@ -27,6 +40,3 @@
 ```bash
 docker compose up -d
 ```
-
-> *_Warning:_* To run all the containers, you need a minimum of 16GB of RAM. Otherwise, you can only run the core services with this
-command `docker compose -f docker-compose.yml up`
