@@ -18,16 +18,16 @@
 
 ## Tentative technologies and frameworks
 
-- Java 21
-- Spring boot 3.3.4
-- Next.js
-- Flutter (Soon)
-- Kafka
-- Keycloak (Soon)
-- Elasticsearch (Soon)
-- SonarCloud (Soon)
-- OpenTelemetry (Soon)
-- Grafana, Loki, Prometheus, Tempo (Soon)
+- [x] Java 21
+- [x] Spring boot 3.3.4
+- [x] Next.js
+- [] Flutter (Soon)
+- [x] Kafka
+- [] Keycloak (Soon)
+- [] Elasticsearch (Soon)
+- [] SonarCloud (Soon)
+- [] OpenTelemetry (Soon)
+- [] Grafana, Loki, Prometheus, Tempo (Soon)
 
 ## Development Architecture
 
