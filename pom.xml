@@ -16,9 +16,10 @@
     <description>Harmony Supply Chain System | Microservices Architecture</description>
 
     <modules>
+        <module>common-library</module>
+        <module>sampledata-service</module>
         <module>api-gateway</module>
         <module>cart-service</module>
-        <module>common-library</module>
         <module>file-service</module>
         <module>identity-service</module>
         <module>inventory-service</module>

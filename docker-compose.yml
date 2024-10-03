@@ -1,4 +1,4 @@
-name: hscm-services
+name: scms
 
 networks:
    hscm-network:
@@ -28,14 +28,25 @@ services:
       ports:
          - '9094:9094'
       environment:
-         - KAFKA_CFG_NODE_ID=0
-         - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+         - KAFKA_ENABLE_KRAFT=yes
          - KAFKA_CFG_PROCESS_ROLES=controller,broker
          - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-         - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
          - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
-         - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
          - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+         - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.01:9094,EXTERNAL://localhost:9094
+         - KAFKA_BROKER_ID=1
+         - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@127.0.0.1:9093
+         - ALLOW_PLAINTEXT_LISTENER=yes
+         - KAFKA_CFG_NODE_ID=1
+         - KAFKA_KRAFT_CLUSTER_ID=hscm-kafka
+         - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      healthcheck:
+         test: [ "CMD", "kafka-topics.sh", "--list", "--bootstrap-server", "localhost:9094" ]
+         interval: 10s
+         timeout: 5s
+         retries: 5
+      networks:
+         - hscm-network
    mysql:
       image: 'mysql:8.0.39-debian'
       restart: unless-stopped
@@ -77,6 +88,7 @@ services:
    hscm-api-gateway:
       build: ./api-gateway
       image: ghcr.io/hiepthanhtran/hscm-api-gateway:latest
+      restart: unless-stopped
       container_name: hscm-api-gateway
       ports:
          - '8888:8888'
@@ -91,18 +103,16 @@ services:
          - INVENTORY_SERVICE_URL=http://hscm-inventory:8086
          - ORDER_SERVICE_URL=http://hscm-order:8087
          - SHIPPING_SERVICE_URL=http://hscm-shipping:8088
-      depends_on:
-         - kafka
       networks:
          - hscm-network
    hscm-file:
       build: ./file-service
       image: ghcr.io/hiepthanhtran/hscm-file-service:latest
+      restart: unless-stopped
       container_name: hscm-file
       ports:
          - '8887:8887'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
          - AWS_SECRET=${AWS_SECRET}
          - S3_BUCKET_NAME=${S3_BUCKET_NAME}
@@ -113,11 +123,11 @@ services:
    hscm-notification:
       build: ./notification-service
       image: ghcr.io/hiepthanhtran/hscm-notification-service:latest
+      restart: unless-stopped
       container_name: hscm-notification
       ports:
          - '8886:8886'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - MAIL_API_KEY=${MAIL_API_KEY}
          - MONGODB_URI=mongodb://root:root@mongodb:27017/notification_service?authSource=admin
       #         - EMAIL_SERVICE_URL
@@ -142,11 +152,11 @@ services:
    hscm-cart:
       build: ./cart-service
       image: ghcr.io/hiepthanhtran/hscm-cart-service:latest
+      restart: unless-stopped
       container_name: hscm-cart
       ports:
          - '8081:8081'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/cart_service?authSource=admin
          - PRODUCT_SERVICE_URL=http://hscm-product:8084
       depends_on:
@@ -157,14 +167,14 @@ services:
    hscm-profile:
       build: ./profile-service
       image: ghcr.io/hiepthanhtran/hscm-profile-service:latest
+      restart: unless-stopped
       container_name: hscm-profile
       ports:
          - '8082:8082'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - NEO4J_URI=bolt://neo4j:7687
-      #         - NEO4J_USERNAME
-      #         - NEO4J_PASSWORD
+         - NEO4J_USERNAME=neo4j
+         - NEO4J_PASSWORD=admin
       depends_on:
          - kafka
          - neo4j
@@ -173,11 +183,11 @@ services:
    hscm-identity:
       build: ./identity-service
       image: ghcr.io/hiepthanhtran/hscm-identity-service:latest
+      restart: unless-stopped
       container_name: hscm-identity
       ports:
          - '8083:8083'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - DBMS_URL=jdbc:mysql://mysql:3306/identity_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
@@ -186,9 +196,6 @@ services:
       #         - JWT_SIGNER_KEY
       #         - JWT_VALID_DURATION
       #         - JWT_REFRESHABLE_DURATION
-      #         - IDENTITY_CLIENT_ID
-      #         - IDENTITY_CLIENT_SECRET
-      #         - IDENTITY_REDIRECT_URI
       depends_on:
          - kafka
          - mysql
@@ -197,11 +204,11 @@ services:
    hscm-product:
       build: ./product-service
       image: ghcr.io/hiepthanhtran/hscm-product-service:latest
+      restart: unless-stopped
       container_name: hscm-product
       ports:
          - '8084:8084'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/product_service?authSource=admin
          - PROFILE_SERVICE_URL=http://hscm-profile:8082
       depends_on:
@@ -212,11 +219,11 @@ services:
    hscm-rating:
       build: ./rating-service
       image: ghcr.io/hiepthanhtran/hscm-rating-service:latest
+      restart: unless-stopped
       container_name: hscm-rating
       ports:
          - '8085:8085'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/rating_service?authSource=admin
          - PROFILE_SERVICE_UR= http://hscm-profile:8082
          - IDENTITY_SERVICE_URL=http://hscm-identity:8083
@@ -228,11 +235,11 @@ services:
    hscm-inventory:
       build: ./inventory-service
       image: ghcr.io/hiepthanhtran/hscm-inventory-service:latest
+      restart: unless-stopped
       container_name: hscm-inventory
       ports:
          - '8086:8086'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - DBMS_URL=jdbc:mysql://mysql:3306/inventory_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
@@ -245,11 +252,11 @@ services:
    hscm-order:
       build: ./order-service
       image: ghcr.io/hiepthanhtran/hscm-order-service:latest
+      restart: unless-stopped
       container_name: hscm-order
       ports:
          - '8087:8087'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - DBMS_URL=jdbc:mysql://mysql:3306/order_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
@@ -265,15 +272,15 @@ services:
    hscm-shipping:
       build: ./shipping-service
       image: ghcr.io/hiepthanhtran/hscm-shipping-service:latest
+      restart: unless-stopped
       container_name: hscm-shipping
       ports:
          - '8088:8088'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/shipping_service?authSource=admin
          - IDENTITY_SERVICE_URL=http://hscm-identity:8083
       depends_on:
          - kafka
-         - mysql
+         - mongodb
       networks:
          - hscm-network

@@ -18,7 +18,6 @@
         <option value="$PROJECT_DIR$/rating-service/pom.xml" />
         <option value="$PROJECT_DIR$/shipping-service/pom.xml" />
         <option value="$PROJECT_DIR$/sampledata/pom.xml" />
-        <option value="$PROJECT_DIR$/sampledata-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
