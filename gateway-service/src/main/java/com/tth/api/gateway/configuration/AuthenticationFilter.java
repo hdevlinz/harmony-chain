@@ -93,11 +93,12 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isPublicEndpoint(ServerHttpRequest request) {
-        log.info("Checking if the request path is public: {}", request.getURI().getPath());
+        System.out.println("path: " + request.getURI().getPath());
 
         return PUBLIC_ENDPOINTS.stream().anyMatch(s -> {
             String regexPattern = apiPrefix + s.replace("**", ".*").replace("*", "[^/]*");
-            log.info(String.valueOf(request.getURI().getPath().matches(regexPattern)));
+            System.out.println("regex: " + regexPattern);
+            System.out.println("boolean: " + request.getURI().getPath().matches(regexPattern));
             return request.getURI().getPath().matches(regexPattern);
         });
     }
