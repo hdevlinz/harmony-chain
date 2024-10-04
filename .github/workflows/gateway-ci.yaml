@@ -54,6 +54,6 @@ jobs:
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/build-push-action@v6
             with:
-               context: ./gateway
+               context: ./gateway-service
                push: true
                tags: ghcr.io/hiepthanhtran/hscms-gateway:latest

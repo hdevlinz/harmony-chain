@@ -54,6 +54,6 @@ jobs:
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/build-push-action@v6
             with:
-               context: ./file
+               context: ./file-service
                push: true
                tags: ghcr.io/hiepthanhtran/hscms-file:latest
