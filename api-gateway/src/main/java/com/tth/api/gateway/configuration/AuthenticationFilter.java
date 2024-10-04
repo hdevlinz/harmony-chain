@@ -77,6 +77,7 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
         System.out.println(exchange.getRequest().getURI().getPath());
 
         if (this.isPublicEndpoint(exchange.getRequest())) {
+            System.out.println("Public endpoint...................................................");
             return chain.filter(exchange);
         }
 
