@@ -98,11 +98,11 @@ services:
    #         - KEYCLOAK_ADMIN_PASSWORD=admin
    #      networks:
    #         - hscms-network
-   hscms-api-gateway:
+   hscms-gateway:
       build: ./api-gateway
       image: ghcr.io/hiepthanhtran/hscms-gateway:latest
       restart: unless-stopped
-      container_name: hscms-api-gateway
+      container_name: hscms-gateway
       ports:
          - '8888:8888'
       environment:
