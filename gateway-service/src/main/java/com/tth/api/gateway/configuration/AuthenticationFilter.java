@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -29,6 +30,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthenticationFilter implements GlobalFilter, Ordered {
 
+    @NonFinal
+    private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
     @NonFinal
     private static final List<String> PUBLIC_ENDPOINTS = Arrays.asList(
             "/cart/**",
@@ -93,14 +96,8 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isPublicEndpoint(ServerHttpRequest request) {
-        System.out.println("path: " + request.getURI().getPath());
-
-        return PUBLIC_ENDPOINTS.stream().anyMatch(s -> {
-            String regexPattern = apiPrefix + s.replace("**", ".*").replace("*", "[^/]*");
-            System.out.println("regex: " + regexPattern);
-            System.out.println("boolean: " + request.getURI().getPath().matches(regexPattern));
-            return request.getURI().getPath().matches(regexPattern);
-        });
+        System.out.println("URL Path: " + request.getURI().getPath());
+        return PUBLIC_ENDPOINTS.stream().anyMatch(pattern -> PATH_MATCHER.match(apiPrefix + pattern, request.getURI().getPath()));
     }
 
     private Mono<Void> unauthenticated(ServerHttpResponse response) {
