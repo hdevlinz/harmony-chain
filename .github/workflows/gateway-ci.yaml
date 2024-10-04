@@ -28,7 +28,7 @@ jobs:
                fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
          -  uses: ./.github/workflows/actions
          -  name: Run Maven Build Command
-            run: mvn clean install -pl gateway-service -am -DskipTests
+            run: mvn clean install -pl api-gateway -am -DskipTests
          #         -  name: Run Maven Test
          #            run: mvn test -f gateway
          #         -  name: Unit Test Results
@@ -54,6 +54,6 @@ jobs:
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/build-push-action@v6
             with:
-               context: ./gateway-service
+               context: ./api-gateway
                push: true
                tags: ghcr.io/hiepthanhtran/scms-gateway:latest
