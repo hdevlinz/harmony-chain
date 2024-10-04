@@ -1,4 +1,4 @@
-name: HSCM CI/CD Pipeline
+name: HSCMS CI/CD Pipeline
 description: This workflow is used to build, test, and deploy the HSCM microservices.
 runs:
    using: "composite"

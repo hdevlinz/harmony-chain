@@ -1,19 +1,19 @@
-name: product-service ci
+name: identity service ci
 
 on:
    push:
       branches: [ "main" ]
       paths:
-         - "product-service/**"
+         - "identity/**"
          - ".github/workflows/actions/action.yaml"
-         - ".github/workflows/product-service-ci.yaml"
+         - ".github/workflows/identity-ci.yaml"
          - "pom.xml"
    pull_request:
       branches: [ "main" ]
       paths:
-         - "product-service/**"
+         - "identity/**"
          - ".github/workflows/actions/action.yaml"
-         - ".github/workflows/product-service-ci.yaml"
+         - ".github/workflows/identity-ci.yaml"
          - "pom.xml"
    workflow_dispatch:
 
@@ -28,7 +28,21 @@ jobs:
                fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
          -  uses: ./.github/workflows/actions
          -  name: Run Maven Build Command
-            run: mvn clean install -pl product-service -am -DskipTests
+            run: mvn clean install -pl identity -am -DskipTests
+         #         -  name: Run Maven Test
+         #            run: mvn test -f identity
+         #         -  name: Unit Test Results
+         #            uses: dorny/test-reporter@v1
+         #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' && (success() || failure()) }}
+         #            with:
+         #               name: Unit-Test-Results
+         #               path: "identity/**/surefire-reports/*.xml"
+         #               reporter: java-junit
+         #         -  name: Analyze with sonar cloud
+         #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' }}
+         #            env:
+         #               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+         #            run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f identity
          -  name: Log in to the Container registry
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/login-action@v3
@@ -40,6 +54,6 @@ jobs:
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/build-push-action@v6
             with:
-               context: ./product-service
+               context: ./identity
                push: true
-               tags: ghcr.io/hiepthanhtran/hscm-product-service:latest
+               tags: ghcr.io/hiepthanhtran/hscms-identity:latest

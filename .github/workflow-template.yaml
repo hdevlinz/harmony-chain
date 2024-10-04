@@ -28,7 +28,7 @@ jobs:
                fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
          -  uses: ./.github/workflows/actions
          -  name: Run Maven Build Command
-            run: mvn clean install -DskipTests -f {{SERVICE_NAME}}
+            run: mvn clean install -pl {{SERVICE_NAME}} -am -DskipTests
          #         -  name: Run Maven Test
          #            run: mvn test -f {{SERVICE_NAME}}
          #         -  name: Unit Test Results
@@ -56,4 +56,4 @@ jobs:
             with:
                context: ./{{SERVICE_NAME}}
                push: true
-               tags: ghcr.io/hiepthanhtran/hscm-{{SERVICE_NAME}}:latest
+               tags: ghcr.io/hiepthanhtran/hscms-{{SERVICE_NAME}}:latest

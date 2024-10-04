@@ -1,19 +1,19 @@
-name: file-service ci
+name: order service ci
 
 on:
    push:
       branches: [ "main" ]
       paths:
-         - "file-service/**"
+         - "order/**"
          - ".github/workflows/actions/action.yaml"
-         - ".github/workflows/file-service-ci.yaml"
+         - ".github/workflows/order-ci.yaml"
          - "pom.xml"
    pull_request:
       branches: [ "main" ]
       paths:
-         - "file-service/**"
+         - "order/**"
          - ".github/workflows/actions/action.yaml"
-         - ".github/workflows/file-service-ci.yaml"
+         - ".github/workflows/order-ci.yaml"
          - "pom.xml"
    workflow_dispatch:
 
@@ -28,7 +28,21 @@ jobs:
                fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
          -  uses: ./.github/workflows/actions
          -  name: Run Maven Build Command
-            run: mvn clean install -pl file-service -am -DskipTests
+            run: mvn clean install -pl order -am -DskipTests
+         #         -  name: Run Maven Test
+         #            run: mvn test -f order
+         #         -  name: Unit Test Results
+         #            uses: dorny/test-reporter@v1
+         #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' && (success() || failure()) }}
+         #            with:
+         #               name: Unit-Test-Results
+         #               path: "order/**/surefire-reports/*.xml"
+         #               reporter: java-junit
+         #         -  name: Analyze with sonar cloud
+         #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' }}
+         #            env:
+         #               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+         #            run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f order
          -  name: Log in to the Container registry
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/login-action@v3
@@ -40,6 +54,6 @@ jobs:
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/build-push-action@v6
             with:
-               context: ./file-service
+               context: ./order
                push: true
-               tags: ghcr.io/hiepthanhtran/hscm-file-service:latest
+               tags: ghcr.io/hiepthanhtran/hscms-order:latest

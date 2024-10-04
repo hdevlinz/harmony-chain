@@ -1,9 +1,9 @@
 name: scms
 
 networks:
-   hscm-network:
+   scms-network:
       driver: bridge
-      name: hscm-network
+      name: scms-network
 
 volumes:
    mysql:
@@ -12,19 +12,19 @@ services:
    #   nginx:
    #      image: 'nginx:1.25.3'
    #      restart: unless-stopped
-   #      container_name: hscm-nginx
+   #      container_name: nginx
    #      ports:
    #         - "80:80"
    #      volumes:
    #         - ./docker/server/templates:/etc/nginx/templates
    #         - ./docker/server/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
    #      networks:
-   #         - hscm-network
+   #         - scms-network
    kafka:
       image: 'bitnami/kafka:3.7.0'
       restart: unless-stopped
-      container_name: hscm-kafka
       hostname: kafka
+      container_name: kafka
       ports:
          - '9094:9094'
       environment:
@@ -38,7 +38,7 @@ services:
          - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@127.0.0.1:9093
          - ALLOW_PLAINTEXT_LISTENER=yes
          - KAFKA_CFG_NODE_ID=1
-         - KAFKA_KRAFT_CLUSTER_ID=hscm-kafka
+         - KAFKA_KRAFT_CLUSTER_ID=scms-kafka
          - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
       healthcheck:
          test: [ "CMD", "kafka-topics.sh", "--list", "--bootstrap-server", "localhost:9094" ]
@@ -46,12 +46,12 @@ services:
          timeout: 5s
          retries: 5
       networks:
-         - hscm-network
+         - scms-network
    mysql:
       image: 'mysql:8.0.39-debian'
       restart: unless-stopped
       hostname: mysql
-      container_name: hscm-mysql
+      container_name: mysql
       ports:
          - '3306:3306'
       environment:
@@ -60,56 +60,69 @@ services:
          - ./docker/db/mysql_initial.sql:/docker-entrypoint-initdb.d/mysql_initial.sql
          - mysql:/var/lib/mysql
       networks:
-         - hscm-network
+         - scms-network
    mongodb:
       image: 'bitnami/mongodb:7.0.11'
       restart: unless-stopped
       hostname: mongodb
-      container_name: hscm-mongodb
+      container_name: mongodb
       ports:
          - '27017:27017'
       environment:
          - MONGODB_ROOT_USER=root
          - MONGODB_ROOT_PASSWORD=root
       networks:
-         - hscm-network
+         - scms-network
    neo4j:
       image: 'neo4j:latest'
       restart: unless-stopped
       hostname: neo4j
-      container_name: hscm-neo4j
+      container_name: neo4j
       ports:
          - '7474:7474'
          - '7687:7687'
       environment:
          - NEO4J_AUTH=neo4j/admin@123
       networks:
-         - hscm-network
-   hscm-api-gateway:
+         - scms-network
+   #   scms-keycloak:
+   #      image: 'quay.io/keycloak/keycloak:25.0.0'
+   #      restart: unless-stopped
+   #      hostname: scms-keycloak
+   #      container_name: scms-keycloak
+   #      command: [ 'start-dev --import-realm' ]
+   #      ports:
+   #         - '8180:8080'
+   #      environment:
+   #         - KEYCLOAK_ADMIN=admin
+   #         - KEYCLOAK_ADMIN_PASSWORD=admin
+   #      networks:
+   #         - scms-network
+   scms-api-gateway:
       build: ./api-gateway
-      image: ghcr.io/hiepthanhtran/hscm-api-gateway:latest
+      image: ghcr.io/hiepthanhtran/scms-api-gateway:latest
       restart: unless-stopped
-      container_name: hscm-api-gateway
+      container_name: scms-api-gateway
       ports:
          - '8888:8888'
       environment:
-         - FILE_SERVICE_URL=http://hscm-file:8887
-         - NOTIFICATION_SERVICE_URL=http://hscm-notification:8886
-         - CART_SERVICE_URL=http://hscm-cart:8081
-         - PROFILE_SERVICE_URL=http://hscm-profile:8082
-         - IDENTITY_SERVICE_URL=http://hscm-identity:8083
-         - PRODUCT_SERVICE_URL=http://hscm-product:8084
-         - RATING_SERVICE_URL=http://hscm-rating:8085
-         - INVENTORY_SERVICE_URL=http://hscm-inventory:8086
-         - ORDER_SERVICE_URL=http://hscm-order:8087
-         - SHIPPING_SERVICE_URL=http://hscm-shipping:8088
+         - FILE_SERVICE_URL=http://scms-file:8887
+         - NOTIFICATION_SERVICE_URL=http://scms-notification:8886
+         - CART_SERVICE_URL=http://scms-cart:8081
+         - PROFILE_SERVICE_URL=http://scms-profile:8082
+         - IDENTITY_SERVICE_URL=http://scms-identity:8083
+         - PRODUCT_SERVICE_URL=http://scms-product:8084
+         - RATING_SERVICE_URL=http://scms-rating:8085
+         - INVENTORY_SERVICE_URL=http://scms-inventory:8086
+         - ORDER_SERVICE_URL=http://scms-order:8087
+         - SHIPPING_SERVICE_URL=http://scms-shipping:8088
       networks:
-         - hscm-network
-   hscm-file:
+         - scms-network
+   scms-file:
       build: ./file-service
-      image: ghcr.io/hiepthanhtran/hscm-file-service:latest
+      image: ghcr.io/hiepthanhtran/scms-file-service:latest
       restart: unless-stopped
-      container_name: hscm-file
+      container_name: scms-file
       ports:
          - '8887:8887'
       environment:
@@ -120,12 +133,12 @@ services:
       depends_on:
          - kafka
       networks:
-         - hscm-network
-   hscm-notification:
+         - scms-network
+   scms-notification:
       build: ./notification-service
-      image: ghcr.io/hiepthanhtran/hscm-notification-service:latest
+      image: ghcr.io/hiepthanhtran/scms-notification-service:latest
       restart: unless-stopped
-      container_name: hscm-notification
+      container_name: scms-notification
       ports:
          - '8886:8886'
       environment:
@@ -137,41 +150,28 @@ services:
          - kafka
          - mongodb
       networks:
-         - hscm-network
-   #   hscm-keycloak:
-   #      image: 'quay.io/keycloak/keycloak:25.0.0'
-   #      restart: unless-stopped
-   #      hostname: hscm-keycloak
-   #      container_name: hscm-keycloak
-   #      command: [ 'start-dev --import-realm' ]
-   #      ports:
-   #         - '8180:8080'
-   #      environment:
-   #         - KEYCLOAK_ADMIN=admin
-   #         - KEYCLOAK_ADMIN_PASSWORD=admin
-   #      networks:
-   #         - hscm-network
-   hscm-cart:
+         - scms-network
+   scms-cart:
       build: ./cart-service
-      image: ghcr.io/hiepthanhtran/hscm-cart-service:latest
+      image: ghcr.io/hiepthanhtran/scms-cart-service:latest
       restart: unless-stopped
-      container_name: hscm-cart
+      container_name: scms-cart
       ports:
          - '8081:8081'
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/cart_service?authSource=admin
-#         - PRODUCT_SERVICE_URL=http://hscm-product:8084
+#         - PRODUCT_SERVICE_URL=http://scms-product:8084
       depends_on:
          - kafka
          - mongodb
       networks:
-         - hscm-network
-   hscm-profile:
+         - scms-network
+   scms-profile:
       build: ./profile-service
-      image: ghcr.io/hiepthanhtran/hscm-profile-service:latest
+      image: ghcr.io/hiepthanhtran/scms-profile-service:latest
       restart: unless-stopped
-      container_name: hscm-profile
+      container_name: scms-profile
       ports:
          - '8082:8082'
       environment:
@@ -183,12 +183,12 @@ services:
          - kafka
          - neo4j
       networks:
-         - hscm-network
-   hscm-identity:
+         - scms-network
+   scms-identity:
       build: ./identity-service
-      image: ghcr.io/hiepthanhtran/hscm-identity-service:latest
+      image: ghcr.io/hiepthanhtran/scms-identity-service:latest
       restart: unless-stopped
-      container_name: hscm-identity
+      container_name: scms-identity
       ports:
          - '8083:8083'
       environment:
@@ -196,8 +196,8 @@ services:
          - DBMS_URL=jdbc:mysql://mysql:3306/identity_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
-#         - PROFILE_SERVICE_URL=http://hscm-profile:8082
-#         - FILE_SERVICE_URL=http://hscm-file:8887
+#         - PROFILE_SERVICE_URL=http://scms-profile:8082
+#         - FILE_SERVICE_URL=http://scms-file:8887
       #         - JWT_SIGNER_KEY
       #         - JWT_VALID_DURATION
       #         - JWT_REFRESHABLE_DURATION
@@ -205,45 +205,45 @@ services:
          - kafka
          - mysql
       networks:
-         - hscm-network
-   hscm-product:
+         - scms-network
+   scms-product:
       build: ./product-service
-      image: ghcr.io/hiepthanhtran/hscm-product-service:latest
+      image: ghcr.io/hiepthanhtran/scms-product-service:latest
       restart: unless-stopped
-      container_name: hscm-product
+      container_name: scms-product
       ports:
          - '8084:8084'
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/product_service?authSource=admin
-#         - PROFILE_SERVICE_URL=http://hscm-profile:8082
+#         - PROFILE_SERVICE_URL=http://scms-profile:8082
       depends_on:
          - kafka
          - mongodb
       networks:
-         - hscm-network
-   hscm-rating:
+         - scms-network
+   scms-rating:
       build: ./rating-service
-      image: ghcr.io/hiepthanhtran/hscm-rating-service:latest
+      image: ghcr.io/hiepthanhtran/scms-rating-service:latest
       restart: unless-stopped
-      container_name: hscm-rating
+      container_name: scms-rating
       ports:
          - '8085:8085'
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/rating_service?authSource=admin
-#         - PROFILE_SERVICE_UR= http://hscm-profile:8082
-#         - IDENTITY_SERVICE_URL=http://hscm-identity:8083
+#         - PROFILE_SERVICE_UR= http://scms-profile:8082
+#         - IDENTITY_SERVICE_URL=http://scms-identity:8083
       depends_on:
          - kafka
          - mongodb
       networks:
-         - hscm-network
-   hscm-inventory:
+         - scms-network
+   scms-inventory:
       build: ./inventory-service
-      image: ghcr.io/hiepthanhtran/hscm-inventory-service:latest
+      image: ghcr.io/hiepthanhtran/scms-inventory-service:latest
       restart: unless-stopped
-      container_name: hscm-inventory
+      container_name: scms-inventory
       ports:
          - '8086:8086'
       environment:
@@ -251,17 +251,17 @@ services:
          - DBMS_URL=jdbc:mysql://mysql:3306/inventory_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
-#         - PRODUCT_SERVICE_URL=http://hscm-product:8084
+#         - PRODUCT_SERVICE_URL=http://scms-product:8084
       depends_on:
          - kafka
          - mysql
       networks:
-         - hscm-network
-   hscm-order:
+         - scms-network
+   scms-order:
       build: ./order-service
-      image: ghcr.io/hiepthanhtran/hscm-order-service:latest
+      image: ghcr.io/hiepthanhtran/scms-order-service:latest
       restart: unless-stopped
-      container_name: hscm-order
+      container_name: scms-order
       ports:
          - '8087:8087'
       environment:
@@ -270,27 +270,27 @@ services:
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
          - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-#         - IDENTITY_SERVICE_URL=http://hscm-identity:8083
-#         - PRODUCT_SERVICE_URL=http://hscm-product:8084
-#         - INVENTORY_SERVICE_URL=http://hscm-inventory:8086
+#         - IDENTITY_SERVICE_URL=http://scms-identity:8083
+#         - PRODUCT_SERVICE_URL=http://scms-product:8084
+#         - INVENTORY_SERVICE_URL=http://scms-inventory:8086
       depends_on:
          - kafka
          - mysql
       networks:
-         - hscm-network
-   hscm-shipping:
+         - scms-network
+   scms-shipping:
       build: ./shipping-service
-      image: ghcr.io/hiepthanhtran/hscm-shipping-service:latest
+      image: ghcr.io/hiepthanhtran/scms-shipping-service:latest
       restart: unless-stopped
-      container_name: hscm-shipping
+      container_name: scms-shipping
       ports:
          - '8088:8088'
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/shipping_service?authSource=admin
-#         - IDENTITY_SERVICE_URL=http://hscm-identity:8083
+#         - IDENTITY_SERVICE_URL=http://scms-identity:8083
       depends_on:
          - kafka
          - mongodb
       networks:
-         - hscm-network
+         - scms-network
