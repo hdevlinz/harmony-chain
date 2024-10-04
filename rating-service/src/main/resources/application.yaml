@@ -17,6 +17,8 @@ spring:
          uri: ${MONGODB_URI:mongodb://root:root@localhost:27017/rating_service?authSource=admin}
    kafka:
       bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+      properties:
+         security.protocol: PLAINTEXT
       producer:
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
