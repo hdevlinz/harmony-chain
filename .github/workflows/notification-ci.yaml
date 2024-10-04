@@ -4,7 +4,7 @@ on:
    push:
       branches: [ "main" ]
       paths:
-         - "notification/**"
+         - "notification-service/**"
          - ".github/workflows/actions/action.yaml"
          - ".github/workflows/notification-ci.yaml"
          - "pom.xml"

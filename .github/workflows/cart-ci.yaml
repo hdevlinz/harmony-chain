@@ -4,7 +4,7 @@ on:
    push:
       branches: [ "main" ]
       paths:
-         - "cart/**"
+         - "cart-service/**"
          - ".github/workflows/actions/action.yaml"
          - ".github/workflows/cart-ci.yaml"
          - "pom.xml"
