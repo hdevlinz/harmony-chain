@@ -113,6 +113,7 @@ services:
       ports:
          - '8887:8887'
       environment:
+         - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
          - AWS_SECRET=${AWS_SECRET}
          - S3_BUCKET_NAME=${S3_BUCKET_NAME}
@@ -128,6 +129,7 @@ services:
       ports:
          - '8886:8886'
       environment:
+         - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MAIL_API_KEY=${MAIL_API_KEY}
          - MONGODB_URI=mongodb://root:root@mongodb:27017/notification_service?authSource=admin
       #         - EMAIL_SERVICE_URL
@@ -157,8 +159,9 @@ services:
       ports:
          - '8081:8081'
       environment:
+         - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/cart_service?authSource=admin
-         - PRODUCT_SERVICE_URL=http://hscm-product:8084
+#         - PRODUCT_SERVICE_URL=http://hscm-product:8084
       depends_on:
          - kafka
          - mongodb
@@ -172,6 +175,7 @@ services:
       ports:
          - '8082:8082'
       environment:
+         - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - NEO4J_URI=bolt://neo4j:7687
          - NEO4J_USERNAME=neo4j
          - NEO4J_PASSWORD=admin
@@ -188,11 +192,12 @@ services:
       ports:
          - '8083:8083'
       environment:
+         - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - DBMS_URL=jdbc:mysql://mysql:3306/identity_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
-         - PROFILE_SERVICE_URL=http://hscm-profile:8082
-         - FILE_SERVICE_URL=http://hscm-file:8887
+#         - PROFILE_SERVICE_URL=http://hscm-profile:8082
+#         - FILE_SERVICE_URL=http://hscm-file:8887
       #         - JWT_SIGNER_KEY
       #         - JWT_VALID_DURATION
       #         - JWT_REFRESHABLE_DURATION
@@ -209,8 +214,9 @@ services:
       ports:
          - '8084:8084'
       environment:
+         - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/product_service?authSource=admin
-         - PROFILE_SERVICE_URL=http://hscm-profile:8082
+#         - PROFILE_SERVICE_URL=http://hscm-profile:8082
       depends_on:
          - kafka
          - mongodb
@@ -224,9 +230,10 @@ services:
       ports:
          - '8085:8085'
       environment:
+         - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/rating_service?authSource=admin
-         - PROFILE_SERVICE_UR= http://hscm-profile:8082
-         - IDENTITY_SERVICE_URL=http://hscm-identity:8083
+#         - PROFILE_SERVICE_UR= http://hscm-profile:8082
+#         - IDENTITY_SERVICE_URL=http://hscm-identity:8083
       depends_on:
          - kafka
          - mongodb
@@ -240,10 +247,11 @@ services:
       ports:
          - '8086:8086'
       environment:
+         - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - DBMS_URL=jdbc:mysql://mysql:3306/inventory_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
-         - PRODUCT_SERVICE_URL=http://hscm-product:8084
+#         - PRODUCT_SERVICE_URL=http://hscm-product:8084
       depends_on:
          - kafka
          - mysql
@@ -257,13 +265,14 @@ services:
       ports:
          - '8087:8087'
       environment:
+         - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - DBMS_URL=jdbc:mysql://mysql:3306/order_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
          - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-         - IDENTITY_SERVICE_URL=http://hscm-identity:8083
-         - PRODUCT_SERVICE_URL=http://hscm-product:8084
-         - INVENTORY_SERVICE_URL=http://hscm-inventory:8086
+#         - IDENTITY_SERVICE_URL=http://hscm-identity:8083
+#         - PRODUCT_SERVICE_URL=http://hscm-product:8084
+#         - INVENTORY_SERVICE_URL=http://hscm-inventory:8086
       depends_on:
          - kafka
          - mysql
@@ -277,8 +286,9 @@ services:
       ports:
          - '8088:8088'
       environment:
+         - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/shipping_service?authSource=admin
-         - IDENTITY_SERVICE_URL=http://hscm-identity:8083
+#         - IDENTITY_SERVICE_URL=http://hscm-identity:8083
       depends_on:
          - kafka
          - mongodb

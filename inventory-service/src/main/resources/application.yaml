@@ -21,12 +21,11 @@ spring:
       hibernate:
          ddl-auto: update
    kafka:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
       producer:
-         bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       consumer:
-         bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
          auto-offset-reset: earliest
          group-id: inventory-service-group
          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
