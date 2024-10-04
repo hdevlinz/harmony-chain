@@ -1,20 +1,20 @@
 # Harmony Supply Chain System | Microservice Architecture
 
-![SCMS](https://raw.githubusercontent.com/hiepthanhtran/scms/main/images/scms.png)
+![SCMS](https://raw.githubusercontent.com/hiepthanhtran/microservices-scms/main/images/scms.png)
 
 ### SCMS is a pet project aim to practice building a typical microservice application in Java with Spring Boot, Next.js, and Flutter.
 
-![api-gateway-ci](https://github.com/hiepthanhtran/scms/actions/workflows/api-gateway-ci.yaml/badge.svg)
-![cart-service-ci](https://github.com/hiepthanhtran/scms/actions/workflows/cart-service-ci.yaml/badge.svg)
-![file-service-ci](https://github.com/hiepthanhtran/scms/actions/workflows/file-service-ci.yaml/badge.svg)
-![identity-service-ci](https://github.com/hiepthanhtran/scms/actions/workflows/identity-service-ci.yaml/badge.svg)
-![inventory-service-ci](https://github.com/hiepthanhtran/scms/actions/workflows/inventory-service-ci.yaml/badge.svg)
-![notification-service-ci](https://github.com/hiepthanhtran/scms/actions/workflows/notification-service-ci.yaml/badge.svg)
-![order-service-ci](https://github.com/hiepthanhtran/scms/actions/workflows/order-service-ci.yaml/badge.svg)
-![product-service-ci](https://github.com/hiepthanhtran/scms/actions/workflows/product-service-ci.yaml/badge.svg)
-![profile-service-ci](https://github.com/hiepthanhtran/scms/actions/workflows/profile-service-ci.yaml/badge.svg)
-![rating-service-ci](https://github.com/hiepthanhtran/scms/actions/workflows/rating-service-ci.yaml/badge.svg)
-![shipping-service-ci](https://github.com/hiepthanhtran/scms/actions/workflows/shipping-service-ci.yaml/badge.svg)
+![api-gateway-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/gateway-ci.yaml/badge.svg)
+![cart-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/cart-ci.yaml/badge.svg)
+![file-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/file-ci.yaml/badge.svg)
+![identity-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/identity-ci.yaml/badge.svg)
+![inventory-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/inventory-ci.yaml/badge.svg)
+![notification-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/notification-ci.yaml/badge.svg)
+![order-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/order-ci.yaml/badge.svg)
+![product-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/product-ci.yaml/badge.svg)
+![profile-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/profile-ci.yaml/badge.svg)
+![rating-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/rating-ci.yaml/badge.svg)
+![shipping-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/shipping-ci.yaml/badge.svg)
 
 ## Tentative technologies and frameworks
 
@@ -31,7 +31,7 @@
 
 ## Development Architecture
 
-![Development Architecture](https://raw.githubusercontent.com/hiepthanhtran/harmony-supply-chain/main/images/architecture.png)
+![Development Architecture](https://raw.githubusercontent.com/hiepthanhtran/microservices-scms/main/images/architecture.png)
 
 ## Getting started with Docker Compose
 
