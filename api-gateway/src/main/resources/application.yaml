@@ -13,7 +13,7 @@ app:
    strip-prefix: 2
    services:
       indentity:
-         url: ${IDENTITY_SERVICE_URL:http://localhost:8083/identity}
+         url: ${IDENTITY_BASE_URL:http://localhost:8083/identity}
 
 # Spring configuration
 spring:

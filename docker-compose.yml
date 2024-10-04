@@ -106,21 +106,21 @@ services:
       ports:
          - '8888:8888'
       environment:
-         - FILE_SERVICE_URL=http://scms-file:8887
-         - NOTIFICATION_SERVICE_URL=http://scms-notification:8886
-         - CART_SERVICE_URL=http://scms-cart:8081
-         - PROFILE_SERVICE_URL=http://scms-profile:8082
-         - IDENTITY_SERVICE_URL=http://scms-identity:8083
-         - PRODUCT_SERVICE_URL=http://scms-product:8084
-         - RATING_SERVICE_URL=http://scms-rating:8085
-         - INVENTORY_SERVICE_URL=http://scms-inventory:8086
-         - ORDER_SERVICE_URL=http://scms-order:8087
-         - SHIPPING_SERVICE_URL=http://scms-shipping:8088
+         - IDENTITY_BASE_URL=http://scms-identity:8083
+      #         - FILE_SERVICE_URL=http://scms-file:8887
+      #         - NOTIFICATION_SERVICE_URL=http://scms-notification:8886
+      #         - CART_SERVICE_URL=http://scms-cart:8081
+      #         - PROFILE_SERVICE_URL=http://scms-profile:8082
+      #         - PRODUCT_SERVICE_URL=http://scms-product:8084
+      #         - RATING_SERVICE_URL=http://scms-rating:8085
+      #         - INVENTORY_SERVICE_URL=http://scms-inventory:8086
+      #         - ORDER_SERVICE_URL=http://scms-order:8087
+      #         - SHIPPING_SERVICE_URL=http://scms-shipping:8088
       networks:
          - scms-network
    scms-file:
       build: ./file-service
-      image: ghcr.io/hiepthanhtran/scms-file-service:latest
+      image: ghcr.io/hiepthanhtran/scms-file:latest
       restart: unless-stopped
       container_name: scms-file
       ports:
@@ -136,7 +136,7 @@ services:
          - scms-network
    scms-notification:
       build: ./notification-service
-      image: ghcr.io/hiepthanhtran/scms-notification-service:latest
+      image: ghcr.io/hiepthanhtran/scms-notification:latest
       restart: unless-stopped
       container_name: scms-notification
       ports:
@@ -153,7 +153,7 @@ services:
          - scms-network
    scms-cart:
       build: ./cart-service
-      image: ghcr.io/hiepthanhtran/scms-cart-service:latest
+      image: ghcr.io/hiepthanhtran/scms-cart:latest
       restart: unless-stopped
       container_name: scms-cart
       ports:
@@ -161,7 +161,7 @@ services:
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/cart_service?authSource=admin
-#         - PRODUCT_SERVICE_URL=http://scms-product:8084
+      #         - PRODUCT_SERVICE_URL=http://scms-product:8084
       depends_on:
          - kafka
          - mongodb
@@ -169,7 +169,7 @@ services:
          - scms-network
    scms-profile:
       build: ./profile-service
-      image: ghcr.io/hiepthanhtran/scms-profile-service:latest
+      image: ghcr.io/hiepthanhtran/scms-profile:latest
       restart: unless-stopped
       container_name: scms-profile
       ports:
@@ -186,7 +186,7 @@ services:
          - scms-network
    scms-identity:
       build: ./identity-service
-      image: ghcr.io/hiepthanhtran/scms-identity-service:latest
+      image: ghcr.io/hiepthanhtran/scms-identity:latest
       restart: unless-stopped
       container_name: scms-identity
       ports:
@@ -196,8 +196,8 @@ services:
          - DBMS_URL=jdbc:mysql://mysql:3306/identity_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
-#         - PROFILE_SERVICE_URL=http://scms-profile:8082
-#         - FILE_SERVICE_URL=http://scms-file:8887
+      #         - PROFILE_SERVICE_URL=http://scms-profile:8082
+      #         - FILE_SERVICE_URL=http://scms-file:8887
       #         - JWT_SIGNER_KEY
       #         - JWT_VALID_DURATION
       #         - JWT_REFRESHABLE_DURATION
@@ -208,7 +208,7 @@ services:
          - scms-network
    scms-product:
       build: ./product-service
-      image: ghcr.io/hiepthanhtran/scms-product-service:latest
+      image: ghcr.io/hiepthanhtran/scms-product:latest
       restart: unless-stopped
       container_name: scms-product
       ports:
@@ -216,7 +216,7 @@ services:
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/product_service?authSource=admin
-#         - PROFILE_SERVICE_URL=http://scms-profile:8082
+      #         - PROFILE_SERVICE_URL=http://scms-profile:8082
       depends_on:
          - kafka
          - mongodb
@@ -224,7 +224,7 @@ services:
          - scms-network
    scms-rating:
       build: ./rating-service
-      image: ghcr.io/hiepthanhtran/scms-rating-service:latest
+      image: ghcr.io/hiepthanhtran/scms-rating:latest
       restart: unless-stopped
       container_name: scms-rating
       ports:
@@ -232,8 +232,8 @@ services:
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/rating_service?authSource=admin
-#         - PROFILE_SERVICE_UR= http://scms-profile:8082
-#         - IDENTITY_SERVICE_URL=http://scms-identity:8083
+      #         - PROFILE_SERVICE_UR= http://scms-profile:8082
+      #         - IDENTITY_SERVICE_URL=http://scms-identity:8083
       depends_on:
          - kafka
          - mongodb
@@ -241,7 +241,7 @@ services:
          - scms-network
    scms-inventory:
       build: ./inventory-service
-      image: ghcr.io/hiepthanhtran/scms-inventory-service:latest
+      image: ghcr.io/hiepthanhtran/scms-inventory:latest
       restart: unless-stopped
       container_name: scms-inventory
       ports:
@@ -251,7 +251,7 @@ services:
          - DBMS_URL=jdbc:mysql://mysql:3306/inventory_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
-#         - PRODUCT_SERVICE_URL=http://scms-product:8084
+      #         - PRODUCT_SERVICE_URL=http://scms-product:8084
       depends_on:
          - kafka
          - mysql
@@ -259,7 +259,7 @@ services:
          - scms-network
    scms-order:
       build: ./order-service
-      image: ghcr.io/hiepthanhtran/scms-order-service:latest
+      image: ghcr.io/hiepthanhtran/scms-order:latest
       restart: unless-stopped
       container_name: scms-order
       ports:
@@ -270,9 +270,9 @@ services:
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
          - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-#         - IDENTITY_SERVICE_URL=http://scms-identity:8083
-#         - PRODUCT_SERVICE_URL=http://scms-product:8084
-#         - INVENTORY_SERVICE_URL=http://scms-inventory:8086
+      #         - IDENTITY_SERVICE_URL=http://scms-identity:8083
+      #         - PRODUCT_SERVICE_URL=http://scms-product:8084
+      #         - INVENTORY_SERVICE_URL=http://scms-inventory:8086
       depends_on:
          - kafka
          - mysql
@@ -280,7 +280,7 @@ services:
          - scms-network
    scms-shipping:
       build: ./shipping-service
-      image: ghcr.io/hiepthanhtran/scms-shipping-service:latest
+      image: ghcr.io/hiepthanhtran/scms-shipping:latest
       restart: unless-stopped
       container_name: scms-shipping
       ports:
@@ -288,7 +288,7 @@ services:
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9094
          - MONGODB_URI=mongodb://root:root@mongodb:27017/shipping_service?authSource=admin
-#         - IDENTITY_SERVICE_URL=http://scms-identity:8083
+      #         - IDENTITY_SERVICE_URL=http://scms-identity:8083
       depends_on:
          - kafka
          - mongodb
