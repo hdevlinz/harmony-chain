@@ -4,14 +4,14 @@ on:
    push:
       branches: [ "main" ]
       paths:
-         - "gateway/**"
+         - "api-gateway/**"
          - ".github/workflows/actions/action.yaml"
          - ".github/workflows/gateway-ci.yaml"
          - "pom.xml"
    pull_request:
       branches: [ "main" ]
       paths:
-         - "gateway/**"
+         - "api-gateway/**"
          - ".github/workflows/actions/action.yaml"
          - ".github/workflows/gateway-ci.yaml"
          - "pom.xml"
