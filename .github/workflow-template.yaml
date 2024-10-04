@@ -59,7 +59,14 @@ jobs:
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/build-push-action@v6
             with:
-               visibility: public
                context: ./{{SERVICE_NAME}}-service
                push: true
                tags: ghcr.io/hiepthanhtran/scms-{{SERVICE_NAME}}:latest
+         -  name: Make Docker image public using REST API
+            if: ${{ github.ref == 'refs/heads/main' }}
+            run: |
+               curl -X PATCH \
+                 -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                 -H "Accept: application/vnd.github.v3+json" \
+                 https://api.github.com/user/packages/container/scms-{{SERVICE_NAME}}/versions \
+                 -d '{"visibility":"public"}'
