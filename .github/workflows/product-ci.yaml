@@ -56,4 +56,4 @@ jobs:
             with:
                context: ./product-service
                push: true
-               tags: ghcr.io/hiepthanhtran/hscms-product:latest
+               tags: ghcr.io/hiepthanhtran/scms-product:latest

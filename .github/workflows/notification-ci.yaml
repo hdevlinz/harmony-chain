@@ -56,4 +56,4 @@ jobs:
             with:
                context: ./notification-service
                push: true
-               tags: ghcr.io/hiepthanhtran/hscms-notification:latest
+               tags: ghcr.io/hiepthanhtran/scms-notification:latest

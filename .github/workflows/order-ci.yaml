@@ -56,4 +56,4 @@ jobs:
             with:
                context: ./order-service
                push: true
-               tags: ghcr.io/hiepthanhtran/hscms-order:latest
+               tags: ghcr.io/hiepthanhtran/scms-order:latest

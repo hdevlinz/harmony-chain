@@ -11,3 +11,5 @@ RUN chmod +x wait-for-it.sh
 COPY target/*.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+LABEL org.opencontainers.image.source=https://github.com/hiepthanhtran/microservices-scms

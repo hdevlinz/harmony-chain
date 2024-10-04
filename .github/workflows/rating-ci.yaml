@@ -56,4 +56,4 @@ jobs:
             with:
                context: ./rating-service
                push: true
-               tags: ghcr.io/hiepthanhtran/hscms-rating:latest
+               tags: ghcr.io/hiepthanhtran/scms-rating:latest

@@ -56,4 +56,4 @@ jobs:
             with:
                context: ./profile-service
                push: true
-               tags: ghcr.io/hiepthanhtran/hscms-profile:latest
+               tags: ghcr.io/hiepthanhtran/scms-profile:latest

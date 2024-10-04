@@ -56,4 +56,4 @@ jobs:
             with:
                context: ./file-service
                push: true
-               tags: ghcr.io/hiepthanhtran/hscms-file:latest
+               tags: ghcr.io/hiepthanhtran/scms-file:latest

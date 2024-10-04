@@ -56,4 +56,4 @@ jobs:
             with:
                context: ./inventory-service
                push: true
-               tags: ghcr.io/hiepthanhtran/hscms-inventory:latest
+               tags: ghcr.io/hiepthanhtran/scms-inventory:latest
