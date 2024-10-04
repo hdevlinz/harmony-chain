@@ -158,7 +158,7 @@ services:
       ports:
          - '8887:8887'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+         - KAFKA_BOOTSTRAP_SERVERS=localhost:9092
          - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
          - AWS_SECRET=${AWS_SECRET}
          - S3_BUCKET_NAME=${S3_BUCKET_NAME}
@@ -174,7 +174,7 @@ services:
       ports:
          - '8886:8886'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+         - KAFKA_BOOTSTRAP_SERVERS=localhost:9092
          - MAIL_API_KEY=${MAIL_API_KEY}
          - MONGODB_URI=mongodb://root:root@mongodb:27017/notification_service?authSource=admin
       #         - EMAIL_SERVICE_URL
@@ -191,7 +191,7 @@ services:
       ports:
          - '8081:8081'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+         - KAFKA_BOOTSTRAP_SERVERS=localhost:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/cart_service?authSource=admin
          - PRODUCT_SERVICE_URL=http://scms-product:8084
       depends_on:
@@ -207,7 +207,7 @@ services:
       ports:
          - '8082:8082'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+         - KAFKA_BOOTSTRAP_SERVERS=localhost:9092
          - NEO4J_URI=bolt://neo4j:7687
          - NEO4J_USERNAME=neo4j
          - NEO4J_PASSWORD=admin
@@ -224,7 +224,7 @@ services:
       ports:
          - '8083:8083'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+         - KAFKA_BOOTSTRAP_SERVERS=localhost:9092
          - DBMS_URL=jdbc:mysql://mysql:3306/identity_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
@@ -246,7 +246,7 @@ services:
       ports:
          - '8084:8084'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+         - KAFKA_BOOTSTRAP_SERVERS=localhost:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/product_service?authSource=admin
          - PROFILE_SERVICE_URL=http://scms-profile:8082
       depends_on:
@@ -262,7 +262,7 @@ services:
       ports:
          - '8085:8085'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+         - KAFKA_BOOTSTRAP_SERVERS=localhost:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/rating_service?authSource=admin
          - PROFILE_SERVICE_UR= http://scms-profile:8082
          - IDENTITY_SERVICE_URL=http://scms-identity:8083
@@ -279,7 +279,7 @@ services:
       ports:
          - '8086:8086'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+         - KAFKA_BOOTSTRAP_SERVERS=localhost:9092
          - DBMS_URL=jdbc:mysql://mysql:3306/inventory_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
@@ -297,7 +297,7 @@ services:
       ports:
          - '8087:8087'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+         - KAFKA_BOOTSTRAP_SERVERS=localhost:9092
          - DBMS_URL=jdbc:mysql://mysql:3306/order_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
@@ -318,7 +318,7 @@ services:
       ports:
          - '8088:8088'
       environment:
-         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+         - KAFKA_BOOTSTRAP_SERVERS=localhost:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/shipping_service?authSource=admin
          - IDENTITY_SERVICE_URL=http://scms-identity:8083
       depends_on:

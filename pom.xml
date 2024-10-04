@@ -13,12 +13,12 @@
     <version>${revision}</version>
     <name>harmony-supply-chain</name>
     <packaging>pom</packaging>
-    <description>Harmony Supply Chain System | Microservices Architecture</description>
+    <description>Harmony Supply Chain Management System | Microservices Architecture</description>
 
     <modules>
-        <module>common-library</module>
         <module>sampledata-service</module>
-        <module>api-gateway</module>
+        <module>common-library</module>
+        <module>gateway-service</module>
         <module>cart-service</module>
         <module>file-service</module>
         <module>identity-service</module>

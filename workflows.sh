@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WORKFLOW_TEMPLATE=$(cat .github/workflow-template.yaml)
-SERVICES=(cart file identity inventory notification order product profile rating shipping) # Add your services here
+SERVICES=(gateway cart file identity inventory notification order product profile rating shipping) # Add your services here
 
 for SERVICE_NAME in "${SERVICES[@]}"; do
     echo "Generating workflow for ${SERVICE_NAME} service"

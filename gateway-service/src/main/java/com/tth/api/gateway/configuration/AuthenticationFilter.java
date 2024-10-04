@@ -31,32 +31,32 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
 
     @NonFinal
     private static final List<String> PUBLIC_ENDPOINTS = Arrays.asList(
-            "/cart/.*",
+            "/cart/**",
 
-            "/identity/auth/.*",
-            "/identity/users/.*",
+            "/identity/auth/**",
+            "/identity/users/**",
 
-            "/inventory/inventories/.*",
-            "/inventory/items/.*",
-            "/inventory/warehouses/.*",
+            "/inventory/inventories/**",
+            "/inventory/items/**",
+            "/inventory/warehouses/**",
 
-            "/order/invoices/.*",
-            "/order/orders/.*",
-            "/order/taxes/.*",
+            "/order/invoices/**",
+            "/order/orders/**",
+            "/order/taxes/**",
 
-            "/product/categories/.*",
-            "/product/products/.*",
-            "/product/tags/.*",
-            "/product/units/.*",
+            "/product/categories/**",
+            "/product/products/**",
+            "/product/tags/**",
+            "/product/units/**",
 
-            "/profile/carriers/.*",
-            "/profile/customers/.*",
-            "/profile/suppliers/.*",
+            "/profile/carriers/**",
+            "/profile/customers/**",
+            "/profile/suppliers/**",
 
-            "/rating/ratings/.*",
+            "/rating/ratings/**",
 
-            "/shipping/schedules/.*",
-            "/shipping/shipments/.*"
+            "/shipping/schedules/**",
+            "/shipping/shipments/**"
     );
 
     private final ObjectMapper objectMapper;
@@ -72,10 +72,6 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        System.out.println(exchange.getRequest());
-        System.out.println(exchange.getRequest().getURI());
-        System.out.println(exchange.getRequest().getURI().getPath());
-
         if (this.isPublicEndpoint(exchange.getRequest())) {
             System.out.println("Public endpoint...................................................");
             return chain.filter(exchange);
@@ -97,7 +93,13 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isPublicEndpoint(ServerHttpRequest request) {
-        return PUBLIC_ENDPOINTS.stream().anyMatch(s -> request.getURI().getPath().matches(apiPrefix + s));
+        log.info("Checking if the request path is public: {}", request.getURI().getPath());
+
+        return PUBLIC_ENDPOINTS.stream().anyMatch(s -> {
+            String regexPattern = apiPrefix + s.replace("**", ".*").replace("*", "[^/]*");
+            log.info(String.valueOf(request.getURI().getPath().matches(regexPattern)));
+            return request.getURI().getPath().matches(regexPattern);
+        });
     }
 
     private Mono<Void> unauthenticated(ServerHttpResponse response) {

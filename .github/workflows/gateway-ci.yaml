@@ -4,14 +4,14 @@ on:
    push:
       branches: [ "main" ]
       paths:
-         - "api-gateway/**"
+         - "gateway-service/**"
          - ".github/workflows/actions/action.yaml"
          - ".github/workflows/gateway-ci.yaml"
          - "pom.xml"
    pull_request:
       branches: [ "main" ]
       paths:
-         - "api-gateway/**"
+         - "gateway-service/**"
          - ".github/workflows/actions/action.yaml"
          - ".github/workflows/gateway-ci.yaml"
          - "pom.xml"
@@ -59,7 +59,7 @@ jobs:
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/build-push-action@v6
             with:
-               context: ./api-gateway
+               context: ./gateway-service
                push: true
                tags: ghcr.io/hiepthanhtran/scms-gateway:latest
          -  name: Make Docker image public using REST API
