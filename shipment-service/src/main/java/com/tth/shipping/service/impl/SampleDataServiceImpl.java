@@ -13,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class SampleDataServiceImpl implements SampleDataService {
 
     @Override
-    public void createSampleData() {
+    public boolean createSampleData() {
         log.info("Creating sample data...");
+
+        return true;
     }
 
 }

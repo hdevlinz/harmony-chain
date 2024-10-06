@@ -17,13 +17,13 @@ public class NotificationController {
     @KafkaListener(topics = "sample-data", groupId = "rating-service-group")
     public void listenNotificationDelivery(NotificationEvent notificationEvent) {
         if (notificationEvent.getRecipient().equals("RATING_SERVICE")) {
-            this.sampleDataService.createSampleData();
-
-            NotificationEvent event = NotificationEvent.builder()
-                    .chanel("SAMPLE_DATA")
-                    .recipient("INVENTORY_SERVICE")
-                    .build();
-            this.notificationProducerService.sendNotification("sample-data", event);
+            if (this.sampleDataService.createSampleData()) {
+                NotificationEvent event = NotificationEvent.builder()
+                        .chanel("SAMPLE_DATA")
+                        .recipient("INVENTORY_SERVICE")
+                        .build();
+                this.notificationProducerService.sendNotification("sample-data", event);
+            }
         }
     }
 

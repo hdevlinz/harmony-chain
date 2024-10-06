@@ -42,7 +42,7 @@ public class SampleDataServiceImpl implements SampleDataService {
     private final InventoryClient inventoryClient;
 
     @Override
-    public void createSampleData() {
+    public boolean createSampleData() {
         if (this.taxRepository.count() == 0) {
             log.info("Creating taxes.....");
             this.createTax();
@@ -52,6 +52,8 @@ public class SampleDataServiceImpl implements SampleDataService {
             log.info("Creating orders.....");
             this.createOrder();
         }
+
+        return true;
     }
 
     void createTax() {

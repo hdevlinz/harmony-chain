@@ -33,7 +33,7 @@ public class SampleDataServiceImpl implements SampleDataService {
     private final ProductClient productClient;
 
     @Override
-    public void createSampleData() {
+    public boolean createSampleData() {
         if (this.warehouseRepository.count() == 0) {
             log.info("Creating warehouses.....");
             this.createWarehouse();
@@ -43,6 +43,8 @@ public class SampleDataServiceImpl implements SampleDataService {
             log.info("Creating inventories.....");
             this.createInventory();
         }
+
+        return true;
     }
 
     private void createWarehouse() {

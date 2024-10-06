@@ -12,10 +12,10 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 @EnableFeignClients
 @EnableMongoAuditing
 @SpringBootApplication
-public class ShippingServiceApplication {
+public class ShipmentServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ShippingServiceApplication.class, args);
+        SpringApplication.run(ShipmentServiceApplication.class, args);
     }
 
     @Bean

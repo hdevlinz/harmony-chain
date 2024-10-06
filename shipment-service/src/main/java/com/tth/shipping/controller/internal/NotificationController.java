@@ -14,10 +14,22 @@ public class NotificationController {
     private final NotificationProducerService notificationProducerService;
     private final SampleDataService sampleDataService;
 
-    @KafkaListener(topics = "sample-data", groupId = "shipping-service-group")
+    @KafkaListener(topics = "sample-data", groupId = "shipment-service-group")
     public void listenNotificationDelivery(NotificationEvent notificationEvent) {
-        if (notificationEvent.getRecipient().equals("SHIPPING_SERVICE")) {
-            this.sampleDataService.createSampleData();
+        if (notificationEvent.getRecipient().equals("SHIPMENT_SERVICE")) {
+            if (this.sampleDataService.createSampleData()) {
+                NotificationEvent event = NotificationEvent.builder()
+                        .recipient("NOTIFICATION_SERVICE")
+                        .body("Sample data created successfully")
+                        .build();
+                this.notificationProducerService.sendNotification("sampledata-success", event);
+            } else {
+                NotificationEvent event = NotificationEvent.builder()
+                        .recipient("NOTIFICATION_SERVICE")
+                        .body("Sample data creation failed")
+                        .build();
+                this.notificationProducerService.sendNotification("sampledata-failed", event);
+            }
         }
     }
 

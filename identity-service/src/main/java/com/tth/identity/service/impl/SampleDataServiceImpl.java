@@ -20,7 +20,7 @@ public class SampleDataServiceImpl implements SampleDataService {
     private final UserRepository userRepository;
 
     @Override
-    public void createSampleData() {
+    public boolean createSampleData() {
         if (userRepository.countByRole(UserRole.ROLE_ADMIN) == 0) {
             log.info("Creating admin.....");
             userService.registration(RegisterRequest.builder()
@@ -45,6 +45,8 @@ public class SampleDataServiceImpl implements SampleDataService {
             log.info("Creating suppliers.....");
             this.createSupplier();
         }
+
+        return true;
     }
 
     private void createCarrier() {

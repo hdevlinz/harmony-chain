@@ -11,7 +11,7 @@
     <artifactId>shipment-service</artifactId>
     <version>${revision}</version>
     <name>shipment-service</name>
-    <description>Shipping Service | Microservices Architecture</description>
+    <description>Shipment Service | Microservices Architecture</description>
 
     <dependencies>
         <dependency>

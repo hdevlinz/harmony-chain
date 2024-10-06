@@ -20,13 +20,13 @@ public class NotificationController {
 
     @GetMapping
     public void createSampleData() {
-        this.sampleDataService.createSampleData();
-
-        NotificationEvent event = NotificationEvent.builder()
-                .chanel("SAMPLE_DATA")
-                .recipient("PRODUCT_SERVICE")
-                .build();
-        this.notificationProducerService.sendNotification("sample-data", event);
+        if (this.sampleDataService.createSampleData()) {
+            NotificationEvent event = NotificationEvent.builder()
+                    .chanel("SAMPLE_DATA")
+                    .recipient("PRODUCT_SERVICE")
+                    .build();
+            this.notificationProducerService.sendNotification("sample-data", event);
+        }
     }
 
 }

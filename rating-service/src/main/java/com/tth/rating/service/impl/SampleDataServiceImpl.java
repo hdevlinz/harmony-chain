@@ -36,11 +36,13 @@ public class SampleDataServiceImpl implements SampleDataService {
     private final UserProfileClient userProfileClient;
 
     @Override
-    public void createSampleData() {
+    public boolean createSampleData() {
         if (this.ratingRepository.count() == 0) {
             log.info("Creating ratings.....");
             this.createRating();
         }
+
+        return true;
     }
 
     private void createRating() {

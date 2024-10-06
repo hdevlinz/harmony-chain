@@ -38,7 +38,7 @@ public class SampleDataServiceImpl implements SampleDataService {
     private final UserProfileClient userProfileClient;
 
     @Override
-    public void createSampleData() {
+    public boolean createSampleData() {
         if (categoryRepository.count() == 0) {
             log.info("Creating categories.....");
             this.createCategory();
@@ -58,6 +58,8 @@ public class SampleDataServiceImpl implements SampleDataService {
             log.info("Creating products.....");
             this.createProduct();
         }
+
+        return true;
     }
 
     private void createCategory() {
