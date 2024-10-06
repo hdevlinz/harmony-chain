@@ -1,0 +1,59 @@
+/* Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+   --background-white: #fff;
+   --text-color: #414656;
+   --text-color-white: #fff;
+   --primary-color: #009970;
+   --primary-color-hover: #036e52;
+   --sub-color: #414656;
+   --grey: #ccc;
+}
+
+/* Reset CSS */
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'Roboto', sans-serif;
+}
+
+html {
+   scroll-behavior: smooth;
+}
+
+li {
+   list-style: none;
+}
+
+a {
+   text-decoration: none;
+}
+
+h1 {
+   text-transform: uppercase;
+}
+
+button {
+   border: none;
+   outline: none;
+}
+
+input:disabled {
+   background-color: var(--background-white) !important;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+   width: 8px;
+   background: #424d78;
+}
+
+::-webkit-scrollbar-thumb {
+   background: var(--primary-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+   background: var(--primary-color);
+}
