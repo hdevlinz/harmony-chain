@@ -11,7 +11,7 @@ on:
    pull_request:
       branches: [ "main" ]
       paths:
-         - "rating/**"
+         - "rating-service/**"
          - ".github/workflows/actions/action.yaml"
          - ".github/workflows/rating-ci.yaml"
          - "pom.xml"

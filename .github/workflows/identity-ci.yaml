@@ -11,7 +11,7 @@ on:
    pull_request:
       branches: [ "main" ]
       paths:
-         - "identity/**"
+         - "identity-service/**"
          - ".github/workflows/actions/action.yaml"
          - ".github/workflows/identity-ci.yaml"
          - "pom.xml"

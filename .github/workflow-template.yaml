@@ -11,7 +11,7 @@ on:
    pull_request:
       branches: [ "main" ]
       paths:
-         - "{{SERVICE_NAME}}/**"
+         - "{{SERVICE_NAME}}-service/**"
          - ".github/workflows/actions/action.yaml"
          - ".github/workflows/{{SERVICE_NAME}}-ci.yaml"
          - "pom.xml"

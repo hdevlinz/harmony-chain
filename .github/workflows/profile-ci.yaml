@@ -11,7 +11,7 @@ on:
    pull_request:
       branches: [ "main" ]
       paths:
-         - "profile/**"
+         - "profile-service/**"
          - ".github/workflows/actions/action.yaml"
          - ".github/workflows/profile-ci.yaml"
          - "pom.xml"

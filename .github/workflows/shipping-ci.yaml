@@ -11,7 +11,7 @@ on:
    pull_request:
       branches: [ "main" ]
       paths:
-         - "shipping/**"
+         - "shipping-service/**"
          - ".github/workflows/actions/action.yaml"
          - ".github/workflows/shipping-ci.yaml"
          - "pom.xml"
