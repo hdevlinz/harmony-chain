@@ -1,0 +1,207 @@
+.cart-container {
+   height: 100%;
+   margin: 120px auto 50px auto;
+}
+
+.cart-card {
+   display: flex;
+   align-items: center;
+   padding: 20px;
+   background-color: #fff;
+   width: 100%;
+}
+
+.cart-card__image img {
+   max-width: 100%;
+   height: auto;
+}
+
+.cart-card__content {
+   padding-left: 15px;
+}
+
+.cart-card__content__name {
+   font-size: 1.25rem;
+   margin-bottom: 5px;
+}
+
+.cart-card__content__description {
+   color: #666;
+}
+
+.cart-card__content__quantity {
+   font-weight: bold;
+}
+
+.summary-container {
+   padding: 20px;
+   margin-top: 20px;
+   border-radius: 8px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   background-color: #fff;
+}
+
+.sumary-title {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1.5rem;
+   text-align: center;
+   color: var(--text-color);
+   font-weight: 600;
+   border-bottom: 2px solid #ddd;
+   padding-bottom: 10px;
+   margin-bottom: 20px;
+}
+
+.summary-content {
+   border-bottom: 1px solid #ddd;
+   margin-bottom: 20px;
+   padding-bottom: 10px;
+   /* thêm padding để tạo khoảng cách */
+}
+
+.summary-item {
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 15px;
+   padding-bottom: 10px;
+}
+
+.summary-item:last-of-type {
+   border-bottom: none;
+   padding-bottom: 0;
+}
+
+.summary-item__title {
+   font-size: 1.2rem;
+   color: var(--text-color);
+   font-weight: 600;
+}
+
+.summary-item__value {
+   font-size: 1.125rem;
+   color: #333;
+   font-weight: 500;
+}
+
+.summary-button {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   background-color: var(--primary-color);
+   border: none;
+   font-weight: 500;
+   padding: 12px;
+   border-radius: 5px;
+   transition: background-color 0.3s ease;
+}
+
+.summary-button:hover {
+   background-color: var(--primary-color-hover);
+}
+
+.summary-button:active,
+.summary-button:focus {
+   background-color: var(--primary-color) !important;
+   border-color: var(--primary-color) !important;
+}
+
+.btn-cart:hover {
+   background-color: var(--primary-color-hover) !important;
+}
+
+/* Card Element Stripe */
+.stripe-card-element {
+   padding: 10px;
+   border-radius: 4px;
+   border: 1px solid #ddd;
+   background-color: #f9f9f9;
+   font-size: 16px;
+}
+
+.stripe-card-element:focus {
+   border-color: var(--primary-color);
+}
+
+.custom-radio .form-check {
+   margin-top: 12px;
+}
+
+.custom-radio .form-check-input {
+   position: relative;
+   width: 2px;
+   height: 22px;
+   border-radius: 50%;
+   border: 2px solid var(--primary-color);
+   cursor: pointer;
+   background-color: white;
+}
+
+.custom-radio .form-check-input:checked {
+   background-color: var(--primary-color);
+   border-color: var(--primary-color);
+}
+
+.custom-radio .form-check-label {
+   margin-left: 1.5rem;
+   font-size: 0.875rem;
+   font-weight: 600;
+   color: var(--text-color);
+}
+
+/* Modal */
+.modal-body {
+   height: 500px;
+   overflow-y: auto;
+}
+
+.modal-dialog {
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+}
+
+.modal-content {
+   margin: 20px 0;
+   flex: 1;
+   display: flex;
+   flex-direction: column;
+}
+
+/* Payment */
+.payment-method-transition {
+   transition: opacity 0.5s ease-in-out;
+   opacity: 0;
+   height: 0;
+   overflow: hidden;
+}
+
+.payment-method-transition.fade-in {
+   opacity: 1;
+   height: auto;
+}
+
+.payment-method-transition.fade-out {
+   opacity: 0;
+   height: 0;
+}
+
+.btn-confirm {
+   background-color: var(--primary-color);
+   border: none;
+   color: white;
+}
+
+.btn-confirm:hover {
+   background-color: var(--primary-color-hover);
+}
+
+.btn-confirm:focus {
+   box-shadow: none;
+}
+
+.modal-dialog {
+   margin: 0 auto !important;
+}
