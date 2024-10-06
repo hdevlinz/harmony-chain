@@ -36,18 +36,18 @@
 ## Getting started with Docker Compose
 
 1. Get the latest source code
-2. Open terminal of your choice, go to `scms` directory, run `./start-scms.sh`, wait for all the containers up and running
+2. Open terminal of your choice, go to project directory, run `./scms-up.sh`, wait for all the containers up and running
 
 > *_Warning:_* To run all the containers, you need a minimum of 16GB of RAM.
 
 ```bash
-./start-scms.sh
+./scms-up.sh
 ```
 
-> *_Note:_* If you use Linux, you may need to run `chmod +x ./start-scms.sh` to make the script executable. Run `./stop-scms.sh` to stop all the containers.
+> *_Note:_* If you use Linux, you may need to run `chmod +x ./scms-up.sh` to make the script executable. Run `./scms-down.sh` to stop all the containers.
 
-3. All the containers up and running then we start to get sample data for the services. Open terminal of your choice, go to `scms` directory,
-   run `./start-data.sh`
+3. All the containers up and running then we start to get sample data for the services. Open terminal of your choice, go to project directory,
+   run `./start-data.sh`, wait for all the services to get the sample data.
 
 ```bash
 ./start-data.sh

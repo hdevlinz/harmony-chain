@@ -1,5 +1,5 @@
 server {
-  server_name api.yas.local;
+  server_name api.scms.local;
 
   # Docker DNS
   resolver 127.0.0.11;
@@ -22,32 +22,32 @@ server {
   location /inventory/ {
     proxy_pass http://inventory;
   }
-  location /search/ {
-    #hack to prevent nginx to resolve container's host on start up
-    set $docker_search_host "search";
-    proxy_pass http://$docker_search_host;
-  }
-  location /webhook/ {
-    proxy_pass http://webhook;
-  }
-  location /sampledata/ {
-    proxy_pass http://sampledata;
-  }
+  // location /search/ {
+    // #hack to prevent nginx to resolve container's host on start up
+    // set $docker_search_host "search";
+    // proxy_pass http://$docker_search_host;
+  // }
+  // location /webhook/ {
+    // proxy_pass http://webhook;
+  // }
+  // location /sampledata/ {
+    // proxy_pass http://sampledata;
+  // }
 }
 
-server {
-  server_name backoffice;
-  location / {
-    proxy_pass http://backoffice;
-  }
-}
+// server {
+  // server_name backoffice;
+  // location / {
+    // proxy_pass http://backoffice;
+  // }
+// }
 
-server {
-  server_name storefront;
-  location / {
-    proxy_pass http://storefront;
-  }
-}
+// server {
+  // server_name storefront;
+  // location / {
+    // proxy_pass http://storefront;
+  // }
+// }
 
 server {
   server_name identity;
@@ -67,6 +67,16 @@ server {
 }
 
 server {
+  server_name kafka;
+
+  resolver 127.0.0.11;
+
+  location / {
+    proxy_pass http://kafka:9092;
+  }
+}
+
+server {
   server_name grafana;
 
   resolver 127.0.0.11;
@@ -77,23 +87,13 @@ server {
   }
 }
 
-server {
-  server_name elasticsearch;
+// server {
+  // server_name elasticsearch;
 
-  resolver 127.0.0.11;
+  // resolver 127.0.0.11;
 
-  location / {
-    set $docker_elasticsearch_host "elasticsearch";
-    proxy_pass http://$docker_elasticsearch_host:9200;
-  }
-}
-
-server {
-  server_name kafka;
-
-  resolver 127.0.0.11;
-
-  location / {
-    proxy_pass http://kafka:9094;
-  }
-}
+  // location / {
+    // set $docker_elasticsearch_host "elasticsearch";
+    // proxy_pass http://$docker_elasticsearch_host:9200;
+  // }
+// }
