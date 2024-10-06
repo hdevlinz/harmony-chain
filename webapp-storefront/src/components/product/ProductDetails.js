@@ -12,7 +12,7 @@ import './Product.css';
 
 const ProductDetails = () => {
    const [cart, dispatch] = useCart();
-   
+
    const [product, setProduct] = useState(null);
    const [quantity, setQuantity] = useState(1);
 

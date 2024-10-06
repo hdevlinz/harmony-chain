@@ -1,132 +1,132 @@
 .navbar-custom {
-	background-color: var(--background-white);
-	border-bottom-left-radius: 20px;
-	border-bottom-right-radius: 20px;
-	box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.1);
+   background-color: var(--background-white);
+   border-bottom-left-radius: 20px;
+   border-bottom-right-radius: 20px;
+   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.1);
 }
 
 .navbar-custom .navbar-custom__logo {
-	font-size: 2rem;
-	font-weight: 600;
-	color: var(--text-color);
-	transition: all 0.3s ease;
+   font-size: 2rem;
+   font-weight: 600;
+   color: var(--text-color);
+   transition: all 0.3s ease;
 }
 
 .navbar-custom .navbar-custom__logo:hover {
-	color: var(--primary-color);
+   color: var(--primary-color);
 }
 
 .navbar-custom .navbar-custom__menu .navbar-custom__menu--item {
-	position: relative;
-	font-size: 1.1rem;
-	font-weight: 500;
-	color: var(--text-color);
-	transition: all 0.3s ease;
+   position: relative;
+   font-size: 1.1rem;
+   font-weight: 500;
+   color: var(--text-color);
+   transition: all 0.3s ease;
 }
 
 .navbar-custom .navbar-custom__menu .navbar-custom__menu--item::after {
-	content: "";
-	position: absolute;
-	bottom: 0;
-	left: 50%;
-	transform: translateX(-50%);
-	width: 0;
-	height: 2px;
-	background-color: var(--primary-color);
-	transition: width 0.3s;
+   content: '';
+   position: absolute;
+   bottom: 0;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 0;
+   height: 2px;
+   background-color: var(--primary-color);
+   transition: width 0.3s;
 }
 
 .navbar-custom .navbar-custom__menu .navbar-custom__menu--item:hover {
-	color: var(--primary-color);
+   color: var(--primary-color);
 }
 
 .navbar-custom .navbar-custom__menu .navbar-custom__menu--item:hover::after {
-	width: 60%;
+   width: 60%;
 }
 
 .navbar-custom .navbar-custom__menu .navbar-custom__menu--item.active {
-	color: var(--primary-color);
+   color: var(--primary-color);
 }
 
 .navbar-custom .navbar-custom__menu .navbar-custom__menu--item.active::after {
-	width: 60%;
+   width: 60%;
 }
 
-.name-user-wrapper{
-	display: flex;
-	align-items: center;
+.name-user-wrapper {
+   display: flex;
+   align-items: center;
 }
 
-.name-user{
-	position: relative;
-	font-size: 1.1rem;
-	font-weight: 600;
+.name-user {
+   position: relative;
+   font-size: 1.1rem;
+   font-weight: 600;
 }
 
-.name-user:hover{
-	color: var(--primary-color);
+.name-user:hover {
+   color: var(--primary-color);
 }
 
-.user-dropdown{
-	display: none;
-	position: absolute;
-	top: 100%;
-	right: 10px;
-	background-color: var(--background-white);
-	box-shadow: 0 4px 5px rgba(0, 0, 0, 0.8);
-	border-radius: 4px;
-	padding: 0.5rem 0;
-	z-index: 1000;
+.user-dropdown {
+   display: none;
+   position: absolute;
+   top: 100%;
+   right: 10px;
+   background-color: var(--background-white);
+   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.8);
+   border-radius: 4px;
+   padding: 0.5rem 0;
+   z-index: 1000;
 }
 
 .user-dropdown .dropdown-item {
-	padding: 10px;
-	font-size: 1rem;
-	font-weight: 500;
-	color: var(--text-color);
-	text-decoration: none;
-	display: block;
-	white-space: nowrap;
-	transition: background-color 0.2s ease;
+   padding: 10px;
+   font-size: 1rem;
+   font-weight: 500;
+   color: var(--text-color);
+   text-decoration: none;
+   display: block;
+   white-space: nowrap;
+   transition: background-color 0.2s ease;
 }
 
 .user-dropdown .dropdown-item:hover {
-	color: var(--primary-color);
+   color: var(--primary-color);
 }
 
-.name-user:hover .user-dropdown{
-	display: block;
+.name-user:hover .user-dropdown {
+   display: block;
 }
 
-.cart-user{
-	margin-left: 10px;
+.cart-user {
+   margin-left: 10px;
 }
 
-.user-cart{
-	display: flex;
-	align-items: center;
-	justify-content: center;
+.user-cart {
+   display: flex;
+   align-items: center;
+   justify-content: center;
 }
 
-.user-cart__icon{
-	position: relative;
-	font-size: 2rem;
-	font-weight: 500;
-	color: var(--text-color);
+.user-cart__icon {
+   position: relative;
+   font-size: 2rem;
+   font-weight: 500;
+   color: var(--text-color);
 }
 
-.user-cart__quantity{
-	position: absolute;
-	top: -8px;
-	right: -10px;
-	font-size: 0.8rem;
-	font-weight: 500;
-	background-color: var(--primary-color);
-	height: 20px;
-	width: 20px;
-	color: var(--text-color-white);
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+.user-cart__quantity {
+   position: absolute;
+   top: -8px;
+   right: -10px;
+   font-size: 0.8rem;
+   font-weight: 500;
+   background-color: var(--primary-color);
+   height: 20px;
+   width: 20px;
+   color: var(--text-color-white);
+   border-radius: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 }

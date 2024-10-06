@@ -15,7 +15,7 @@ const userReducer = (state, action) => {
          cookie.remove('cart');
          return initialUser;
       case UPDATE_USER:
-         const newState = {...state, ...action.payload};
+         const newState = { ...state, ...action.payload };
          cookie.save('user', newState);
          return newState;
       default:

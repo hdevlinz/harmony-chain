@@ -246,39 +246,39 @@
 }
 
 /* Product Supplier */
-.product-supplier-container--title{
+.product-supplier-container--title {
    font-size: 2rem;
    font-weight: 600;
    color: var(--text-color);
    text-align: center;
 }
 
-.add-product{
+.add-product {
    display: flex;
    justify-content: flex-end;
 }
 
-.add-product i{
+.add-product i {
    font-size: 2.5rem;
    color: var(--primary-color);
    margin: 5px 20px 10px 0;
 }
 
-.add-product i:hover{
+.add-product i:hover {
    cursor: pointer;
 }
 
-.product-card-unpublish{
+.product-card-unpublish {
    display: flex;
    justify-content: flex-end;
 }
 
-.product-card-unpublish i{
+.product-card-unpublish i {
    font-size: 1.5rem;
    color: var(--primary-color);
    margin: 5px 20px 10px 0;
 }
 
-.product-card-unpublish i:hover{
+.product-card-unpublish i:hover {
    cursor: pointer;
 }

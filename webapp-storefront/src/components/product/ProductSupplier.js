@@ -181,7 +181,7 @@ const ProductSupplier = () => {
          category: '',
          tags: [],
       });
-   }
+   };
 
    const handleEventChange = useCallback((event, callback) => {
       callback(event.target.value);

@@ -12,7 +12,7 @@ import './Product.css';
 
 const Product = () => {
    const [cart, dispatch] = useCart();
-   
+
    const [products, setProducts] = useState([]);
    const [categories, setCategories] = useState([]);
    const [units, setUnits] = useState([]);

@@ -1,66 +1,66 @@
 .login-page {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	background-color: var(--background-white);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   background-color: var(--background-white);
 }
 
 .login-container {
-	background-color: var(--background-white);
-	padding: 20px;
-	border-radius: 8px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	width: 100%;
-	max-width: 400px;
+   background-color: var(--background-white);
+   padding: 20px;
+   border-radius: 8px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   width: 100%;
+   max-width: 400px;
 }
 
 .login-form {
-	position: relative;
+   position: relative;
 }
 
 .login-title {
-	color: var(--text-color);
-	text-transform: uppercase;
-	font-weight: 500;
+   color: var(--text-color);
+   text-transform: uppercase;
+   font-weight: 500;
 }
 
 .input-container {
-	position: relative;
-	display: flex;
-	align-items: center;
+   position: relative;
+   display: flex;
+   align-items: center;
 }
 
 .password-input {
-	width: 100%;
-	padding-right: 40px;
+   width: 100%;
+   padding-right: 40px;
 }
 
 .password-toggle {
-	position: absolute;
-	top: 50%;
-	right: 10px;
-	transform: translateY(-50%);
-	color: #6c757d;
-	cursor: pointer;
-	font-size: 18px;
+   position: absolute;
+   top: 50%;
+   right: 10px;
+   transform: translateY(-50%);
+   color: #6c757d;
+   cursor: pointer;
+   font-size: 18px;
 }
 
 .password-toggle:hover {
-	color: var(--primary-color);
+   color: var(--primary-color);
 }
 
 input {
-	height: 50px;
-	padding-right: 40px;
+   height: 50px;
+   padding-right: 40px;
 }
 
 button {
-	height: 40px;
+   height: 40px;
 }
 
 .swal2-confirm.swal2-styled {
-    background-color: var(--primary-color) !important;
-    border-color: var(--primary-color) !important;
-    color: #fff !important;
+   background-color: var(--primary-color) !important;
+   border-color: var(--primary-color) !important;
+   color: #fff !important;
 }
