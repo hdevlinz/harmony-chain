@@ -1,19 +1,19 @@
-name: shipping service ci
+name: shipment service ci
 
 on:
    push:
       branches: [ "main" ]
       paths:
-         - "shipping-service/**"
+         - "shipment-service/**"
          - ".github/workflows/actions/action.yaml"
-         - ".github/workflows/shipping-ci.yaml"
+         - ".github/workflows/shipment-ci.yaml"
          - "pom.xml"
    pull_request:
       branches: [ "main" ]
       paths:
-         - "shipping-service/**"
+         - "shipment-service/**"
          - ".github/workflows/actions/action.yaml"
-         - ".github/workflows/shipping-ci.yaml"
+         - ".github/workflows/shipment-ci.yaml"
          - "pom.xml"
    workflow_dispatch:
 
@@ -33,21 +33,21 @@ jobs:
                fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
          -  uses: ./.github/workflows/actions
          -  name: Run Maven Build Command
-            run: mvn clean install -pl shipping-service -am -DskipTests
+            run: mvn clean install -pl shipment-service -am -DskipTests
          #         -  name: Run Maven Test
-         #            run: mvn test -f shipping
+         #            run: mvn test -f shipment
          #         -  name: Unit Test Results
          #            uses: dorny/test-reporter@v1
          #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' && (success() || failure()) }}
          #            with:
          #               name: Unit-Test-Results
-         #               path: "shipping/**/surefire-reports/*.xml"
+         #               path: "shipment/**/surefire-reports/*.xml"
          #               reporter: java-junit
          #         -  name: Analyze with sonar cloud
          #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' }}
          #            env:
          #               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         #            run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f shipping
+         #            run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f shipment
          -  name: Log in to the Container registry
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/login-action@v3
@@ -59,14 +59,14 @@ jobs:
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/build-push-action@v6
             with:
-               context: ./shipping-service
+               context: ./shipment-service
                push: true
-               tags: ghcr.io/hiepthanhtran/scms-shipping:latest
+               tags: ghcr.io/hiepthanhtran/scms-shipment:latest
          -  name: Make Docker image public using REST API
             if: ${{ github.ref == 'refs/heads/main' }}
             run: |
                curl -X PATCH \
                  -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                  -H "Accept: application/vnd.github.v3+json" \
-                 https://api.github.com/user/packages/container/scms-shipping/versions \
+                 https://api.github.com/user/packages/container/scms-shipment/versions \
                  -d '{"visibility":"public"}'
