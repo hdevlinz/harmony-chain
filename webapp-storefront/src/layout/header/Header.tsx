@@ -1,7 +1,7 @@
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { routeUrl } from '../../App';
+import { routeUrl } from '../../_app';
 import { useCart } from '../../store/contexts/CartContext';
 import { useUser } from '../../store/contexts/UserContext';
 import { LOGOUT } from '../../store/reducers/UserReducer';

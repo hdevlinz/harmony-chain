@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { routeUrl } from '../../App';
+import { routeUrl } from '../../_app';
 import { authAPI, endpoints } from '../../configs/APIConfigs';
 import { initialCart, useCart } from '../../store/contexts/CartContext';
 import { useUser } from '../../store/contexts/UserContext';

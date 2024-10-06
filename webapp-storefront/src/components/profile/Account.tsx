@@ -3,7 +3,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { routeUrl } from '../../App';
+import { routeUrl } from '../../_app';
 import { authAPI, endpoints } from '../../configs/APIConfigs';
 import { useUser } from '../../store/contexts/UserContext';
 import { LOGOUT, UPDATE_USER } from '../../store/reducers/UserReducer';

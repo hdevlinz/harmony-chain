@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { routeUrl } from '../../App';
+import { routeUrl } from '../../_app';
 import APIs, { endpoints } from '../../configs/APIConfigs';
 import './Supplier.css';
 

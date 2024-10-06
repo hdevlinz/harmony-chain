@@ -2,7 +2,7 @@ import { Chip } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { routeUrl } from '../../App';
+import { routeUrl } from '../../_app';
 import APIs, { authAPI, endpoints } from '../../configs/APIConfigs';
 import { useCart } from '../../store/contexts/CartContext';
 import { UPDATE_CART } from '../../store/reducers/CartReducer';

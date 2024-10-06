@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import cookie from 'react-cookies';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { routeUrl } from '../../App';
+import { routeUrl } from '../../_app';
 import APIs, { authAPI, endpoints } from '../../configs/APIConfigs';
 import { useCart } from '../../store/contexts/CartContext';
 import { useUser } from '../../store/contexts/UserContext';
