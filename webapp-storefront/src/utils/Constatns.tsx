@@ -1,6 +1,6 @@
 export const defaultImage = {
    USER_AVATAR: 'https://res.cloudinary.com/dtthwldgs/image/upload/v1715504153/default-avatar.png',
-   PRODUCT_IMAGE: 'https://res.cloudinary.com/dtthwldgs/image/upload/v1716737233/default-user-cover.jpg',
+   FALLBACK_IMAGE: 'https://res.cloudinary.com/dtthwldgs/image/upload/v1728273210/default-fallback-image',
 };
 
 export const criteriaType = {

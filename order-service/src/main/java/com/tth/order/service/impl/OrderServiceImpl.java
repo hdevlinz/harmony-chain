@@ -136,7 +136,7 @@ public class OrderServiceImpl implements OrderService {
                 this.inventoryItemClient.updateInventoryItem(inventoryItem.getId(), request);
 
                 // Tạo chi tiết đơn hàng
-                this.createOrderDetails(order, productMap.get(odr.getProductId()), inventoryItem, odr);
+                this.createOrderItem(order, productMap.get(odr.getProductId()), inventoryItem, odr);
 
                 totalAmount[0] = totalAmount[0].add(productMap.get(odr.getProductId()).getPrice().multiply(BigDecimal.valueOf(odr.getQuantity())));
             }
@@ -257,7 +257,7 @@ public class OrderServiceImpl implements OrderService {
                 this.inventoryItemClient.updateInventoryItem(inventoryItem.getId(), request);
 
                 // Tạo chi tiết đơn hàng
-                this.createOrderDetails(order, productMap.get(odr.getProductId()), inventoryItem, odr);
+                this.createOrderItem(order, productMap.get(odr.getProductId()), inventoryItem, odr);
 
                 totalAmount[0] = totalAmount[0].add(productMap.get(odr.getProductId()).getPrice().multiply(BigDecimal.valueOf(odr.getQuantity())));
             }
@@ -377,7 +377,7 @@ public class OrderServiceImpl implements OrderService {
         return PageResponse.of(orders);
     }
 
-    private void createOrderDetails(Order order, ProductListResponse product, InventoryItemResponse inventoryItem, OrderItemRequest odr) {
+    private void createOrderItem(Order order, ProductListResponse product, InventoryItemResponse inventoryItem, OrderItemRequest odr) {
         OrderItem orderItem = OrderItem.builder()
                 .order(order)
                 .productId(product.getId())

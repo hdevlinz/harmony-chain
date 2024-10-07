@@ -2,7 +2,6 @@ package com.tth.identity.repository;
 
 import com.tth.commonlibrary.enums.UserRole;
 import com.tth.identity.entity.User;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
