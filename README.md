@@ -1,8 +1,8 @@
-# Harmony Supply Chain System | Microservice Architecture
+# Harmony SCMS | Microservice Architecture
 
 ![SCMS](https://raw.githubusercontent.com/hiepthanhtran/microservices-scms/main/images/scms.png)
 
-### SCMS is a pet project aim to practice building a typical microservice application in Java with Spring Boot, Next.js, and Flutter.
+### Harmony SCMS is a pet project aim to practice building a typical microservice application in Java with Spring Boot, Next.js, and Flutter.
 
 ![api-gateway-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/gateway-ci.yaml/badge.svg)
 ![cart-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/cart-ci.yaml/badge.svg)
