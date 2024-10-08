@@ -45,20 +45,6 @@ server {
 }
 
 // server {
-  // server_name storefront;
-  // location / {
-    // proxy_pass http://storefront;
-  // }
-// }
-
-// server {
-  // server_name backoffice;
-  // location / {
-    // proxy_pass http://backoffice;
-  // }
-// }
-
-// server {
   // server_name identity;
   // large_client_header_buffers 8 32k;
   // location / {
@@ -72,6 +58,20 @@ server {
     // if ($uri ~ "^(.*)/(protocol/openid-connect/auth|login/oauth2/code)(.*)") {
     	// add_header Access-Control-Allow-Origin *;
     // }
+  // }
+// }
+
+// server {
+  // server_name storefront;
+  // location / {
+    // proxy_pass http://storefront;
+  // }
+// }
+
+// server {
+  // server_name backoffice;
+  // location / {
+    // proxy_pass http://backoffice;
   // }
 // }
 
