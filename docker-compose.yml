@@ -1,4 +1,4 @@
-name: scms
+name: scms-applications
 
 networks:
    scms-network:
@@ -19,6 +19,44 @@ services:
       volumes:
          - ./docker/nginx/templates:/etc/nginx/templates
          - ./docker/nginx/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
+      networks:
+         - scms-network
+   mysql:
+      image: 'mysql:8.0.39-debian'
+      restart: unless-stopped
+      hostname: mysql
+      container_name: mysql
+      ports:
+         - '3306:3306'
+      environment:
+         - MYSQL_ROOT_PASSWORD=root
+      volumes:
+         - ./docker/db/mysql_initial.sql:/docker-entrypoint-initdb.d/mysql_initial.sql
+         - mysql:/var/lib/mysql
+      networks:
+         - scms-network
+   mongodb:
+      image: 'bitnami/mongodb:7.0.11'
+      restart: unless-stopped
+      hostname: mongodb
+      container_name: mongodb
+      ports:
+         - '27017:27017'
+      environment:
+         - MONGODB_ROOT_USER=root
+         - MONGODB_ROOT_PASSWORD=root
+      networks:
+         - scms-network
+   neo4j:
+      image: 'neo4j:latest'
+      restart: unless-stopped
+      hostname: neo4j
+      container_name: neo4j
+      ports:
+         - '7474:7474'
+         - '7687:7687'
+      environment:
+         - NEO4J_AUTH=neo4j/admin@123
       networks:
          - scms-network
    zookeeper:
@@ -68,56 +106,17 @@ services:
          - OAUTH_USE_PKCE=true
       networks:
          - scms-network
-   #   phpmyadmin:
-   #      image: 'phpmyadmin/phpmyadmin:5.1.1'
-   #      restart: unless-stopped
-   #      hostname: phpmyadmin
-   #      container_name: phpmyadmin
-   #      ports:
-   #         - '8090:81'
-   #      environment:
-   #         - PMA_HOST=mysql
-   #         - MYSQL_ROOT_PASSWORD=root
-   #      depends_on:
-   #         -  mysql
-   #      networks:
-   #         - scms-network
-   mysql:
-      image: 'mysql:8.0.39-debian'
+   phpmyadmin:
+      image: 'phpmyadmin'
       restart: unless-stopped
-      hostname: mysql
-      container_name: mysql
+      hostname: phpmyadmin
+      container_name: phpmyadmin
       ports:
-         - '3306:3306'
+         - '8080:80'
       environment:
-         - MYSQL_ROOT_PASSWORD=root
-      volumes:
-         - ./docker/db/mysql_initial.sql:/docker-entrypoint-initdb.d/mysql_initial.sql
-         - mysql:/var/lib/mysql
-      networks:
-         - scms-network
-   mongodb:
-      image: 'bitnami/mongodb:7.0.11'
-      restart: unless-stopped
-      hostname: mongodb
-      container_name: mongodb
-      ports:
-         - '27017:27017'
-      environment:
-         - MONGODB_ROOT_USER=root
-         - MONGODB_ROOT_PASSWORD=root
-      networks:
-         - scms-network
-   neo4j:
-      image: 'neo4j:latest'
-      restart: unless-stopped
-      hostname: neo4j
-      container_name: neo4j
-      ports:
-         - '7474:7474'
-         - '7687:7687'
-      environment:
-         - NEO4J_AUTH=neo4j/admin@123
+         - PMA_HOST=mysql
+      links:
+         - mysql
       networks:
          - scms-network
    #   scms-keycloak:
