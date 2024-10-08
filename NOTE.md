@@ -1,5 +1,3 @@
-[//]: # (1 cart -> 2 profile -> 3 identity -> 4 product -> 5 rating -> 6 inventory -> 7 order -> 8 shipment)
-
 ## Docker Guideline
 
 ### Add Docker's official GPG key:
