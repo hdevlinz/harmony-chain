@@ -1,4 +1,4 @@
-name: cart service ci
+name: cart-service ci
 
 on:
    push:
@@ -35,19 +35,19 @@ jobs:
          -  name: Run Maven Build Command
             run: mvn clean install -pl cart-service -am -DskipTests
          #         -  name: Run Maven Test
-         #            run: mvn test -f cart
+         #            run: mvn test -f cart-service
          #         -  name: Unit Test Results
          #            uses: dorny/test-reporter@v1
          #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' && (success() || failure()) }}
          #            with:
          #               name: Unit-Test-Results
-         #               path: "cart/**/surefire-reports/*.xml"
+         #               path: "cart-service/**/surefire-reports/*.xml"
          #               reporter: java-junit
          #         -  name: Analyze with sonar cloud
          #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' }}
          #            env:
          #               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         #            run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f cart
+         #            run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f cart-service
          -  name: Log in to the Container registry
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/login-action@v3

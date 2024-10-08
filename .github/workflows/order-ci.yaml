@@ -1,4 +1,4 @@
-name: order service ci
+name: order-service ci
 
 on:
    push:
@@ -35,19 +35,19 @@ jobs:
          -  name: Run Maven Build Command
             run: mvn clean install -pl order-service -am -DskipTests
          #         -  name: Run Maven Test
-         #            run: mvn test -f order
+         #            run: mvn test -f order-service
          #         -  name: Unit Test Results
          #            uses: dorny/test-reporter@v1
          #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' && (success() || failure()) }}
          #            with:
          #               name: Unit-Test-Results
-         #               path: "order/**/surefire-reports/*.xml"
+         #               path: "order-service/**/surefire-reports/*.xml"
          #               reporter: java-junit
          #         -  name: Analyze with sonar cloud
          #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' }}
          #            env:
          #               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         #            run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f order
+         #            run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f order-service
          -  name: Log in to the Container registry
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/login-action@v3
