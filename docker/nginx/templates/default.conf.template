@@ -7,20 +7,29 @@ server {
   location /swagger-ui/ {
     proxy_pass http://swagger-ui:8080;
   }
-  location /product/ {
-    proxy_pass http://product;
-  }
   location /cart/ {
-    proxy_pass http://cart;
+    proxy_pass http://cart-service:8081;
+  }
+  location /profile/ {
+    proxy_pass http://profile-service:8082;
+  }
+  location /identity/ {
+    proxy_pass http://identity-service:8083;
+  }
+  location /product/ {
+    proxy_pass http://product-service:8084;
   }
   location /rating/ {
-    proxy_pass http://rating;
-  }
-  location /order/ {
-    proxy_pass http://order;
+    proxy_pass http://rating-service:8085;
   }
   location /inventory/ {
-    proxy_pass http://inventory;
+    proxy_pass http://inventory-service:8086;
+  }
+  location /order/ {
+    proxy_pass http://order-service:8087;
+  }
+  location /shipment/ {
+    proxy_pass http://shipment-service:8088;
   }
   // location /search/ {
     // #hack to prevent nginx to resolve container's host on start up
@@ -36,6 +45,13 @@ server {
 }
 
 // server {
+  // server_name storefront;
+  // location / {
+    // proxy_pass http://storefront;
+  // }
+// }
+
+// server {
   // server_name backoffice;
   // location / {
     // proxy_pass http://backoffice;
@@ -43,28 +59,21 @@ server {
 // }
 
 // server {
-  // server_name storefront;
+  // server_name identity;
+  // large_client_header_buffers 8 32k;
   // location / {
-    // proxy_pass http://storefront;
+    // proxy_pass http://identity;
+    // proxy_set_header Host $host;
+    // proxy_set_header X-Real-IP $remote_addr;
+    // proxy_set_header X-Forwarded-Proto $scheme;
+    // proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+    // # Workaround to void CORS error from Reactjs
+    // if ($uri ~ "^(.*)/(protocol/openid-connect/auth|login/oauth2/code)(.*)") {
+    	// add_header Access-Control-Allow-Origin *;
+    // }
   // }
 // }
-
-server {
-  server_name identity;
-  large_client_header_buffers 8 32k;
-  location / {
-    proxy_pass http://identity;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-    # Workaround to void CORS error from Reactjs
-    if ($uri ~ "^(.*)/(protocol/openid-connect/auth|login/oauth2/code)(.*)") {
-    	add_header Access-Control-Allow-Origin *;
-    }
-  }
-}
 
 server {
   server_name kafka;
@@ -76,16 +85,16 @@ server {
   }
 }
 
-server {
-  server_name grafana;
+// server {
+  // server_name grafana;
 
-  resolver 127.0.0.11;
+  // resolver 127.0.0.11;
 
-  location / {
-    set $docker_grafana_host "grafana";
-    proxy_pass http://$docker_grafana_host:3000;
-  }
-}
+  // location / {
+    // set $docker_grafana_host "grafana";
+    // proxy_pass http://$docker_grafana_host:3000;
+  // }
+// }
 
 // server {
   // server_name elasticsearch;

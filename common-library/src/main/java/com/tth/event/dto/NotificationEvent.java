@@ -1,4 +1,4 @@
-package com.tth.commonlibrary.event.dto;
+package com.tth.event.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

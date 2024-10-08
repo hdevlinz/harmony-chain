@@ -1,7 +1,7 @@
 package com.tth.identity.controller.internal;
 
-import com.tth.commonlibrary.event.dto.NotificationEvent;
 import com.tth.commonlibrary.service.NotificationProducerService;
+import com.tth.event.dto.NotificationEvent;
 import com.tth.identity.service.SampleDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;

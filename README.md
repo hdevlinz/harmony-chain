@@ -14,7 +14,7 @@
 ![product-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/product-ci.yaml/badge.svg)
 ![profile-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/profile-ci.yaml/badge.svg)
 ![rating-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/rating-ci.yaml/badge.svg)
-![shipping-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/shipping-ci.yaml/badge.svg)
+![shipment-service-ci](https://github.com/hiepthanhtran/microservices-scms/actions/workflows/shipment-ci.yaml/badge.svg)
 
 ## Tentative technologies and frameworks
 

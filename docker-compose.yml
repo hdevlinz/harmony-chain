@@ -9,18 +9,18 @@ volumes:
    mysql:
 
 services:
-   #   nginx:
-   #      image: 'nginx:1.25.3'
-   #      restart: unless-stopped
-   #      hostname: nginx
-   #      container_name: nginx
-   #      ports:
-   #         - "80:80"
-   #      volumes:
-   #         - ./docker/nginx/templates:/etc/nginx/templates
-   #         - ./docker/nginx/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
-   #      networks:
-   #         - scms-network
+   nginx:
+      image: 'nginx:1.25.3'
+      restart: unless-stopped
+      hostname: nginx
+      container_name: nginx
+      ports:
+         - "80:80"
+      volumes:
+         - ./docker/nginx/templates:/etc/nginx/templates
+         - ./docker/nginx/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
+      networks:
+         - scms-network
    zookeeper:
       image: 'confluentinc/cp-zookeeper:6.2.1'
       restart: unless-stopped
@@ -152,7 +152,7 @@ services:
          - RATING_SERVICE_URL=http://scms-rating:8085
          - INVENTORY_SERVICE_URL=http://scms-inventory:8086
          - ORDER_SERVICE_URL=http://scms-order:8087
-         - SHIPPING_SERVICE_URL=http://scms-shipping:8088
+         - SHIPMENT_SERVICE_URL=http://scms-shipment:8088
       networks:
          - scms-network
    scms-file:
@@ -324,17 +324,17 @@ services:
          - mysql
       networks:
          - scms-network
-   scms-shipping:
-      build: ./shipping-service
-      image: ghcr.io/hiepthanhtran/scms-shipping:latest
+   scms-shipment:
+      build: ./shipment-service
+      image: ghcr.io/hiepthanhtran/scms-shipment:latest
       restart: unless-stopped
-      hostname: scms-shipping
-      container_name: scms-shipping
+      hostname: scms-shipment
+      container_name: scms-shipment
       ports:
          - '8088:8088'
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-         - MONGODB_URI=mongodb://root:root@mongodb:27017/shipping_service?authSource=admin
+         - MONGODB_URI=mongodb://root:root@mongodb:27017/shipment_service?authSource=admin
          - IDENTITY_SERVICE_URL=http://scms-identity:8083/identity
       depends_on:
          - kafka

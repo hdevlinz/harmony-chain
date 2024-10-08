@@ -1,7 +1,7 @@
 package com.tth.commonlibrary.service.impl;
 
-import com.tth.commonlibrary.event.dto.NotificationEvent;
 import com.tth.commonlibrary.service.NotificationProducerService;
+import com.tth.event.dto.NotificationEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -19,7 +19,7 @@ public class NotificationProducerServiceImpl implements NotificationProducerServ
     @Override
     public void sendNotification(String topic, NotificationEvent notificationEvent) {
         log.info("Sending notification event with topic {}: {}", topic, notificationEvent);
-        kafkaTemplate.send(topic, notificationEvent);
+        this.kafkaTemplate.send(topic, notificationEvent);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.tth.product.controller.internal;
 
-import com.tth.commonlibrary.event.dto.NotificationEvent;
 import com.tth.commonlibrary.service.NotificationProducerService;
+import com.tth.event.dto.NotificationEvent;
 import com.tth.product.service.SampleDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;

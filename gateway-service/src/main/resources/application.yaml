@@ -88,6 +88,6 @@ spring:
             -  id: shipping_service
                uri: ${SHIPPING_SERVICE_URL:http://localhost:8088}
                predicates:
-                  - Path=${app.api-prefix}/shipping/**
+                  - Path=${app.api-prefix}/shipment/**
                filters:
                   - StripPrefix=${app.strip-prefix}

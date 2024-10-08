@@ -1,6 +1,6 @@
 package com.tth.commonlibrary.service;
 
-import com.tth.commonlibrary.event.dto.NotificationEvent;
+import com.tth.event.dto.NotificationEvent;
 
 public interface NotificationProducerService {
 
