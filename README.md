@@ -2,8 +2,6 @@
 
 ![HarmonyChain](https://raw.githubusercontent.com/hiepthanhtran/HarmonyChain/main/images/scms.png)
 
-### HarmonyChain is a pet project aim to practice building a typical microservice application in Java with Spring Boot, Next.js.
-
 ![api-gateway-ci](https://github.com/hiepthanhtran/HarmonyChain/actions/workflows/api-gateway-ci.yaml/badge.svg)
 ![cart-service-ci](https://github.com/hiepthanhtran/HarmonyChain/actions/workflows/cart-ci.yaml/badge.svg)
 ![file-service-ci](https://github.com/hiepthanhtran/HarmonyChain/actions/workflows/file-ci.yaml/badge.svg)
