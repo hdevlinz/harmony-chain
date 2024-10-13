@@ -61,12 +61,12 @@ jobs:
             with:
                context: ./order-service
                push: true
-               tags: ghcr.io/hiepthanhtran/scms-order:latest
+               tags: ghcr.io/hiepthanhtran/harmony-order:latest
          -  name: Make Docker image public using REST API
             if: ${{ github.ref == 'refs/heads/main' }}
             run: |
                curl -X PATCH \
                  -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                  -H "Accept: application/vnd.github.v3+json" \
-                 https://api.github.com/user/packages/container/scms-order/versions \
+                 https://api.github.com/user/packages/container/harmony-order/versions \
                  -d '{"visibility":"public"}'

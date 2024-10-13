@@ -61,12 +61,12 @@ jobs:
             with:
                context: ./identity-service
                push: true
-               tags: ghcr.io/hiepthanhtran/scms-identity:latest
+               tags: ghcr.io/hiepthanhtran/harmony-identity:latest
          -  name: Make Docker image public using REST API
             if: ${{ github.ref == 'refs/heads/main' }}
             run: |
                curl -X PATCH \
                  -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                  -H "Accept: application/vnd.github.v3+json" \
-                 https://api.github.com/user/packages/container/scms-identity/versions \
+                 https://api.github.com/user/packages/container/harmony-identity/versions \
                  -d '{"visibility":"public"}'

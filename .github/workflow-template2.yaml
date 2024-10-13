@@ -1,19 +1,19 @@
-name: profile-service ci
+name: {{SERVICE_NAME}} ci
 
 on:
    push:
       branches: [ "main" ]
       paths:
-         - "profile-service/**"
+         - "{{SERVICE_NAME}}/**"
          - ".github/workflows/actions/action.yaml"
-         - ".github/workflows/profile-ci.yaml"
+         - ".github/workflows/{{SERVICE_NAME}}-ci.yaml"
          - "pom.xml"
    pull_request:
       branches: [ "main" ]
       paths:
-         - "profile-service/**"
+         - "{{SERVICE_NAME}}/**"
          - ".github/workflows/actions/action.yaml"
-         - ".github/workflows/profile-ci.yaml"
+         - ".github/workflows/{{SERVICE_NAME}}-ci.yaml"
          - "pom.xml"
    workflow_dispatch:
 
@@ -33,21 +33,21 @@ jobs:
                fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
          -  uses: ./.github/workflows/actions
          -  name: Run Maven Build Command
-            run: mvn clean install -pl profile-service -am -DskipTests
+            run: mvn clean install -pl {{SERVICE_NAME}} -am -DskipTests
          #         -  name: Run Maven Test
-         #            run: mvn test -f profile-service
+         #            run: mvn test -f {{SERVICE_NAME}}
          #         -  name: Unit Test Results
          #            uses: dorny/test-reporter@v1
          #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' && (success() || failure()) }}
          #            with:
          #               name: Unit-Test-Results
-         #               path: "profile-service/**/surefire-reports/*.xml"
+         #               path: "{{SERVICE_NAME}}/**/surefire-reports/*.xml"
          #               reporter: java-junit
          #         -  name: Analyze with sonar cloud
          #            if: ${{ env.FROM_ORIGINAL_REPOSITORY == 'true' }}
          #            env:
          #               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         #            run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f profile-service
+         #            run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f {{SERVICE_NAME}}
          -  name: Log in to the Container registry
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/login-action@v3
@@ -59,14 +59,14 @@ jobs:
             if: ${{ github.ref == 'refs/heads/main' }}
             uses: docker/build-push-action@v6
             with:
-               context: ./profile-service
+               context: ./{{SERVICE_NAME}}
                push: true
-               tags: ghcr.io/hiepthanhtran/harmony-profile:latest
+               tags: ghcr.io/hiepthanhtran/harmony-{{SERVICE_NAME}}:latest
          -  name: Make Docker image public using REST API
             if: ${{ github.ref == 'refs/heads/main' }}
             run: |
                curl -X PATCH \
                  -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                  -H "Accept: application/vnd.github.v3+json" \
-                 https://api.github.com/user/packages/container/harmony-profile/versions \
+                 https://api.github.com/user/packages/container/harmony-{{SERVICE_NAME}}/versions \
                  -d '{"visibility":"public"}'
