@@ -9,11 +9,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.tth</groupId>
-    <artifactId>scms</artifactId>
+    <artifactId>HarmonyChain</artifactId>
     <version>${revision}</version>
-    <name>harmony-supply-chain</name>
+    <name>harmony-chain</name>
     <packaging>pom</packaging>
-    <description>Harmony Supply Chain Management System | Microservices Architecture</description>
+    <description>HarmonyChain | Microservices Architecture</description>
 
     <modules>
         <module>common-library</module>
