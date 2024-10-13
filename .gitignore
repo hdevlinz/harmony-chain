@@ -58,5 +58,5 @@ build/
 ### VS Code ###
 .vscode/
 
-### Other files ###
+### Environment files ###
 .env.*
