@@ -1,5 +1,5 @@
 server {
-  server_name api.scms.local;
+  server_name api.harmony.local;
 
   # Docker DNS
   resolver 127.0.0.11;

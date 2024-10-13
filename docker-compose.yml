@@ -1,9 +1,9 @@
-name: scms-applications
+name: harmony-applications
 
 networks:
-   scms-network:
+   harmony-network:
       driver: bridge
-      name: scms-network
+      name: harmony-network
 
 volumes:
    mysql:
@@ -20,7 +20,7 @@ services:
          - ./docker/nginx/templates:/etc/nginx/templates
          - ./docker/nginx/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
       networks:
-         - scms-network
+         - harmony-network
    mysql:
       image: 'mysql:8.0.39-debian'
       restart: unless-stopped
@@ -34,7 +34,7 @@ services:
          - ./docker/db/mysql_initial.sql:/docker-entrypoint-initdb.d/mysql_initial.sql
          - mysql:/var/lib/mysql
       networks:
-         - scms-network
+         - harmony-network
    mongodb:
       image: 'bitnami/mongodb:7.0.11'
       restart: unless-stopped
@@ -46,7 +46,7 @@ services:
          - MONGODB_ROOT_USER=root
          - MONGODB_ROOT_PASSWORD=root
       networks:
-         - scms-network
+         - harmony-network
    neo4j:
       image: 'neo4j:latest'
       restart: unless-stopped
@@ -58,7 +58,7 @@ services:
       environment:
          - NEO4J_AUTH=neo4j/admin@123
       networks:
-         - scms-network
+         - harmony-network
    zookeeper:
       image: 'confluentinc/cp-zookeeper:6.2.1'
       restart: unless-stopped
@@ -68,7 +68,7 @@ services:
          - ZOOKEEPER_CLIENT_PORT=2181
          - ZOOKEEPER_ADMIN_ENABLE_SERVER=false
       networks:
-         - scms-network
+         - harmony-network
    kafka:
       image: 'confluentinc/cp-kafka:6.2.1'
       restart: unless-stopped
@@ -93,7 +93,7 @@ services:
       links:
          - zookeeper
       networks:
-         - scms-network
+         - harmony-network
    swagger-ui:
       image: 'swaggerapi/swagger-ui:v4.16.0'
       restart: unless-stopped
@@ -105,7 +105,7 @@ services:
          - OAUTH_CLIENT_ID=swagger-ui
          - OAUTH_USE_PKCE=true
       networks:
-         - scms-network
+         - harmony-network
    phpmyadmin:
       image: 'phpmyadmin'
       restart: unless-stopped
@@ -118,12 +118,12 @@ services:
       links:
          - mysql
       networks:
-         - scms-network
-   #   scms-keycloak:
+         - harmony-network
+   #   harmony-keycloak:
    #      image: 'quay.io/keycloak/keycloak:25.0.0'
    #      restart: unless-stopped
-   #      hostname: scms-keycloak
-   #      container_name: scms-keycloak
+   #      hostname: harmony-keycloak
+   #      container_name: harmony-keycloak
    #      command: [ 'start-dev --import-realm' ]
    #      ports:
    #         - '8180:8080'
@@ -131,35 +131,35 @@ services:
    #         - KEYCLOAK_ADMIN=admin
    #         - KEYCLOAK_ADMIN_PASSWORD=admin
    #      networks:
-   #         - scms-network
-   scms-gateway:
+   #         - harmony-network
+   harmony-gateway:
       build: ./api-gateway
-      image: ghcr.io/hiepthanhtran/scms-gateway:latest
+      image: ghcr.io/hiepthanhtran/harmony-gateway:latest
       restart: unless-stopped
-      hostname: scms-gateway
-      container_name: scms-gateway
+      hostname: harmony-gateway
+      container_name: harmony-gateway
       ports:
          - '8888:8888'
       environment:
-         - IDENTITY_BASE_URL=http://scms-identity:8083
-         - FILE_SERVICE_URL=http://scms-file:8887
-         - NOTIFICATION_SERVICE_URL=http://scms-notification:8886
-         - CART_SERVICE_URL=http://scms-cart:8081
-         - PROFILE_SERVICE_URL=http://scms-profile:8082
-         - IDENTITY_SERVICE_URL=http://scms-identity:8083
-         - PRODUCT_SERVICE_URL=http://scms-product:8084
-         - RATING_SERVICE_URL=http://scms-rating:8085
-         - INVENTORY_SERVICE_URL=http://scms-inventory:8086
-         - ORDER_SERVICE_URL=http://scms-order:8087
-         - SHIPMENT_SERVICE_URL=http://scms-shipment:8088
+         - IDENTITY_BASE_URL=http://harmony-identity:8083
+         - FILE_SERVICE_URL=http://harmony-file:8887
+         - NOTIFICATION_SERVICE_URL=http://harmony-notification:8886
+         - CART_SERVICE_URL=http://harmony-cart:8081
+         - PROFILE_SERVICE_URL=http://harmony-profile:8082
+         - IDENTITY_SERVICE_URL=http://harmony-identity:8083
+         - PRODUCT_SERVICE_URL=http://harmony-product:8084
+         - RATING_SERVICE_URL=http://harmony-rating:8085
+         - INVENTORY_SERVICE_URL=http://harmony-inventory:8086
+         - ORDER_SERVICE_URL=http://harmony-order:8087
+         - SHIPMENT_SERVICE_URL=http://harmony-shipment:8088
       networks:
-         - scms-network
-   scms-file:
+         - harmony-network
+   harmony-file:
       build: ./file-service
-      image: ghcr.io/hiepthanhtran/scms-file:latest
+      image: ghcr.io/hiepthanhtran/harmony-file:latest
       restart: unless-stopped
-      hostname: scms-file
-      container_name: scms-file
+      hostname: harmony-file
+      container_name: harmony-file
       ports:
          - '8887:8887'
       environment:
@@ -170,13 +170,13 @@ services:
       depends_on:
          - kafka
       networks:
-         - scms-network
-   scms-notification:
+         - harmony-network
+   harmony-notification:
       build: ./notification-service
-      image: ghcr.io/hiepthanhtran/scms-notification:latest
+      image: ghcr.io/hiepthanhtran/harmony-notification:latest
       restart: unless-stopped
-      hostname: scms-notification
-      container_name: scms-notification
+      hostname: harmony-notification
+      container_name: harmony-notification
       ports:
          - '8886:8886'
       environment:
@@ -188,30 +188,30 @@ services:
          - kafka
          - mongodb
       networks:
-         - scms-network
-   scms-cart:
+         - harmony-network
+   harmony-cart:
       build: ./cart-service
-      image: ghcr.io/hiepthanhtran/scms-cart:latest
+      image: ghcr.io/hiepthanhtran/harmony-cart:latest
       restart: unless-stopped
-      hostname: scms-cart
-      container_name: scms-cart
+      hostname: harmony-cart
+      container_name: harmony-cart
       ports:
          - '8081:8081'
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/cart_service?authSource=admin
-         - PRODUCT_SERVICE_URL=http://scms-product:8084/product
+         - PRODUCT_SERVICE_URL=http://harmony-product:8084/product
       depends_on:
          - kafka
          - mongodb
       networks:
-         - scms-network
-   scms-profile:
+         - harmony-network
+   harmony-profile:
       build: ./profile-service
-      image: ghcr.io/hiepthanhtran/scms-profile:latest
+      image: ghcr.io/hiepthanhtran/harmony-profile:latest
       restart: unless-stopped
-      hostname: scms-profile
-      container_name: scms-profile
+      hostname: harmony-profile
+      container_name: harmony-profile
       ports:
          - '8082:8082'
       environment:
@@ -223,13 +223,13 @@ services:
          - kafka
          - neo4j
       networks:
-         - scms-network
-   scms-identity:
+         - harmony-network
+   harmony-identity:
       build: ./identity-service
-      image: ghcr.io/hiepthanhtran/scms-identity:latest
+      image: ghcr.io/hiepthanhtran/harmony-identity:latest
       restart: unless-stopped
-      hostname: scms-identity
-      container_name: scms-identity
+      hostname: harmony-identity
+      container_name: harmony-identity
       ports:
          - '8083:8083'
       environment:
@@ -237,8 +237,8 @@ services:
          - DBMS_URL=jdbc:mysql://mysql:3306/identity_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
-         - PROFILE_SERVICE_URL=http://scms-profile:8082/profile
-         - FILE_SERVICE_URL=http://scms-file:8887/file
+         - PROFILE_SERVICE_URL=http://harmony-profile:8082/profile
+         - FILE_SERVICE_URL=http://harmony-file:8887/file
       #         - JWT_SIGNER_KEY
       #         - JWT_VALID_DURATION
       #         - JWT_REFRESHABLE_DURATION
@@ -246,48 +246,48 @@ services:
          - kafka
          - mysql
       networks:
-         - scms-network
-   scms-product:
+         - harmony-network
+   harmony-product:
       build: ./product-service
-      image: ghcr.io/hiepthanhtran/scms-product:latest
+      image: ghcr.io/hiepthanhtran/harmony-product:latest
       restart: unless-stopped
-      hostname: scms-product
-      container_name: scms-product
+      hostname: harmony-product
+      container_name: harmony-product
       ports:
          - '8084:8084'
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/product_service?authSource=admin
-         - PROFILE_SERVICE_URL=http://scms-profile:8082/profile
+         - PROFILE_SERVICE_URL=http://harmony-profile:8082/profile
       depends_on:
          - kafka
          - mongodb
       networks:
-         - scms-network
-   scms-rating:
+         - harmony-network
+   harmony-rating:
       build: ./rating-service
-      image: ghcr.io/hiepthanhtran/scms-rating:latest
+      image: ghcr.io/hiepthanhtran/harmony-rating:latest
       restart: unless-stopped
-      hostname: scms-rating
-      container_name: scms-rating
+      hostname: harmony-rating
+      container_name: harmony-rating
       ports:
          - '8085:8085'
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/rating_service?authSource=admin
-         - PROFILE_SERVICE_UR= http://scms-profile:8082/profile
-         - IDENTITY_SERVICE_URL=http://scms-identity:8083/identity
+         - PROFILE_SERVICE_UR= http://harmony-profile:8082/profile
+         - IDENTITY_SERVICE_URL=http://harmony-identity:8083/identity
       depends_on:
          - kafka
          - mongodb
       networks:
-         - scms-network
-   scms-inventory:
+         - harmony-network
+   harmony-inventory:
       build: ./inventory-service
-      image: ghcr.io/hiepthanhtran/scms-inventory:latest
+      image: ghcr.io/hiepthanhtran/harmony-inventory:latest
       restart: unless-stopped
-      hostname: scms-inventory
-      container_name: scms-inventory
+      hostname: harmony-inventory
+      container_name: harmony-inventory
       ports:
          - '8086:8086'
       environment:
@@ -295,18 +295,18 @@ services:
          - DBMS_URL=jdbc:mysql://mysql:3306/inventory_service
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
-         - PRODUCT_SERVICE_URL=http://scms-product:8084/product
+         - PRODUCT_SERVICE_URL=http://harmony-product:8084/product
       depends_on:
          - kafka
          - mysql
       networks:
-         - scms-network
-   scms-order:
+         - harmony-network
+   harmony-order:
       build: ./order-service
-      image: ghcr.io/hiepthanhtran/scms-order:latest
+      image: ghcr.io/hiepthanhtran/harmony-order:latest
       restart: unless-stopped
-      hostname: scms-order
-      container_name: scms-order
+      hostname: harmony-order
+      container_name: harmony-order
       ports:
          - '8087:8087'
       environment:
@@ -315,28 +315,28 @@ services:
          - DBMS_USERNAME=root
          - DBMS_PASSWORD=root
          - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-         - IDENTITY_SERVICE_URL=http://scms-identity:8083/identity
-         - PRODUCT_SERVICE_URL=http://scms-product:8084/product
-         - INVENTORY_SERVICE_URL=http://scms-inventory:8086/inventory
+         - IDENTITY_SERVICE_URL=http://harmony-identity:8083/identity
+         - PRODUCT_SERVICE_URL=http://harmony-product:8084/product
+         - INVENTORY_SERVICE_URL=http://harmony-inventory:8086/inventory
       depends_on:
          - kafka
          - mysql
       networks:
-         - scms-network
-   scms-shipment:
+         - harmony-network
+   harmony-shipment:
       build: ./shipment-service
-      image: ghcr.io/hiepthanhtran/scms-shipment:latest
+      image: ghcr.io/hiepthanhtran/harmony-shipment:latest
       restart: unless-stopped
-      hostname: scms-shipment
-      container_name: scms-shipment
+      hostname: harmony-shipment
+      container_name: harmony-shipment
       ports:
          - '8088:8088'
       environment:
          - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
          - MONGODB_URI=mongodb://root:root@mongodb:27017/shipment_service?authSource=admin
-         - IDENTITY_SERVICE_URL=http://scms-identity:8083/identity
+         - IDENTITY_SERVICE_URL=http://harmony-identity:8083/identity
       depends_on:
          - kafka
          - mongodb
       networks:
-         - scms-network
+         - harmony-network
