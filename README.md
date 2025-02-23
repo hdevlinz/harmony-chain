@@ -1,5 +1,7 @@
 # HarmonyChain | Microservice Architecture
 
+## HarmonyChain is a supply chain management system designed to streamline and optimize the flow of goods and information. It promotes seamless collaboration between suppliers, manufacturers, and distributors, ensuring efficiency, reliability, and flexibility in managing supply chain operations. 
+
 ![HarmonyChain](https://raw.githubusercontent.com/hiepthanhtran/HarmonyChain/main/images/scms.png)
 
 ![api-gateway-ci](https://github.com/hiepthanhtran/HarmonyChain/actions/workflows/api-gateway-ci.yaml/badge.svg)
@@ -14,7 +16,7 @@
 ![rating-service-ci](https://github.com/hiepthanhtran/HarmonyChain/actions/workflows/rating-ci.yaml/badge.svg)
 ![shipment-service-ci](https://github.com/hiepthanhtran/HarmonyChain/actions/workflows/shipment-ci.yaml/badge.svg)
 
-## Tentative technologies and frameworks
+### Tentative technologies and frameworks
 
 - [x] Java 21
 - [x] Spring boot 3.3.4
@@ -26,11 +28,11 @@
 - [ ] OpenTelemetry (Soon)
 - [ ] Grafana, Loki, Prometheus, Tempo (Soon)
 
-## Development Architecture
+### Development Architecture
 
 ![Development Architecture](https://raw.githubusercontent.com/hiepthanhtran/HarmonyChain/main/images/architecture.png)
 
-## Getting started with Docker Compose
+### Getting started with Docker Compose
 
 1. Get the latest source code
 2. Add the following records to your host file:
@@ -63,7 +65,7 @@
 
 > *_Note:_* If you use Linux, you may need to run `chmod +x ./start-data.sh` to make the script executable.
 
-#### About docker-compose files
+##### About docker-compose files
 
 1. docker-compose.yml for all core services
 2. docker-compose.services.yml exclude application services
@@ -72,7 +74,7 @@
 
 [//]: # (3. docker-compose.o11y.yml for observability services)
 
-## Contributing
+### Contributing
 
 - Give us a star
 - Reporting a bug
